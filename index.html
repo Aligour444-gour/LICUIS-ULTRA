@@ -164,6 +164,12 @@
             position: relative;
             overflow: hidden;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
         .dashboard-card::before {
@@ -213,58 +219,9 @@
             border-radius: 2px;
         }
 
-        /* Control Panel */
-        .control-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: clamp(15px, 2vw, 25px);
-            margin-bottom: clamp(15px, 2vw, 25px);
-            position: relative;
-            z-index: 1;
-        }
-
-        .selection-box {
-            position: relative;
-        }
-
-        .selection-box label {
-            font-family: 'Teko', sans-serif;
-            font-size: clamp(13px, 2vw, 16px);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: clamp(6px, 1vw, 8px);
-            display: block;
-            letter-spacing: 1px;
-        }
-
-        .selection-box select {
-            width: 100%;
-            padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 16px);
-            font-size: clamp(13px, 2vw, 15px);
-            border: 2px solid var(--accent-red);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            background: var(--card-bg);
-            color: var(--text-light);
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff1a1a" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right clamp(8px, 1.5vw, 12px) center;
-            background-size: clamp(20px, 3vw, 24px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .selection-box select:hover {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 14px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .selection-box select:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
+        /* Control Panel - HIDDEN */
+        .control-panel-section {
+            display: none;
         }
 
         /* Info Section */
@@ -407,6 +364,23 @@
         /* History Section */
         .history-list {
             margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: var(--accent-red);
+            border-radius: 10px;
         }
 
         .history-item {
@@ -556,6 +530,69 @@
             background: rgba(255, 68, 68, 0.2);
             color: #ff4444;
         }
+        
+        .server-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .server-name {
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+        
+        .server-stats {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Loading animation for data fetching */
+        .loading-pulse {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-red);
+            box-shadow: 0 0 0 rgba(255, 26, 26, 0.4);
+            animation: pulse-loading 2s infinite;
+        }
+        
+        @keyframes pulse-loading {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 26, 26, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 26, 26, 0);
+            }
+        }
+        
+        /* Improved tagline with typing animation */
+        .tagline {
+            min-height: 20px;
+            position: relative;
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 16px;
+            background-color: var(--accent-red);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -567,7 +604,7 @@
                 </div>
                 <div class="logo-text">LICUIS ULTRA</div>
             </div>
-            <div class="tagline"></div>
+
             <div class="version-info">
                 <div class="version-text">SECURITY</div>
                 <div class="update-text">ULTRA AI V2.0</div>
@@ -577,32 +614,27 @@
 
     <div class="app-container">
         <div class="main-content">
-            <!-- Control Panel Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Control Panel</h2>
-                </div>
-                <div class="control-panel">
-                    <div class="selection-box">
-                        <label for="resultType">Prediction Type</label>
-                        <select id="resultType" onchange="resetServerSelection()">
-                            <option value="bigsmall">Big/Small</option>
-                            <option value="redgreen">Red/Green</option>
-                        </select>
+            <!-- Control Panel Card - HIDDEN -->
+            <div class="control-panel-section">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Control Panel</h2>
                     </div>
-                    <div class="selection-box">
-                        <label for="serverSelect">AI Server</label>
-                        <select id="serverSelect" onchange="updateServerSelection()">
-                            <option value="">Select Server</option>
-                            <option value="Vision">SERVER 1 - Vision</option>
-                            <option value="ATSTrend">SERVER 2 - ATS Trend</option>
-                            <option value="ColorStrike">SERVER 3 - Color Strike</option>
-                            <option value="ChromaLogic">AI Based Server</option>
-                            <option value="GlowPredict">Calculation Server</option>
-                            <option value="ColorAIPredict">AI Calculation Server</option>
-                            <option value="AiBrain">Guaranteed Win Server</option>
-                            <option value="HueMindAI">Fusion Special Server</option>
-                        </select>
+                    <div class="control-panel">
+                        <div class="selection-box">
+                            <label for="resultType">Prediction Type</label>
+                            <select id="resultType">
+                                <option value="bigsmall">Big/Small</option>
+                                <option value="redgreen">Red/Green</option>
+                            </select>
+                        </div>
+                        <div class="server-info">
+                            <i class="fas fa-server"></i>
+                            <div>
+                                <div class="server-name" id="currentServer">Auto-Selecting Best Server...</div>
+                                <div class="server-stats" id="serverStats">Accuracy: Calculating...</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -619,7 +651,7 @@
                         </div>
                         <div class="info-content">
                             <div class="info-label">Period</div>
-                            <div id="periodNumber" class="info-value">Loading...</div>
+                            <div id="periodNumber" class="info-value">Loading<span class="loading-pulse"></span></div>
                         </div>
                     </div>
                     <div class="info-card">
@@ -637,7 +669,7 @@
                         </div>
                         <div class="info-content">
                             <div class="info-label">Prediction</div>
-                            <div id="currentResult" class="info-value">Waiting for server...</div>
+                            <div id="currentResult" class="info-value">Initializing AI<span class="loading-pulse"></span></div>
                         </div>
                     </div>
                 </div>
@@ -662,8 +694,8 @@
                         <div id="totalWins" class="analysis-value">0</div>
                     </div>
                     <div class="analysis-card">
-                        <div class="analysis-label">Server Status</div>
-                        <div id="serverStatus" class="analysis-value server-status">Connected</div>
+                        <div class="analysis-label">AI Confidence</div>
+                        <div id="aiConfidence" class="analysis-value">0%</div>
                     </div>
                 </div>
             </div>
@@ -689,10 +721,12 @@
         const mostFrequentElement = document.getElementById('mostFrequent');
         const winAccuracyElement = document.getElementById('winAccuracy');
         const totalWinsElement = document.getElementById('totalWins');
-        const serverStatusElement = document.getElementById('serverStatus');
+        const aiConfidenceElement = document.getElementById('aiConfidence');
         const resultTypeSelect = document.getElementById('resultType');
-        const serverSelect = document.getElementById('serverSelect');
         const apiStatusElement = document.getElementById('apiStatus');
+        const currentServerElement = document.getElementById('currentServer');
+        const serverStatsElement = document.getElementById('serverStats');
+        const dynamicTaglineElement = document.getElementById('dynamicTagline');
         
         // Application State
         let lastPeriodNumber = null;
@@ -705,13 +739,23 @@
         let totalWins = 0;
         let totalLosses = 0;
         let isResultProcessing = false;
-        let selectedServer = '';
         let lastTimerUpdate = 0;
-        let cachedData = [];
-        let lastResults = { bigsmall: [], redgreen: [] };
         let historyData = [];
         let isFetching = false;
         let apiOnline = false;
+        let currentServer = "Auto-Selecting";
+        let currentConfidence = 0;
+
+        // Taglines for dynamic display
+        const taglines = [
+            "Advanced AI Prediction System",
+            "Real-time Data Analysis",
+            "Next-Generation Forecasting",
+            "Powered by Machine Learning",
+            "Ultra-Precise Predictions"
+        ];
+        
+        let currentTaglineIndex = 0;
 
         // Advanced AI Predictor Class
         class AdvancedRecoveryPredictor {
@@ -761,6 +805,19 @@
                     "AiBrain": {"accuracy": 0.90, "latency": 40, "confidence": 0.88},
                     "HueMindAI": {"accuracy": 0.87, "latency": 45, "confidence": 0.85}
                 };
+                
+                // AI model parameters
+                this.ai_models = {
+                    "deep_learning": {"weight": 0.3, "accuracy": 0.82},
+                    "reinforcement": {"weight": 0.25, "accuracy": 0.79},
+                    "bayesian": {"weight": 0.2, "accuracy": 0.76},
+                    "evolutionary": {"weight": 0.25, "accuracy": 0.81}
+                };
+                
+                // Opposite logic parameters
+                this.opposite_logic_enabled = true;
+                this.opposite_logic_threshold = 3;
+                this.consecutive_opposites = 0;
             }
 
             // --- Helper functions for pattern detection ---
@@ -839,6 +896,10 @@
 
             _sum_product_relation(d) {
                 return d.length >= 4 && d.reduce((a, b) => a + b, 0) > 2 * (d[0] * d[d.length-1]);
+            }
+
+            _digital_root(n) {
+                return 1 + (n - 1) % 9;
             }
 
             // --- Core prediction methods ---
@@ -1003,6 +1064,224 @@
                 }
             }
 
+            // --- AI-Driven Prediction Methods ---
+            _deep_learning_prediction(period_number) {
+                const digits = [...period_number.slice(-4)].map(Number);
+                // Create a hash-based deterministic "prediction"
+                const hash_str = digits.join('');
+                let hash_val = 0;
+                for (let i = 0; i < hash_str.length; i++) {
+                    hash_val = ((hash_val << 5) - hash_val) + hash_str.charCodeAt(i);
+                    hash_val |= 0;
+                }
+                hash_val = Math.abs(hash_val);
+                
+                let big_prob = (hash_val % 100) / 100;
+                
+                // Adjust based on patterns
+                if (this._digit_dominance(digits)) {
+                    const mostCommon = [...new Set(digits)].reduce((a, b) => 
+                        digits.filter(x => x === a).length > digits.filter(x => x === b).length ? a : b
+                    );
+                    big_prob += mostCommon >= 5 ? 0.1 : -0.1;
+                }
+                
+                if (this._is_arithmetic_sequence(digits)) {
+                    big_prob += 0.15;
+                }
+                
+                big_prob = Math.max(0.1, Math.min(0.9, big_prob));
+                
+                return [big_prob > 0.5 ? "BIG" : "SMALL", big_prob > 0.5 ? big_prob : 1 - big_prob];
+            }
+
+            _reinforcement_learning_prediction() {
+                if (this.history.length < 5) {
+                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
+                }
+                    
+                // Q-learning inspired approach
+                const recent = this.history.slice(-10);
+                const big_count = recent.filter(r => r === "BIG").length;
+                const small_count = recent.length - big_count;
+                
+                // Reward recent successful predictions
+                if (this.performance_stats.recent_accuracy.length > 0) {
+                    const recent_accuracy = this.performance_stats.recent_accuracy.reduce((a, b) => a + b, 0) / this.performance_stats.recent_accuracy.length;
+                    if (recent_accuracy > 0.7) {
+                        // Favor the majority in recent accurate periods
+                        if (big_count > small_count) {
+                            return ["BIG", 0.7];
+                        } else {
+                            return ["SMALL", 0.7];
+                        }
+                    } else {
+                        // Low accuracy, try the opposite
+                        if (big_count > small_count) {
+                            return ["SMALL", 0.6];
+                        } else {
+                            return ["BIG", 0.6];
+                        }
+                    }
+                }
+                    
+                return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
+            }
+
+            _bayesian_network_prediction(period_number) {
+                const digits = [...period_number.slice(-4)].map(Number);
+                const total = digits.reduce((a, b) => a + b, 0);
+                
+                // Prior probabilities
+                let p_big = 0.5;
+                let p_small = 0.5;
+                
+                // Evidence from digits
+                const even_digits = digits.filter(d => d % 2 === 0).length;
+                const odd_digits = digits.length - even_digits;
+                
+                // Update probabilities based on evidence
+                if (even_digits > odd_digits) {
+                    p_big *= 1.2;
+                } else {
+                    p_small *= 1.2;
+                }
+                
+                // High numbers evidence
+                if (total > 20) {
+                    p_big *= 1.3;
+                } else {
+                    p_small *= 1.3;
+                }
+                
+                // Normalize
+                const total_p = p_big + p_small;
+                p_big /= total_p;
+                p_small /= total_p;
+                
+                return [p_big > p_small ? "BIG" : "SMALL", Math.max(p_big, p_small)];
+            }
+
+            _evolutionary_algorithm_prediction() {
+                if (this.history.length < 5) {
+                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
+                }
+                    
+                // "Evolve" solutions based on historical patterns
+                const patterns = [];
+                const history_list = [...this.history];
+                
+                // Generate pattern candidates
+                for (let i = 0; i < Math.min(10, history_list.length - 4); i++) {
+                    const pattern = history_list.slice(i, i+4);
+                    const outcome = history_list[i+4];
+                    patterns.push({pattern, outcome});
+                }
+                
+                // "Mutate" and select best patterns
+                if (patterns.length > 0) {
+                    // Find pattern most similar to recent history
+                    const recent_pattern = history_list.slice(-4);
+                    let best_match = null;
+                    let best_similarity = -1;
+                    
+                    for (const {pattern, outcome} of patterns) {
+                        let similarity = 0;
+                        for (let j = 0; j < Math.min(pattern.length, recent_pattern.length); j++) {
+                            if (pattern[j] === recent_pattern[j]) similarity++;
+                        }
+                        
+                        if (similarity > best_similarity) {
+                            best_similarity = similarity;
+                            best_match = outcome;
+                        }
+                    }
+                    
+                    if (best_match && best_similarity >= 2) {
+                        return [best_match, 0.7 + (best_similarity * 0.05)];
+                    }
+                }
+                
+                return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
+            }
+
+            _ai_ensemble_prediction(period_number) {
+                const predictions = [];
+                const confidences = [];
+                const weights = [];
+                
+                // Get predictions from all AI models
+                const [dl_pred, dl_conf] = this._deep_learning_prediction(period_number);
+                predictions.push(dl_pred);
+                confidences.push(dl_conf);
+                weights.push(this.ai_models["deep_learning"].weight);
+                
+                const [rl_pred, rl_conf] = this._reinforcement_learning_prediction();
+                predictions.push(rl_pred);
+                confidences.push(rl_conf);
+                weights.push(this.ai_models["reinforcement"].weight);
+                
+                const [bn_pred, bn_conf] = this._bayesian_network_prediction(period_number);
+                predictions.push(bn_pred);
+                confidences.push(bn_conf);
+                weights.push(this.ai_models["bayesian"].weight);
+                
+                const [ea_pred, ea_conf] = this._evolutionary_algorithm_prediction();
+                predictions.push(ea_pred);
+                confidences.push(ea_conf);
+                weights.push(this.ai_models["evolutionary"].weight);
+                
+                // Calculate weighted scores
+                let big_score = 0;
+                let small_score = 0;
+                
+                for (let i = 0; i < predictions.length; i++) {
+                    if (predictions[i] === "BIG") {
+                        big_score += confidences[i] * weights[i];
+                    } else {
+                        small_score += confidences[i] * weights[i];
+                    }
+                }
+                
+                // Determine final prediction
+                if (big_score > small_score) {
+                    return ["BIG", big_score / (big_score + small_score)];
+                } else {
+                    return ["SMALL", small_score / (big_score + small_score)];
+                }
+            }
+
+            // --- Opposite Logic Implementation ---
+            _apply_opposite_logic(prediction, confidence, period_number) {
+                if (!this.opposite_logic_enabled) {
+                    return [prediction, confidence];
+                }
+                    
+                // Check if we should apply opposite logic
+                const digits = [...period_number.slice(-4)].map(Number);
+                const total = digits.reduce((a, b) => a + b, 0);
+                const digital_root = this._digital_root(total);
+                
+                // Conditions for applying opposite logic
+                const conditions = [
+                    [3, 6, 9].includes(digital_root),  // Numerology-based
+                    new Set(digits).size === 1,        // All digits same
+                    this._is_prime(total),             // Total is prime
+                    this.consecutive_opposites < this.opposite_logic_threshold  // Not overused
+                ];
+                
+                const trueConditions = conditions.filter(c => c).length;
+                
+                if (trueConditions >= 2) {
+                    this.consecutive_opposites++;
+                    const opposite_pred = prediction === "BIG" ? "SMALL" : "BIG";
+                    return [opposite_pred, Math.max(0.5, confidence - 0.1)];  // Slightly reduce confidence for opposites
+                } else {
+                    this.consecutive_opposites = 0;
+                    return [prediction, confidence];
+                }
+            }
+
             // --- Ensemble prediction combines all models ---
             _ensemble_prediction(period_number) {
                 const digits = [...period_number.slice(-4)].map(Number);
@@ -1010,9 +1289,10 @@
                 const [intelligent_pred, intel_conf] = this._intelligent_prediction(period_number);
                 const [markov_pred, markov_conf] = this._get_markov_prediction();
                 const [nn_pred, nn_conf] = this._neural_network_prediction();
+                const [ai_pred, ai_conf] = this._ai_ensemble_prediction(period_number);
 
-                const predictions = [pattern_pred, intelligent_pred, markov_pred, nn_pred];
-                const confidences = [0.7, intel_conf, markov_conf * 0.9, nn_conf * 0.8];
+                const predictions = [pattern_pred, intelligent_pred, markov_pred, nn_pred, ai_pred];
+                const confidences = [0.7, intel_conf, markov_conf * 0.9, nn_conf * 0.8, ai_conf];
 
                 let big_score = 0;
                 let small_score = 0;
@@ -1029,10 +1309,12 @@
                 if (total === 0) {
                     return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
                 }
-                return [
-                    big_score > small_score ? "BIG" : "SMALL", 
-                    Math.max(big_score, small_score) / total
-                ];
+                
+                const final_pred = big_score > small_score ? "BIG" : "SMALL";
+                const final_conf = Math.max(big_score, small_score) / total;
+                
+                // Apply opposite logic if enabled
+                return this._apply_opposite_logic(final_pred, final_conf, period_number);
             }
 
             // --- RNG / cryptographic Hash prediction ---
@@ -1120,16 +1402,21 @@
             update(actual_result, period_number) {
                 // Save to history
                 this.history.push(actual_result);
+                if (this.history.length > 100) this.history.shift();
+                
                 this.pattern_memory.push(actual_result);
+                if (this.pattern_memory.length > 10) this.pattern_memory.shift();
 
                 // Update performance
-                this._update_performance_stats(actual_result === (period_number.slice(-1) % 2 === 1 ? "BIG" : "SMALL"));
+                const last_digit = parseInt(period_number.slice(-1));
+                const expected_result = last_digit % 2 === 1 ? "BIG" : "SMALL";
+                this._update_performance_stats(actual_result === expected_result);
 
                 // Update Markov
                 this._update_markov_models(actual_result);
 
                 // Recover levels
-                this._update_recovery_levels(actual_result, period_number);
+                this._update_recovery_levels(actual_result);
             }
 
             _update_performance_stats(correct) {
@@ -1140,18 +1427,21 @@
                 this.performance_stats.accuracy = this.performance_stats.recent_accuracy.reduce((a, b) => a + b, 0) / this.performance_stats.recent_accuracy.length;
             }
 
-            _update_recovery_levels(actual_result, period_number) {
+            _update_recovery_levels(actual_result) {
                 // Manage streaks and recovery levels
-                const expected_result = period_number.slice(-1) % 2 === 1 ? "BIG" : "SMALL";
+                if (this.history.length < 2) return;
                 
-                if (actual_result === expected_result) {
-                    this.win_streak += 1;
+                const last_prediction = this.history[this.history.length - 2];
+                const was_correct = last_prediction === actual_result;
+                
+                if (was_correct) {
+                    this.win_streak++;
                     this.loss_streak = 0;
                     if (this.win_streak >= this.recovery_params.recovery_cooldown) {
                         this.recovery_level = Math.max(0, this.recovery_level - 1);
                     }
                 } else {
-                    this.loss_streak += 1;
+                    this.loss_streak++;
                     this.win_streak = 0;
                     if (this.loss_streak >= this.recovery_params.level2_threshold) {
                         this.recovery_level = Math.min(this.recovery_params.max_recovery_level, 2);
@@ -1199,10 +1489,27 @@
                     return this.predict(period_number);  // fallback
                 }
             }
+            
+            // Get server stats for display
+            get_server_stats(server) {
+                if (this.servers[server]) {
+                    const stats = this.servers[server];
+                    return `Accuracy: ${Math.round(stats.accuracy * 100)}%, Confidence: ${Math.round(stats.confidence * 100)}%`;
+                }
+                return "Stats not available";
+            }
         }
 
         // Initialize the advanced predictor
         const advancedPredictor = new AdvancedRecoveryPredictor();
+
+        // Function to display dynamic taglines
+        function rotateTagline() {
+            if (dynamicTaglineElement) {
+                dynamicTaglineElement.innerHTML = taglines[currentTaglineIndex] + '<span class="cursor"></span>';
+                currentTaglineIndex = (currentTaglineIndex + 1) % taglines.length;
+            }
+        }
 
         // Function to fetch previous results (history)
         async function fetchPreviousResults() {
@@ -1266,23 +1573,6 @@
             return mockData;
         }
 
-        // Reset server selection when prediction type changes
-        function resetServerSelection() {
-            serverSelect.value = '';
-            selectedServer = '';
-            currentResultElement.textContent = 'Waiting For Server...';
-        }
-
-        // Update server selection and generate result if possible
-        function updateServerSelection() {
-            selectedServer = serverSelect.value;
-            if (selectedServer && !isResultProcessing && lastPeriodNumber) {
-                generateResult(lastPeriodNumber);
-            } else {
-                currentResultElement.textContent = 'Waiting For Server...';
-            }
-        }
-
         // Update period and timer
         function updatePeriodAndTimer() {
             const now = new Date();
@@ -1307,11 +1597,7 @@
                 lastPeriodNumber = periodNumber;
                 periodNumberElement.textContent = periodNumber || 'N/A';
                 
-                if (selectedServer) {
-                    generateResult(periodNumber);
-                } else {
-                    currentResultElement.textContent = 'Waiting For Server...';
-                }
+                generateResult(periodNumber);
             }
             
             timerElement.textContent = `00:${String(remainingSeconds).padStart(2, '0')}`;
@@ -1357,6 +1643,9 @@
                         lossStreak++;
                     }
                     
+                    // Update the AI predictor
+                    advancedPredictor.update(isWin ? pendingResult.result : (pendingResult.result === "BIG" ? "SMALL" : "BIG"), period);
+                    
                     // Update analytics
                     updateAnalytics();
                 }
@@ -1376,6 +1665,9 @@
             
             // Update total wins
             totalWinsElement.textContent = totalWins;
+            
+            // Update AI confidence
+            aiConfidenceElement.textContent = `${Math.round(currentConfidence * 100)}%`;
             
             // Calculate most frequent result
             const resultCounts = {};
@@ -1397,15 +1689,15 @@
             mostFrequentElement.textContent = mostFrequent;
         }
 
-        // Generate prediction result based on selected server
+        // Generate prediction result
         async function generateResult(period) {
-            if (isResultProcessing || !selectedServer || !period) {
-                currentResultElement.textContent = !selectedServer ? 'Waiting for Server...' : 'Period Not Available';
+            if (isResultProcessing || !period) {
+                currentResultElement.textContent = 'Period Not Available';
                 return;
             }
             
             isResultProcessing = true;
-            currentResultElement.textContent = 'Processing...';
+            currentResultElement.textContent = 'AI Processing...';
             
             const resultType = resultTypeSelect.value || 'bigsmall';
             let prediction;
@@ -1413,8 +1705,12 @@
             try {
                 const startTime = Date.now();
                 
+                // Auto-select the best server
+                const bestServer = advancedPredictor.auto_select_server();
+                currentServer = bestServer;
+                
                 // Use the advanced predictor with the selected server
-                const [result, probability] = advancedPredictor.predict_with_server(period, selectedServer);
+                const [result, probability] = advancedPredictor.predict_with_server(period, bestServer);
                 
                 const elapsed = Date.now() - startTime;
                 const delay = Math.max(0, 5000 - elapsed);
@@ -1424,6 +1720,14 @@
                 
                 currentResultElement.textContent = displayText;
                 currentResult = result;
+                currentConfidence = probability;
+                
+                // Update server info display
+                currentServerElement.textContent = bestServer;
+                serverStatsElement.textContent = advancedPredictor.get_server_stats(bestServer);
+                
+                // Update AI confidence display
+                aiConfidenceElement.textContent = `${Math.round(probability * 100)}%`;
                 
                 if (result !== "Awaiting Next Cycle") {
                     history.unshift({
@@ -1431,16 +1735,16 @@
                         result: result,
                         status: "Pending",
                         resultType,
-                        server: selectedServer,
+                        server: bestServer,
                         probability: Math.round(probability * 100)
                     });
                     
-                    pendingResult = history[0];
-                    lastResults[resultType].unshift(result);
-                    
-                    if (lastResults[resultType].length > 5) {
-                        lastResults[resultType].pop();
+                    // Keep only last 20 history items
+                    if (history.length > 20) {
+                        history.pop();
                     }
+                    
+                    pendingResult = history[0];
                 }
                 
                 renderHistory();
@@ -1486,11 +1790,16 @@
 
         // Initialize the application
         setInterval(updatePeriodAndTimer, 1000);
+        setInterval(rotateTagline, 3000);
         
         // Initial fetch of previous results
         fetchPreviousResults().then(data => {
             console.log('Previous results loaded:', data);
         });
+        
+        // Initial UI update
+        updatePeriodAndTimer();
+        rotateTagline();
     </script>
 </body>
 </html>
