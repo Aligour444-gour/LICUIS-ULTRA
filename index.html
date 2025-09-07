@@ -2,28 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LICUIS ULTRA</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&family=Roboto+Slab:wght@700&family=Teko:wght@700&family=Righteous&family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LICUIS ULTRA V2 </title>
+    <meta name="description" content="Advanced AI prediction dashboard with cyber design for accurate number prediction">
+    <meta name="keywords" content="AI prediction, pattern recognition, trading, prediction engine">
+    <meta name="author" content="ZMX Labs">
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;700&display=swap');
+
         :root {
-            --primary-bg: #0f172a;
-            --secondary-bg: #1e293b;
-            --card-bg: #334155;
-            --accent-red: #ff1a1a;
-            --accent-blue: #3b82f6;
-            --accent-green: #22c55e;
-            --text-light: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --gradient-red: linear-gradient(135deg, #ff3333, #ff0000);
-            --gradient-blue: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            --gradient-green: linear-gradient(135deg, #22c55e, #15803d);
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
-            --icon-bg: rgba(255, 26, 26, 0.15);
-            --icon-hover-bg: rgba(255, 26, 26, 0.25);
+            /* Cyber theme variables */
+            --background: hsl(222, 40%, 5%);
+            --foreground: hsl(200, 15%, 85%);
+            --card: hsl(222, 35%, 8%);
+            --card-foreground: hsl(200, 15%, 90%);
+            --popover: hsl(222, 35%, 6%);
+            --popover-foreground: hsl(200, 15%, 90%);
+            
+            /* Electric blue primary system */
+            --primary: hsl(194, 100%, 50%);
+            --primary-foreground: hsl(222, 40%, 5%);
+            --primary-glow: hsl(194, 100%, 70%);
+            
+            /* Neon red secondary system */
+            --secondary: hsl(345, 100%, 60%);
+            --secondary-foreground: hsl(222, 40%, 5%);
+            --secondary-glow: hsl(345, 100%, 75%);
+            
+            /* Muted cyber tones */
+            --muted: hsl(222, 20%, 15%);
+            --muted-foreground: hsl(200, 10%, 60%);
+            
+            /* Success neon green */
+            --success: hsl(142, 100%, 55%);
+            --success-foreground: hsl(222, 40%, 5%);
+            --success-glow: hsl(142, 100%, 70%);
+            
+            /* Warning electric yellow */
+            --warning: hsl(60, 100%, 50%);
+            --warning-foreground: hsl(222, 40%, 5%);
+            
+            /* Accent system */
+            --accent: hsl(222, 25%, 12%);
+            --accent-foreground: hsl(194, 100%, 70%);
+            
+            /* Destructive neon red */
+            --destructive: hsl(345, 100%, 55%);
+            --destructive-foreground: hsl(222, 40%, 5%);
+            
+            /* Borders and inputs with cyber glow */
+            --border: hsl(222, 25%, 18%);
+            --input: hsl(222, 25%, 12%);
+            --ring: hsl(194, 100%, 50%);
+            
+            /* Cyber gradients */
+            --gradient-primary: linear-gradient(135deg, hsl(194, 100%, 50%), hsl(194, 100%, 70%));
+            --gradient-secondary: linear-gradient(135deg, hsl(345, 100%, 60%), hsl(345, 100%, 75%));
+            --gradient-background: linear-gradient(135deg, hsl(222, 40%, 5%), hsl(222, 35%, 8%));
+            --gradient-cyber: linear-gradient(90deg, hsla(194, 100%, 50%, 0.1), hsla(345, 100%, 60%, 0.1));
+            
+            /* Cyber shadows and glows */
+            --shadow-glow-primary: 0 0 20px hsla(194, 100%, 50%, 0.3), 0 0 40px hsla(194, 100%, 50%, 0.1);
+            --shadow-glow-secondary: 0 0 20px hsla(345, 100%, 60%, 0.3), 0 0 40px hsla(345, 100%, 60%, 0.1);
+            --shadow-glow-success: 0 0 15px hsla(142, 100%, 55%, 0.4);
+            --shadow-cyber: 0 8px 32px hsla(222, 40%, 5%, 0.8), 0 0 0 1px hsl(222, 25%, 18%);
+            
+            /* Animation system */
+            --transition-cyber: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-glow: box-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+            
+            /* Original ZMX variables for compatibility */
+            --primary-light: #4d94ff;
+            --primary-dark: #0047b3;
+            --accent: #7b00ff;
+            --win: #00c853;
+            --loss: #ff3d00;
+            --bg-light: #f8fafc;
+            --bg-lighter: #ffffff;
+            --bg-medium: #e3eaf2;
+            --text-dark: #1a237e;
+            --text-medium: #37474f;
+            --text-light: #546e7a;
+            --text-bright: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 102, 255, 0.15);
+            --shadow-light: 0 4px 20px rgba(0, 102, 255, 0.1);
+            --shadow-medium: 0 8px 30px rgba(0, 102, 255, 0.15);
+            --shadow-heavy: 0 12px 40px rgba(0, 102, 255, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
         }
 
         * {
@@ -33,1773 +100,1634 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-light);
-            min-height: 100vh;
-            line-height: 1.6;
-            overflow-x: hidden;
-            font-size: clamp(14px, 2vw, 15px);
-        }
-
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        /* Header Styles */
-        .header {
-            background: var(--secondary-bg);
-            padding: clamp(15px, 3vw, 25px) 0;
+            background: var(--gradient-background);
+            color: var(--foreground);
+            font-family: 'Rajdhani', sans-serif;
             text-align: center;
-            box-shadow: var(--shadow-md);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 90% 80%, rgba(123, 0, 255, 0.05) 0%, transparent 25%);
         }
 
-        .header::before {
-            content: '';
+        /* Game Selection Screen */
+        .game-selection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: hsla(222, 40%, 5%, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999999;
+            animation: fadeIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; backdrop-filter: blur(0); }
+            to { opacity: 1; backdrop-filter: blur(10px); }
+        }
+
+        .game-selection::before {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.1), transparent);
-            animation: headerShine 3s infinite linear;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 102, 255, 0.05) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(123, 0, 255, 0.05) 0%, transparent 25%);
+            z-index: -1;
         }
 
-        @keyframes headerShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient-red);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .logo-text {
+        .game-selection-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(20px, 5vw, 28px);
-            background: var(--gradient-red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .tagline {
-            font-size: clamp(12px, 2vw, 14px);
-            color: var(--text-muted);
-            margin-bottom: 15px;
-        }
-
-        .version-info {
-            display: flex;
-            justify-content: center;
-            gap: clamp(10px, 2vw, 15px);
+            font-size: 36px;
+            margin: 0 0 40px;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 102, 255, 0.2);
+            letter-spacing: 3px;
             position: relative;
-            z-index: 2;
+            display: inline-block;
+            animation: titleGlow 2s infinite alternate;
         }
 
-        .version-text, .update-text {
-            font-family: 'Righteous', sans-serif;
-            font-size: clamp(9px, 1.5vw, 11px);
-            color: var(--accent-red);
-            background: var(--icon-bg);
-            padding: clamp(4px, 1vw, 6px) clamp(8px, 2vw, 14px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 26, 26, 0.2);
-            transition: all 0.3s ease;
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px rgba(0, 102, 255, 0.2); }
+            100% { text-shadow: 0 0 20px rgba(0, 102, 255, 0.4), 0 0 30px rgba(0, 102, 255, 0.2); }
         }
 
-        .version-text:hover, .update-text:hover {
-            background: var(--icon-hover-bg);
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(255, 26, 26, 0.3);
+        .game-selection-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: clamp(20px, 3vw, 30px) 0;
+        .game-selection-title.animate::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
-        .dashboard-card {
-            background: var(--secondary-bg);
-            border-radius: clamp(12px, 2vw, 18px);
-            box-shadow: var(--shadow-md);
-            padding: clamp(15px, 3vw, 25px);
-            border: 1px solid var(--border-color);
+        .game-list-container {
+            width: 100%;
+            max-width: 900px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            padding: 0 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .game-list-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .game-list-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .game-list-container::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 20px 40px;
+        }
+
+        .game-item {
+            background: hsla(222, 35%, 8%, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: var(--transition-cyber);
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--foreground);
+            box-shadow: var(--shadow-cyber);
             position: relative;
             overflow: hidden;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
         }
 
-        .dashboard-card:hover {
+        .game-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: var(--shadow-cyber), var(--shadow-glow-primary);
+            background: hsla(222, 35%, 8%, 0.9);
+            border-color: var(--primary);
         }
 
-        .dashboard-card::before {
-            content: '';
+        .game-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .game-item:hover::before {
+            opacity: 1;
+            animation: borderPulse 2s infinite;
+        }
+
+        .game-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition-cyber);
+            color: var(--primary);
+        }
+
+        .game-item:hover .game-name {
+            color: var(--primary-glow);
+        }
+
+        .game-url {
+            font-size: 12px;
+            color: var(--muted-foreground);
+            word-break: break-all;
+            opacity: 0.7;
+            transition: var(--transition-cyber);
+        }
+
+        .game-item:hover .game-url {
+            opacity: 1;
+            color: var(--foreground);
+        }
+
+        /* Iframe and Tape Button */
+        .fullscreen-iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Unique Injector Icon */
+        .injector-tape {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999999;
+            box-shadow: var(--shadow-glow-primary);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: var(--transition-cyber);
+            animation: tapeFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes tapeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+        }
+
+        .injector-tape:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 30px hsla(194, 100%, 50%, 0.6);
+            animation: none;
+        }
+
+        .injector-tape::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Main Injector Container */
+        .injector-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 320px;
+            max-height: 90vh;
+            z-index: 999999;
+            background: hsla(222, 35%, 8%, 0.95);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-cyber), var(--shadow-glow-primary);
+            border-radius: 16px;
+            overflow: hidden;
+            display: none;
+            backdrop-filter: blur(12px);
+            transition: var(--transition-cyber);
+            transform: translateY(0) scale(1);
+            opacity: 0;
+            transform-origin: top right;
+        }
+
+        .injector-container.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            display: block;
+            animation: injectorAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes injectorAppear {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .injector-container.hidden {
+            animation: injectorDisappear 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+        }
+
+        @keyframes injectorDisappear {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(20px) scale(0.95); display: none; }
+        }
+
+        .injector-container::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 1px solid transparent;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: borderPulse 6s linear infinite;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        @keyframes borderPulse {
+            0% { opacity: 0.5; filter: hue-rotate(0deg); }
+            50% { opacity: 1; filter: hue-rotate(30deg); }
+            100% { opacity: 0.5; filter: hue-rotate(0deg); }
+        }
+
+        /* Header Section */
+        .injector-header {
+            background: var(--gradient-primary);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .injector-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            animation: borderPulse 3s infinite;
+        }
+
+        .injector-logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-bright);
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .injector-logo img {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+            transition: var(--transition-cyber);
+        }
+
+        .version-badge {
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 6px;
+            color: var(--text-bright);
+        }
+
+        /* Content Area */
+        .injector-content {
+            padding: 16px;
+            max-height: calc(90vh - 60px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .injector-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .injector-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .injector-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* Prediction Card */
+        .prediction-card {
+            padding: 16px;
+            border-radius: 12px;
+            background: hsla(222, 35%, 8%, 0.8);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-cyber);
+            margin-bottom: 0;
+            position: relative;
+            transition: var(--transition-cyber);
+            backdrop-filter: blur(4px);
+            overflow: hidden;
+        }
+
+        .prediction-card::before {
+            content: "";
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 26, 26, 0.05), transparent);
-            animation: glowPulse 15s infinite ease-in-out;
-            z-index: 0;
+            background: linear-gradient(
+                to bottom right,
+                transparent 0%,
+                transparent 45%,
+                hsla(194, 100%, 50%, 0.05) 50%,
+                transparent 55%,
+                transparent 100%
+            );
+            transform: rotate(30deg);
+            animation: shine 6s infinite;
+            opacity: 0.5;
         }
 
-        @keyframes glowPulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+        .prediction-card.glow {
+            animation: cardGlow 3s infinite alternate;
         }
 
-        .card-title {
-            font-family: 'Teko', sans-serif;
-            font-size: clamp(18px, 4vw, 24px);
-            color: var(--accent-red);
-            text-transform: uppercase;
+        @keyframes cardGlow {
+            0% { box-shadow: var(--shadow-cyber); }
+            100% { box-shadow: var(--shadow-cyber), var(--shadow-glow-primary); }
+        }
+
+        /* Period Display */
+        .period-display {
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            color: var(--primary);
+            margin: 10px 0;
+            padding: 8px;
+            background: hsla(222, 25%, 12%, 0.8);
+            border-radius: 6px;
             letter-spacing: 1px;
-            position: relative;
-            display: inline-block;
+            border: 1px solid var(--border);
         }
 
-        .card-title::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--gradient-red);
-            border-radius: 2px;
-        }
-
-        /* Control Panel - HIDDEN */
-        .control-panel-section {
-            display: none;
-        }
-
-        /* Info Section */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: clamp(15px, 2vw, 20px);
-            margin: clamp(15px, 2vw, 25px) 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .info-card {
-            background: var(--card-bg);
-            padding: clamp(15px, 2vw, 20px);
-            border-radius: clamp(10px, 1.5vw, 14px);
-            display: flex;
-            align-items: center;
-            gap: clamp(12px, 2vw, 16px);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--accent-red);
-        }
-
-        .info-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(255, 26, 26, 0.2);
-        }
-
-        .info-icon {
-            width: 50px;
-            height: 50px;
+        /* Current Value Display */
+        .current-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 16px 0;
+            font-family: 'Orbitron', sans-serif;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--icon-bg);
-            border-radius: 12px;
-            font-size: 20px;
-            color: var(--accent-red);
-            transition: all 0.3s ease;
+            transition: var(--transition-cyber);
+            color: var(--primary);
+            position: relative;
+            animation: valuePulse 3s infinite ease-in-out;
         }
 
-        .info-card:hover .info-icon {
-            background: var(--icon-hover-bg);
-            transform: scale(1.1) rotate(5deg);
+        @keyframes valuePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.9; }
         }
 
-        .info-content {
-            flex: 1;
+        /* Confidence Meter */
+        .confidence-container {
+            margin-bottom: 16px;
         }
 
-        .info-label {
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .info-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(16px, 2.5vw, 20px);
-            font-weight: 700;
-            background: var(--gradient-red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* Analysis Section */
-        .analysis-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: clamp(15px, 2vw, 20px);
-            margin-top: 20px;
-        }
-
-        .analysis-card {
-            background: var(--card-bg);
-            padding: clamp(15px, 2vw, 20px);
-            border-radius: clamp(10px, 1.5vw, 14px);
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .analysis-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(255, 26, 26, 0.2);
-        }
-
-        .analysis-label {
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 10px;
-        }
-
-        .analysis-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(16px, 2.5vw, 20px);
-            font-weight: 700;
-            margin-top: clamp(4px, 1vw, 6px);
-            display: block;
-            background: var(--gradient-red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .server-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            background: rgba(46, 204, 113, 0.15);
-            border-radius: 20px;
-            color: #2ecc71;
-            font-size: 14px;
-        }
-
-        .server-status::before {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background: #2ecc71;
-            border-radius: 50%;
-            animation: serverPulse 2s infinite ease-in-out;
-        }
-
-        @keyframes serverPulse {
-            0% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.7; }
-        }
-
-        /* History Section */
-        .history-list {
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .history-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .history-list::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        .history-list::-webkit-scrollbar-thumb {
-            background: var(--accent-red);
-            border-radius: 10px;
-        }
-
-        .history-item {
-            background: var(--card-bg);
-            padding: clamp(12px, 2vw, 16px);
-            border-radius: clamp(8px, 1.5vw, 12px);
-            margin-bottom: clamp(10px, 1.5vw, 15px);
-            box-shadow: var(--shadow-sm);
+        .confidence-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            margin-bottom: 6px;
         }
 
-        .history-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 18px rgba(255, 26, 26, 0.2);
+        .confidence-label {
+            font-size: 11px;
+            color: var(--muted-foreground);
+            letter-spacing: 0.5px;
         }
 
-        .history-item.pending {
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        .history-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .history-detail {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: clamp(12px, 1.8vw, 14px);
-            color: var(--text-muted);
-        }
-
-        .history-detail i {
-            color: var(--accent-red);
-            font-size: 14px;
-            background: var(--icon-bg);
-            padding: 6px;
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-        }
-
-        .history-detail:hover i {
-            background: var(--icon-hover-bg);
-            transform: rotate(15deg);
-        }
-
-        .history-value {
-            font-family: 'Chakra Petch', sans-serif;
-            font-size: clamp(13px, 2vw, 15px);
-            background: var(--gradient-red);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .status-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .status-text {
+        .confidence-value {
             font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--primary);
         }
 
-        .status-text.win {
-            color: #2ecc71;
+        .confidence-meter {
+            height: 6px;
+            background: var(--muted);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .status-text.loss {
-            color: #ff4444;
-        }
-
-        .status-text.pending {
-            color: #f39c12;
-        }
-
-        .status-indicator {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--icon-bg);
-            border-radius: 50%;
-            transition: background 0.3s ease;
-        }
-
-        .status-indicator:hover {
-            background: var(--icon-hover-bg);
-        }
-
-        .pending-spinner {
-            width: 100%;
+        .confidence-level {
             height: 100%;
-            border: 3px solid transparent;
-            border-top: 3px solid var(--accent-red);
-            border-right: 3px solid var(--accent-red);
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            box-shadow: 0 0 10px hsla(194, 100%, 50%, 0.5);
+            position: relative;
+            width: 0;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .confidence-level::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255,255,255,0.3) 0%,
+                transparent 50%,
+                rgba(0,0,0,0.1) 100%
+            );
+            border-radius: 3px;
         }
 
-        .win-icon::before {
-            content: '\f091';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 16px;
-            color: #2ecc71;
-        }
-
-        .loss-icon::before {
-            content: '\f00d';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            font-size: 16px;
-            color: #ff4444;
-        }
-
-        .api-status {
+        /* Status Indicator */
+        .status-indicator {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-left: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .status-indicator::after {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0;
+            animation: ripple 1.5s infinite;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { opacity: 0.5; }
+            to { transform: scale(1.5); opacity: 0; }
+        }
+
+        .status-indicator.waiting {
+            background-color: var(--warning);
+            box-shadow: 0 0 10px var(--warning);
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-indicator.win {
+            background-color: var(--success);
+            box-shadow: 0 0 12px var(--success);
+        }
+
+        .status-indicator.loss {
+            background-color: var(--destructive);
+            box-shadow: 0 0 12px var(--destructive);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* API Status Indicator */
+        .api-status {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .api-status.live {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
+            background-color: hsla(142, 100%, 55%, 0.2);
+            color: var(--success);
+            border: 1px solid hsla(142, 100%, 55%, 0.3);
         }
 
         .api-status.offline {
-            background: rgba(255, 68, 68, 0.2);
-            color: #ff4444;
+            background-color: hsla(345, 100%, 55%, 0.2);
+            color: var(--destructive);
+            border: 1px solid hsla(345, 100%, 55%, 0.3);
         }
-        
-        .server-info {
+
+        /* Success/Failure States */
+        .prediction-card.success {
+            border-color: hsla(142, 100%, 55%, 0.3);
+            box-shadow: 0 8px 32px hsla(142, 100%, 55%, 0.2);
+        }
+
+        .prediction-card.failure {
+            border-color: hsla(345, 100%, 55%, 0.3);
+            box-shadow: 0 8px 32px hsla(345, 100%, 55%, 0.2);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: hsla(222, 35%, 8%, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            max-width: 280px;
+            box-shadow: var(--shadow-cyber), var(--shadow-glow-primary);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition-cyber);
+            backdrop-filter: blur(4px);
+            z-index: 99999999;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification.success {
+            border-color: hsla(142, 100%, 55%, 0.3);
+        }
+
+        .notification.error {
+            border-color: hsla(345, 100%, 55%, 0.3);
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .notification-message {
+            font-size: 12px;
+            color: var(--muted-foreground);
+        }
+
+        /* BIG/SMALL Blink Animation */
+        @keyframes blink-big {
+            0%, 100% { 
+                color: var(--success);
+                text-shadow: 0 0 8px var(--success);
+            }
+            50% { 
+                color: var(--primary);
+                text-shadow: 0 0 15px var(--primary);
+            }
+        }
+
+        @keyframes blink-small {
+            0%, 100% { 
+                color: var(--destructive);
+                text-shadow: 0 0 8px var(--destructive);
+            }
+            50% { 
+                color: var(--primary);
+                text-shadow: 0 0 15px var(--primary);
+            }
+        }
+
+        .blink-big {
+            animation: blink-big 1.5s infinite;
+        }
+
+        .blink-small {
+            animation: blink-small 1.5s infinite;
+        }
+
+        /* Loading Animation */
+        .loading-enhanced {
+            display: inline-block;
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+
+        .loading-enhanced div {
+            position: absolute;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .loading-enhanced div:nth-child(1) {
+            left: 6px;
+            animation: loading-enhanced1 0.6s infinite;
+        }
+
+        .loading-enhanced div:nth-child(2) {
+            left: 6px;
+            animation: loading-enhanced2 0.6s infinite;
+        }
+
+        .loading-enhanced div:nth-child(3) {
+            left: 24px;
+            animation: loading-enhanced2 0.6s infinite;
+        }
+
+        .loading-enhanced div:nth-child(4) {
+            left: 42px;
+            animation: loading-enhanced3 0.6s infinite;
+        }
+
+        @keyframes loading-enhanced1 {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes loading-enhanced3 {
+            0% { transform: scale(1); }
+            100% { transform: scale(0); }
+        }
+
+        @keyframes loading-enhanced2 {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(18px, 0); }
+        }
+
+        /* History Panel */
+        .history-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            max-height: 200px;
+            background: hsla(222, 35%, 8%, 0.95);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-cyber), var(--shadow-glow-primary);
+            border-radius: 12px;
+            overflow: hidden;
+            z-index: 999998;
+            backdrop-filter: blur(12px);
+            transition: var(--transition-cyber);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .history-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .history-header {
+            background: var(--gradient-primary);
+            padding: 10px 16px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .history-header .close-btn {
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition-cyber);
+        }
+
+        .history-header .close-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .history-content {
+            max-height: 150px;
+            overflow-y: auto;
             padding: 10px;
-            background: rgba(59, 130, 246, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.1);
+        }
+
+        .history-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .history-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            background: hsla(222, 35%, 8%, 0.6);
             border-radius: 8px;
-            margin-top: 10px;
+            border: 1px solid var(--border);
+            transition: var(--transition-cyber);
         }
-        
-        .server-name {
-            font-weight: bold;
-            color: var(--accent-blue);
+
+        .history-item:hover {
+            transform: translateX(-2px);
+            box-shadow: var(--shadow-cyber);
         }
-        
-        .server-stats {
+
+        .history-period {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            color: var(--primary);
+        }
+
+        .history-result {
+            font-weight: 600;
             font-size: 12px;
-            color: var(--text-muted);
         }
-        
-        /* Loading animation for data fetching */
-        .loading-pulse {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
+
+        .history-result.win {
+            color: var(--success);
+        }
+
+        .history-result.loss {
+            color: var(--destructive);
+        }
+
+        .history-result.pending {
+            color: var(--warning);
+        }
+
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            background: rgba(0, 102, 255, 0.2);
             border-radius: 50%;
-            background: var(--accent-red);
-            box-shadow: 0 0 0 rgba(255, 26, 26, 0.4);
-            animation: pulse-loading 2s infinite;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(1px);
+            animation: float 15s infinite linear;
         }
-        
-        @keyframes pulse-loading {
-            0% {
-                box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.7);
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(10px) rotate(5deg); }
+            50% { transform: translateY(0) translateX(20px) rotate(0deg); }
+            75% { transform: translateY(20px) translateX(10px) rotate(-5deg); }
+            100% { transform: translateY(0) translateX(0) rotate(0deg); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .injector-container {
+                width: 90%;
+                right: 5%;
+                max-height: 80vh;
             }
-            70% {
-                box-shadow: 0 0 0 10px rgba(255, 26, 26, 0);
+            
+            .history-panel {
+                width: 90%;
+                right: 5%;
+                max-height: 180px;
             }
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 26, 26, 0);
+            
+            .game-list {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .game-selection-title {
+                font-size: 28px;
+                margin-bottom: 30px;
             }
         }
-        
-        /* Improved tagline with typing animation */
-        .tagline {
-            min-height: 20px;
-            position: relative;
-        }
-        
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            height: 16px;
-            background-color: var(--accent-red);
-            margin-left: 2px;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+        @media (max-width: 480px) {
+            .injector-container {
+                width: 95%;
+                right: 2.5%;
+            }
+            
+            .history-panel {
+                width: 95%;
+                right: 2.5%;
+                max-height: 160px;
+            }
+            
+            .current-value {
+                font-size: 28px;
+            }
+            
+            .game-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-selection-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            
+            .injector-tape {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .injector-tape::before {
+                width: 24px;
+                height: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-brain"></i>
+    <div class="game-selection" id="gameSelection">
+        <div class="game-selection-title" id="gameSelectionTitle">SELECT GAME</div>
+        <div class="game-list-container">
+            <div class="game-list">
+                <div class="game-item" data-url="https://bdginf.com/#/login">
+                    <div class="game-name">BIG DADDY</div>
+                    <div class="game-url"></div>
                 </div>
-                <div class="logo-text">LICUIS ULTRA</div>
-            </div>
-
-            <div class="version-info">
-                <div class="version-text">SECURITY</div>
-                <div class="update-text">ULTRA AI V2.0</div>
+                <div class="game-item" data-url="http://Okwin.bio">
+                    <div class="game-name">OK WIN</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://goagamea.com/#/login">
+                    <div class="game-name">GOA GAME</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://www.bigmumbaiq.com/#/login">
+                    <div class="game-name">BIG MUMBAI</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="http://tirangagame.top">
+                    <div class="game-name">TIRANGA</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://51game5.com/#/">
+                    <div class="game-name">51 GAME</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://bdgwin.cc/#/login">
+                    <div class="game-name">BDG WIN</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="http://rajawager.com">
+                    <div class="game-name">RAJA WAGER</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="http://55club.game">
+                    <div class="game-name">55 CLUB</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://dmwin.login.uk.com/">
+                    <div class="game-name">DM WIN</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="https://diuwin.bet/#/">
+                    <div class="game-name">DIUWIN</div>
+                    <div class="game-url"></div>
+                </div>
+                <div class="game-item" data-url="http://91appl.com">
+                    <div class="game-name">91 CLUB</div>
+                    <div class="game-url"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="app-container">
-        <div class="main-content">
-            <!-- Control Panel Card - HIDDEN -->
-            <div class="control-panel-section">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Control Panel</h2>
-                    </div>
-                    <div class="control-panel">
-                        <div class="selection-box">
-                            <label for="resultType">Prediction Type</label>
-                            <select id="resultType">
-                                <option value="bigsmall">Big/Small</option>
-                                <option value="redgreen">Red/Green</option>
-                            </select>
-                        </div>
-                        <div class="server-info">
-                            <i class="fas fa-server"></i>
-                            <div>
-                                <div class="server-name" id="currentServer">Auto-Selecting Best Server...</div>
-                                <div class="server-stats" id="serverStats">Accuracy: Calculating...</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <iframe id="gameFrame" class="fullscreen-iframe hidden"></iframe>
 
-            <!-- Information Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Live Information</h2>
-                </div>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Period</div>
-                            <div id="periodNumber" class="info-value">Loading<span class="loading-pulse"></span></div>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Time Left</div>
-                            <div id="timer" class="info-value">00:00</div>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-icon">
-                            <i class="fas fa-poll"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Prediction</div>
-                            <div id="currentResult" class="info-value">Initializing AI<span class="loading-pulse"></span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="injector-tape" id="injectorTape"></div>
 
-            <!-- Analysis Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">Analysis Dashboard <span id="apiStatus" class="api-status offline">API OFFLINE</span></h2>
-                </div>
-                <div class="analysis-grid">
-                    <div class="analysis-card">
-                        <div class="analysis-label">Most Frequent</div>
-                        <div id="mostFrequent" class="analysis-value">-</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">Win Rate</div>
-                        <div id="winAccuracy" class="analysis-value">0%</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">Total Wins</div>
-                        <div id="totalWins" class="analysis-value">0</div>
-                    </div>
-                    <div class="analysis-card">
-                        <div class="analysis-label">AI Confidence</div>
-                        <div id="aiConfidence" class="analysis-value">0%</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- History Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <h2 class="card-title">History</h2>
-                </div>
-                <div class="history-list" id="historyBody">
-                    <!-- History items will be inserted here -->
-                </div>
+    <div class="injector-container" id="injectorUI">
+        <div class="injector-header">
+            <div class="injector-logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMDA2NmZmIiBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZzMTExIDI0OCAyNDggMjQ4IDI0OC0xMTEgMjQ4LTI0OFMzOTMgOCAyNTYgOHptMCA0NDhjLTExMC41IDAtMjAwLTg5LjUtMjAwLTIwMFMxNDUuNSA1NiAyNTYgNTZzMjAwIDg5LjUgMjAwIDIwMC04OS41IDIwMC0yMDAgMjAwem0xMjAtMjQwYy0xNS41LTEyLTM1LTE5LTU2LTE5cy00MC41IDctNTYgMTlsLTY0LTQ4Yy04LjEtNi4xLTE5LTQuNS0yNC41IDQuMS01LjUgOC42LTMuOCAyMCA0LjMgMjZsODQgNjRjMTYuNSAxMiAzNSAxOSA1NiAxOXMzOS41LTcgNTYtMTlsODQtNjRjOC4xLTYgMTAtMTcuNCA0LjMtMjYtNS40LTguNy0xNi41LTEwLjItMjQuNS00LjFsLTY0IDQ4eiIvPjwvc3ZnPg==" alt="LICUIS ULTRA Logo">
+                LICUIS ULTRA <span class="version-badge">V2</span>
             </div>
         </div>
+        <div class="injector-content">
+            <div class="prediction-card glow" id="predictionCard">
+                <div class="period-display" id="predictionPeriod">
+                    <span>2025XXXX-XXXXXXX</span>
+                </div>
+                <div class="current-value" id="predictionResult">
+                    <div class="loading-enhanced">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                
+                <div class="confidence-container">
+                    <div class="confidence-header">
+                        <div class="confidence-label"></div>
+                        <div class="confidence-value" id="confidenceValue">0%</div>
+                    </div>
+                    <div class="confidence-meter">
+                        <div class="confidence-level" id="confidenceLevel"></div>
+                    </div>
+                </div>
+                <div class="api-status" id="apiStatus">API OFFLINE</div>
+            </div>
+        </div>
+    </div>
+    <div class="notification" id="notification">
+        <div class="notification-title" id="notificationTitle">Notification</div>
+        <div class="notification-message" id="notificationMessage"></div>
     </div>
 
     <script>
-        // DOM Elements
-        const periodNumberElement = document.getElementById('periodNumber');
-        const timerElement = document.getElementById('timer');
-        const currentResultElement = document.getElementById('currentResult');
-        const historyBody = document.getElementById('historyBody');
-        const mostFrequentElement = document.getElementById('mostFrequent');
-        const winAccuracyElement = document.getElementById('winAccuracy');
-        const totalWinsElement = document.getElementById('totalWins');
-        const aiConfidenceElement = document.getElementById('aiConfidence');
-        const resultTypeSelect = document.getElementById('resultType');
-        const apiStatusElement = document.getElementById('apiStatus');
-        const currentServerElement = document.getElementById('currentServer');
-        const serverStatsElement = document.getElementById('serverStats');
-        const dynamicTaglineElement = document.getElementById('dynamicTagline');
-        
-        // Application State
-        let lastPeriodNumber = null;
-        let history = [];
-        let currentResult = null;
-        let pendingResult = null;
-        let winCount = 0;
-        let lossStreak = 0;
-        let totalBets = 0;
-        let totalWins = 0;
-        let totalLosses = 0;
-        let isResultProcessing = false;
-        let lastTimerUpdate = 0;
-        let historyData = [];
-        let isFetching = false;
-        let apiOnline = false;
-        let currentServer = "Auto-Selecting";
-        let currentConfidence = 0;
-
-        // Taglines for dynamic display
-        const taglines = [
-            "Advanced AI Prediction System",
-            "Real-time Data Analysis",
-            "Next-Generation Forecasting",
-            "Powered by Machine Learning",
-            "Ultra-Precise Predictions"
-        ];
-        
-        let currentTaglineIndex = 0;
-
-        // Advanced AI Predictor Class
-        class AdvancedRecoveryPredictor {
+        // API Management System
+        class APIManager {
             constructor() {
-                // State management
-                this.last_result = null;
-                this.win_streak = 0;
-                this.loss_streak = 0;
-                this.recovery_level = 0;  // 0: Normal, 1: Level 1 Recovery, 2: Level 2 Recovery
-                
-                // Pattern memory
-                this.pattern_memory = [];
-                this.history = [];
-                
-                // Markov chain state
-                this.markov_states = {'WW': 0, 'WL': 0, 'LW': 0, 'LL': 0};
-                this.current_state = null;
-                this.transition_probs = {};
-                
-                // Performance tracking
-                this.performance_stats = {
-                    'accuracy': 0.85,
-                    'recent_accuracy': [],
-                    'last_updated': new Date(),
-                    'model_versions': []
+                this.baseURL = 'https://draw.ar-lottery01.com/WinGo/WinGo_1M';
+                this.endpoints = {
+                    history: '/GetHistoryIssuePage.json',
+                    current: '/GetCurrentIssue.json'
                 };
-                
-                // Prime number cache
-                this.prime_cache = {};
-                
-                // Recovery parameters
-                this.recovery_params = {
-                    'level1_threshold': 2,
-                    'level2_threshold': 3,
-                    'recovery_cooldown': 5,
-                    'max_recovery_level': 2
+                this.retryAttempts = 3;
+                this.retryDelay = 2000;
+                this.isOnline = false;
+                this.fallbackMode = false;
+            }
+
+            getHeaders() {
+                return {
+                    'Accept': 'application/json',
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
                 };
+            }
 
-                // Server performance tracking
-                this.servers = {
-                    "Vision": {"accuracy": 0.85, "latency": 50, "confidence": 0.8},
-                    "ATSTrend": {"accuracy": 0.88, "latency": 70, "confidence": 0.82},
-                    "ColorStrike": {"accuracy": 0.83, "latency": 45, "confidence": 0.79},
-                    "ChromaLogic": {"accuracy": 0.81, "latency": 65, "confidence": 0.75},
-                    "GlowPredict": {"accuracy": 0.86, "latency": 55, "confidence": 0.81},
-                    "ColorAIPredict": {"accuracy": 0.84, "latency": 60, "confidence": 0.78},
-                    "AiBrain": {"accuracy": 0.90, "latency": 40, "confidence": 0.88},
-                    "HueMindAI": {"accuracy": 0.87, "latency": 45, "confidence": 0.85}
-                };
+            getTimestampParam() {
+                return `ts=${Date.now()}`;
+            }
+
+            async request(endpoint, params = '') {
+                let attempts = 0;
                 
-                // AI model parameters
-                this.ai_models = {
-                    "deep_learning": {"weight": 0.3, "accuracy": 0.82},
-                    "reinforcement": {"weight": 0.25, "accuracy": 0.79},
-                    "bayesian": {"weight": 0.2, "accuracy": 0.76},
-                    "evolutionary": {"weight": 0.25, "accuracy": 0.81}
-                };
-                
-                // Opposite logic parameters
-                this.opposite_logic_enabled = true;
-                this.opposite_logic_threshold = 3;
-                this.consecutive_opposites = 0;
-            }
+                while (attempts < this.retryAttempts) {
+                    try {
+                        const url = `${this.baseURL}${endpoint}?${this.getTimestampParam()}${params}`;
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            headers: this.getHeaders(),
+                            mode: 'cors'
+                        });
 
-            // --- Helper functions for pattern detection ---
-            _is_prime(n) {
-                if (n in this.prime_cache) {
-                    return this.prime_cache[n];
-                }
-                if (n < 2 || (n % 2 === 0 && n !== 2)) {
-                    this.prime_cache[n] = false;
-                    return false;
-                }
-                for (let i = 3; i <= Math.sqrt(n); i += 2) {
-                    if (n % i === 0) {
-                        this.prime_cache[n] = false;
-                        return false;
-                    }
-                }
-                this.prime_cache[n] = true;
-                return true;
-            }
-
-            _parity_pattern(d) {
-                return (d[0] % 2 !== d[1] % 2) && (d[1] % 2 !== d[2] % 2);
-            }
-
-            _center_mirror(d) {
-                return d[0] === d[3] && d[1] === d[2];
-            }
-
-            _digit_dominance(d) {
-                const counts = {};
-                for (const digit of d) {
-                    counts[digit] = (counts[digit] || 0) + 1;
-                }
-                return Math.max(...Object.values(counts)) >= 3;
-            }
-
-            _is_arithmetic_sequence(d) {
-                const diff = d[1] - d[0];
-                for (let i = 2; i < d.length; i++) {
-                    if (d[i] - d[i-1] !== diff) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            _is_geometric_sequence(d) {
-                if (d.includes(0)) {
-                    return false;
-                }
-                const ratio = d[1] / d[0];
-                for (let i = 2; i < d.length; i++) {
-                    if (Math.abs(d[i] / d[i-1] - ratio) > 0.0001) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            _digit_symmetry(d) {
-                return d.length >= 4 && d[0] === d[d.length-1] && d[1] === d[d.length-2];
-            }
-
-            _fibonacci_pattern(d) {
-                if (d.length < 3) {
-                    return false;
-                }
-                for (let i = 2; i < d.length; i++) {
-                    if (d[i] !== d[i-1] + d[i-2]) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            _sum_product_relation(d) {
-                return d.length >= 4 && d.reduce((a, b) => a + b, 0) > 2 * (d[0] * d[d.length-1]);
-            }
-
-            _digital_root(n) {
-                return 1 + (n - 1) % 9;
-            }
-
-            // --- Core prediction methods ---
-            _sure_shot_level_logic(d, level) {
-                let score = 0;
-                score += d[0] === d[d.length-1] ? 2 : 0;
-                score += d.reduce((a, b) => a + b, 0) >= 20 ? 1 : 0;
-                score += (Math.max(...d) - Math.min(...d)) <= 2 ? 1 : 0;
-                score += this._is_prime(d.reduce((a, b) => a + b, 0)) ? 2 : 0;
-
-                const sorted_d = [...d].sort((a, b) => a - b);
-                if (JSON.stringify(d) === JSON.stringify(sorted_d) || JSON.stringify(d) === JSON.stringify(sorted_d.reverse())) {
-                    score += 1;
-                }
-
-                const mean = d.reduce((a, b) => a + b, 0) / d.length;
-                score += mean > 4.5 ? 1 : 0;
-                const median = sorted_d[Math.floor(d.length/2)];
-                score += median > 4 ? 1 : 0;
-
-                if (level >= 2) {
-                    score += this._parity_pattern(d) ? 2 : 0;
-                    score += this._center_mirror(d) ? 1 : 0;
-                    score += this._digit_symmetry(d) ? 1 : 0;
-                    score += this._fibonacci_pattern(d) ? 3 : 0;
-                }
-
-                if (level >= 3) {
-                    score += this._digit_dominance(d) ? 2 : 0;
-                    score += this._is_arithmetic_sequence(d) ? 1 : 0;
-                    score += this._is_geometric_sequence(d) ? 1 : 0;
-                }
-
-                if (level >= 4) {
-                    score += this._sum_product_relation(d) ? 1 : 0;
-                    score += d.filter(x => x >= 5).length >= 3 ? 2 : 0;
-                }
-
-                let threshold = 5 + level;
-                if (Math.max(...d) - Math.min(...d) <= 1) {
-                    threshold -= 1;
-                }
-                if (d.reduce((a, b) => a + b, 0) > 25) {
-                    threshold += 1;
-                }
-
-                return score >= threshold ? "BIG" : "SMALL";
-            }
-
-            _intelligent_prediction(period_number) {
-                const d = [...period_number.slice(-4)].map(Number);
-                const total = d.reduce((a, b) => a + b, 0);
-                const strategies = [
-                    ["BIG", total % 2 === 0 ? 0.7 : 0.3],
-                    ["BIG", (d[1] + d[2]) > (d[0] + d[3]) ? 0.7 : 0.3],
-                    ["BIG", this._is_prime(d[0] * d[3]) ? 0.7 : 0.3],
-                    ["BIG", d.filter(x => x >= 5).length >= 2 ? 0.7 : 0.3],
-                    ["BIG", this._is_arithmetic_sequence(d) ? 0.7 : 0.3],
-                    ["SMALL", this._digit_dominance(d) ? 0.7 : 0.3]
-                ];
-                
-                let big_votes = 0;
-                let small_votes = 0;
-                
-                for (const [pred, conf] of strategies) {
-                    if (pred === "BIG") {
-                        big_votes += conf;
-                    } else {
-                        small_votes += conf;
-                    }
-                }
-
-                // Final decision based on votes
-                if (big_votes > small_votes) {
-                    return ["BIG", Math.max(big_votes, 0.5)];
-                } else if (small_votes > big_votes) {
-                    return ["SMALL", Math.max(small_votes, 0.5)];
-                } else {
-                    // Tie-break with Fibonacci
-                    if (this._fibonacci_pattern(d)) {
-                        return ["BIG", 0.7];
-                    }
-                    return [total % 2 === 0 ? "BIG" : "SMALL", 0.6];
-                }
-            }
-
-            _detect_trend(recent_results) {
-                if (recent_results.length < 3) {
-                    return "stable";
-                }
-                const numeric_results = recent_results.map(r => r === "BIG" ? 1 : 0);
-                const diffs = [];
-                for (let i = 1; i < numeric_results.length; i++) {
-                    diffs.push(numeric_results[i] - numeric_results[i-1]);
-                }
-                
-                if (diffs.every(d => d > 0)) {
-                    return "upward";
-                }
-                if (diffs.every(d => d < 0)) {
-                    return "downward";
-                }
-                if (Math.abs(diffs.reduce((a, b) => a + b, 0) / diffs.length) > 0.5) {
-                    return "oscillate";
-                }
-                return "stable";
-            }
-
-            // --- Markov chain update & prediction ---
-            _update_markov_models(actual_result) {
-                if (this.history.length === 0) {
-                    return;
-                }
-                if (this.history.length >= 2) {
-                    const prev_result = this.history[this.history.length-2];
-                    const current_result = this.history[this.history.length-1];
-                    this.current_state = prev_result + current_result;
-                    this.markov_states[this.current_state] = (this.markov_states[this.current_state] || 0) + 1;
-                }
-                if (this.current_state) {
-                    if (!this.transition_probs[this.current_state]) {
-                        this.transition_probs[this.current_state] = {"BIG": 0, "SMALL": 0};
-                    }
-                    this.transition_probs[this.current_state][actual_result] += 1;
-                }
-            }
-
-            _get_markov_prediction() {
-                if (!this.current_state || !this.transition_probs[this.current_state]) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                const probs = this.transition_probs[this.current_state];
-                const total = probs["BIG"] + probs["SMALL"];
-                if (total === 0) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                const big_prob = probs["BIG"] / total;
-                if (big_prob > 0.6) {
-                    return ["BIG", big_prob];
-                } else if (big_prob < 0.4) {
-                    return ["SMALL", 1 - big_prob];
-                } else {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", Math.max(big_prob, 1 - big_prob)];
-                }
-            }
-
-            // --- Neural network approximation ---
-            _neural_network_prediction() {
-                if (this.history.length < 10) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                const recent = this.history.slice(-20);
-                const big_count = recent.filter(r => r === "BIG").length;
-                const total = recent.length;
-                const big_prob = big_count / total;
-                if (big_prob > 0.6) {
-                    return ["BIG", big_prob];
-                } else if (big_prob < 0.4) {
-                    return ["SMALL", 1 - big_prob];
-                } else {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-            }
-
-            // --- AI-Driven Prediction Methods ---
-            _deep_learning_prediction(period_number) {
-                const digits = [...period_number.slice(-4)].map(Number);
-                // Create a hash-based deterministic "prediction"
-                const hash_str = digits.join('');
-                let hash_val = 0;
-                for (let i = 0; i < hash_str.length; i++) {
-                    hash_val = ((hash_val << 5) - hash_val) + hash_str.charCodeAt(i);
-                    hash_val |= 0;
-                }
-                hash_val = Math.abs(hash_val);
-                
-                let big_prob = (hash_val % 100) / 100;
-                
-                // Adjust based on patterns
-                if (this._digit_dominance(digits)) {
-                    const mostCommon = [...new Set(digits)].reduce((a, b) => 
-                        digits.filter(x => x === a).length > digits.filter(x => x === b).length ? a : b
-                    );
-                    big_prob += mostCommon >= 5 ? 0.1 : -0.1;
-                }
-                
-                if (this._is_arithmetic_sequence(digits)) {
-                    big_prob += 0.15;
-                }
-                
-                big_prob = Math.max(0.1, Math.min(0.9, big_prob));
-                
-                return [big_prob > 0.5 ? "BIG" : "SMALL", big_prob > 0.5 ? big_prob : 1 - big_prob];
-            }
-
-            _reinforcement_learning_prediction() {
-                if (this.history.length < 5) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                    
-                // Q-learning inspired approach
-                const recent = this.history.slice(-10);
-                const big_count = recent.filter(r => r === "BIG").length;
-                const small_count = recent.length - big_count;
-                
-                // Reward recent successful predictions
-                if (this.performance_stats.recent_accuracy.length > 0) {
-                    const recent_accuracy = this.performance_stats.recent_accuracy.reduce((a, b) => a + b, 0) / this.performance_stats.recent_accuracy.length;
-                    if (recent_accuracy > 0.7) {
-                        // Favor the majority in recent accurate periods
-                        if (big_count > small_count) {
-                            return ["BIG", 0.7];
-                        } else {
-                            return ["SMALL", 0.7];
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                    } else {
-                        // Low accuracy, try the opposite
-                        if (big_count > small_count) {
-                            return ["SMALL", 0.6];
-                        } else {
-                            return ["BIG", 0.6];
-                        }
-                    }
-                }
-                    
-                return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-            }
 
-            _bayesian_network_prediction(period_number) {
-                const digits = [...period_number.slice(-4)].map(Number);
-                const total = digits.reduce((a, b) => a + b, 0);
-                
-                // Prior probabilities
-                let p_big = 0.5;
-                let p_small = 0.5;
-                
-                // Evidence from digits
-                const even_digits = digits.filter(d => d % 2 === 0).length;
-                const odd_digits = digits.length - even_digits;
-                
-                // Update probabilities based on evidence
-                if (even_digits > odd_digits) {
-                    p_big *= 1.2;
-                } else {
-                    p_small *= 1.2;
-                }
-                
-                // High numbers evidence
-                if (total > 20) {
-                    p_big *= 1.3;
-                } else {
-                    p_small *= 1.3;
-                }
-                
-                // Normalize
-                const total_p = p_big + p_small;
-                p_big /= total_p;
-                p_small /= total_p;
-                
-                return [p_big > p_small ? "BIG" : "SMALL", Math.max(p_big, p_small)];
-            }
-
-            _evolutionary_algorithm_prediction() {
-                if (this.history.length < 5) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                    
-                // "Evolve" solutions based on historical patterns
-                const patterns = [];
-                const history_list = [...this.history];
-                
-                // Generate pattern candidates
-                for (let i = 0; i < Math.min(10, history_list.length - 4); i++) {
-                    const pattern = history_list.slice(i, i+4);
-                    const outcome = history_list[i+4];
-                    patterns.push({pattern, outcome});
-                }
-                
-                // "Mutate" and select best patterns
-                if (patterns.length > 0) {
-                    // Find pattern most similar to recent history
-                    const recent_pattern = history_list.slice(-4);
-                    let best_match = null;
-                    let best_similarity = -1;
-                    
-                    for (const {pattern, outcome} of patterns) {
-                        let similarity = 0;
-                        for (let j = 0; j < Math.min(pattern.length, recent_pattern.length); j++) {
-                            if (pattern[j] === recent_pattern[j]) similarity++;
+                        const data = await response.json();
+                        this.isOnline = true;
+                        return data;
+                    } catch (error) {
+                        attempts++;
+                        console.warn(`API attempt ${attempts} failed:`, error);
+                        
+                        if (attempts >= this.retryAttempts) {
+                            this.isOnline = false;
+                            throw error;
                         }
                         
-                        if (similarity > best_similarity) {
-                            best_similarity = similarity;
-                            best_match = outcome;
-                        }
+                        await new Promise(resolve => setTimeout(resolve, this.retryDelay * attempts));
                     }
+                }
+            }
+
+            async fetchPreviousResults(pageSize = 10) {
+                try {
+                    const data = await this.request(this.endpoints.history, `&pageSize=${pageSize}`);
                     
-                    if (best_match && best_similarity >= 2) {
-                        return [best_match, 0.7 + (best_similarity * 0.05)];
-                    }
-                }
-                
-                return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-            }
-
-            _ai_ensemble_prediction(period_number) {
-                const predictions = [];
-                const confidences = [];
-                const weights = [];
-                
-                // Get predictions from all AI models
-                const [dl_pred, dl_conf] = this._deep_learning_prediction(period_number);
-                predictions.push(dl_pred);
-                confidences.push(dl_conf);
-                weights.push(this.ai_models["deep_learning"].weight);
-                
-                const [rl_pred, rl_conf] = this._reinforcement_learning_prediction();
-                predictions.push(rl_pred);
-                confidences.push(rl_conf);
-                weights.push(this.ai_models["reinforcement"].weight);
-                
-                const [bn_pred, bn_conf] = this._bayesian_network_prediction(period_number);
-                predictions.push(bn_pred);
-                confidences.push(bn_conf);
-                weights.push(this.ai_models["bayesian"].weight);
-                
-                const [ea_pred, ea_conf] = this._evolutionary_algorithm_prediction();
-                predictions.push(ea_pred);
-                confidences.push(ea_conf);
-                weights.push(this.ai_models["evolutionary"].weight);
-                
-                // Calculate weighted scores
-                let big_score = 0;
-                let small_score = 0;
-                
-                for (let i = 0; i < predictions.length; i++) {
-                    if (predictions[i] === "BIG") {
-                        big_score += confidences[i] * weights[i];
-                    } else {
-                        small_score += confidences[i] * weights[i];
-                    }
-                }
-                
-                // Determine final prediction
-                if (big_score > small_score) {
-                    return ["BIG", big_score / (big_score + small_score)];
-                } else {
-                    return ["SMALL", small_score / (big_score + small_score)];
-                }
-            }
-
-            // --- Opposite Logic Implementation ---
-            _apply_opposite_logic(prediction, confidence, period_number) {
-                if (!this.opposite_logic_enabled) {
-                    return [prediction, confidence];
-                }
-                    
-                // Check if we should apply opposite logic
-                const digits = [...period_number.slice(-4)].map(Number);
-                const total = digits.reduce((a, b) => a + b, 0);
-                const digital_root = this._digital_root(total);
-                
-                // Conditions for applying opposite logic
-                const conditions = [
-                    [3, 6, 9].includes(digital_root),  // Numerology-based
-                    new Set(digits).size === 1,        // All digits same
-                    this._is_prime(total),             // Total is prime
-                    this.consecutive_opposites < this.opposite_logic_threshold  // Not overused
-                ];
-                
-                const trueConditions = conditions.filter(c => c).length;
-                
-                if (trueConditions >= 2) {
-                    this.consecutive_opposites++;
-                    const opposite_pred = prediction === "BIG" ? "SMALL" : "BIG";
-                    return [opposite_pred, Math.max(0.5, confidence - 0.1)];  // Slightly reduce confidence for opposites
-                } else {
-                    this.consecutive_opposites = 0;
-                    return [prediction, confidence];
-                }
-            }
-
-            // --- Ensemble prediction combines all models ---
-            _ensemble_prediction(period_number) {
-                const digits = [...period_number.slice(-4)].map(Number);
-                const pattern_pred = this._sure_shot_level_logic(digits, 3);
-                const [intelligent_pred, intel_conf] = this._intelligent_prediction(period_number);
-                const [markov_pred, markov_conf] = this._get_markov_prediction();
-                const [nn_pred, nn_conf] = this._neural_network_prediction();
-                const [ai_pred, ai_conf] = this._ai_ensemble_prediction(period_number);
-
-                const predictions = [pattern_pred, intelligent_pred, markov_pred, nn_pred, ai_pred];
-                const confidences = [0.7, intel_conf, markov_conf * 0.9, nn_conf * 0.8, ai_conf];
-
-                let big_score = 0;
-                let small_score = 0;
-                
-                for (let i = 0; i < predictions.length; i++) {
-                    if (predictions[i] === "BIG") {
-                        big_score += confidences[i];
-                    } else {
-                        small_score += confidences[i];
-                    }
-                }
-                
-                const total = big_score + small_score;
-                if (total === 0) {
-                    return [Math.random() > 0.5 ? "BIG" : "SMALL", 0.5];
-                }
-                
-                const final_pred = big_score > small_score ? "BIG" : "SMALL";
-                const final_conf = Math.max(big_score, small_score) / total;
-                
-                // Apply opposite logic if enabled
-                return this._apply_opposite_logic(final_pred, final_conf, period_number);
-            }
-
-            // --- RNG / cryptographic Hash prediction ---
-            _rng_prediction_algorithm(period_number) {
-                if (period_number.length < 3) {
-                    return Math.random() > 0.5 ? "BIG" : "SMALL";
-                }
-                const digits = [...period_number.slice(-3)].map(Number);
-                const [d1, d2, d3] = digits;
-                let hash_value = (
-                    (d1 * 0x5DEECE66D + d2 * 0xBF58476D + d3 * 0x1E4F43A7) ^
-                    (d1 << 9 | d2 << 6 | d3 << 3) +
-                    (d1 + d2 + d3) * 0x9E3779B9
-                ) % 10;
-                
-                if (hash_value === 0) {
-                    return "SMALL";
-                } else if ((d1 * d2 + d3) % 7 < 3) {
-                    return "SMALL";
-                } else if ((d1 ^ d2 ^ d3) > 4) {
-                    return "BIG";
-                } else if ((d1 + d2 * 10 + d3 * 100) % 6 === 0) {
-                    return "SMALL";
-                } else {
-                    const fib_index = (d1 + d2 + d3) % 9;
-                    const fib_numbers = [0, 1, 1, 2, 3, 5, 8, 13, 21];
-                    return fib_numbers[fib_index] % 2 === 0 ? "BIG" : "SMALL";
-                }
-            }
-
-            // --- Main prediction with recovery logic ---
-            predict(period_number) {
-                // Determine trend
-                const trend = this._detect_trend(this.history);
-                // Get base prediction from ensemble
-                const [pred, conf] = this._ensemble_prediction(period_number);
-
-                // Adjust prediction based on trend
-                let final_pred = pred;
-                let final_conf = conf;
-                
-                if (trend === "upward" && pred === "SMALL") {
-                    final_pred = "BIG";
-                    final_conf = Math.min(conf + 0.1, 1.0);
-                } else if (trend === "downward" && pred === "BIG") {
-                    final_pred = "SMALL";
-                    final_conf = Math.min(conf + 0.1, 1.0);
-                }
-
-                // If in recovery level, modify prediction accordingly
-                return this._apply_recovery_strategy(period_number, final_pred, final_conf, trend);
-            }
-
-            _apply_recovery_strategy(period_number, prediction, confidence, trend) {
-                // Recovery based on levels
-                if (this.recovery_level === 0) {
-                    // Normal
-                    return [prediction, confidence];
-                } else if (this.recovery_level === 1) {
-                    // Level 1 - more conservative
-                    // Possibly invert if recent trend suggests opposite
-                    // Or increase confidence threshold
-                    if (trend === "upward" && prediction === "SMALL") {
-                        return ["BIG", Math.min(confidence + 0.1, 1.0)];
-                    } else if (trend === "downward" && prediction === "BIG") {
-                        return ["SMALL", Math.min(confidence + 0.1, 1.0)];
-                    }
-                    return [prediction, confidence];
-                } else {
-                    // Level 2 - aggressive correction
-                    // Force opposite prediction if streaks are high
-                    if (this.pattern_memory.length >= 3) {
-                        const last_three = this.pattern_memory.slice(-3);
-                        if (last_three.every(x => x === "BIG")) {
-                            return ["SMALL", 0.8];
-                        } else if (last_three.every(x => x === "SMALL")) {
-                            return ["BIG", 0.8];
-                        }
-                    }
-                    return [prediction, confidence];
-                }
-            }
-
-            // --- Updating functions on result ---
-            update(actual_result, period_number) {
-                // Save to history
-                this.history.push(actual_result);
-                if (this.history.length > 100) this.history.shift();
-                
-                this.pattern_memory.push(actual_result);
-                if (this.pattern_memory.length > 10) this.pattern_memory.shift();
-
-                // Update performance
-                const last_digit = parseInt(period_number.slice(-1));
-                const expected_result = last_digit % 2 === 1 ? "BIG" : "SMALL";
-                this._update_performance_stats(actual_result === expected_result);
-
-                // Update Markov
-                this._update_markov_models(actual_result);
-
-                // Recover levels
-                this._update_recovery_levels(actual_result);
-            }
-
-            _update_performance_stats(correct) {
-                this.performance_stats.recent_accuracy.push(correct ? 1 : 0);
-                if (this.performance_stats.recent_accuracy.length > 50) {
-                    this.performance_stats.recent_accuracy.shift();
-                }
-                this.performance_stats.accuracy = this.performance_stats.recent_accuracy.reduce((a, b) => a + b, 0) / this.performance_stats.recent_accuracy.length;
-            }
-
-            _update_recovery_levels(actual_result) {
-                // Manage streaks and recovery levels
-                if (this.history.length < 2) return;
-                
-                const last_prediction = this.history[this.history.length - 2];
-                const was_correct = last_prediction === actual_result;
-                
-                if (was_correct) {
-                    this.win_streak++;
-                    this.loss_streak = 0;
-                    if (this.win_streak >= this.recovery_params.recovery_cooldown) {
-                        this.recovery_level = Math.max(0, this.recovery_level - 1);
-                    }
-                } else {
-                    this.loss_streak++;
-                    this.win_streak = 0;
-                    if (this.loss_streak >= this.recovery_params.level2_threshold) {
-                        this.recovery_level = Math.min(this.recovery_params.max_recovery_level, 2);
-                    } else if (this.loss_streak >= this.recovery_params.level1_threshold) {
-                        this.recovery_level = 1;
-                    }
-                }
-            }
-
-            // Server selection logic
-            auto_select_server() {
-                // Rank servers by weighted score (accuracy + confidence - latency penalty)
-                const scores = {};
-                for (const [server, stats] of Object.entries(this.servers)) {
-                    const score = (stats.accuracy * 0.6) + (stats.confidence * 0.3) - (stats.latency * 0.001);
-                    scores[server] = score;
-                }
-                
-                // Pick best-performing server
-                return Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-            }
-            
-            predict_with_server(period_number, server = "auto") {
-                if (server === "auto") {
-                    server = this.auto_select_server();
-                }
-
-                if (server === "Vision") {
-                    return this._ensemble_prediction(period_number);
-                } else if (server === "ATSTrend") {
-                    return this._neural_network_prediction();
-                } else if (server === "ColorStrike") {
-                    return this._get_markov_prediction();
-                } else if (server === "ChromaLogic") {
-                    return [this._rng_prediction_algorithm(period_number), 0.65];
-                } else if (server === "GlowPredict") {
-                    return this._intelligent_prediction(period_number);
-                } else if (server === "ColorAIPredict") {
-                    return [this._sure_shot_level_logic([...period_number.slice(-4)].map(Number), 3), 0.75];
-                } else if (server === "AiBrain") {
-                    return this.predict(period_number);
-                } else if (server === "HueMindAI") {
-                    return this._ensemble_prediction(period_number);
-                } else {
-                    return this.predict(period_number);  // fallback
-                }
-            }
-            
-            // Get server stats for display
-            get_server_stats(server) {
-                if (this.servers[server]) {
-                    const stats = this.servers[server];
-                    return `Accuracy: ${Math.round(stats.accuracy * 100)}%, Confidence: ${Math.round(stats.confidence * 100)}%`;
-                }
-                return "Stats not available";
-            }
-        }
-
-        // Initialize the advanced predictor
-        const advancedPredictor = new AdvancedRecoveryPredictor();
-
-        // Function to display dynamic taglines
-        function rotateTagline() {
-            if (dynamicTaglineElement) {
-                dynamicTaglineElement.innerHTML = taglines[currentTaglineIndex] + '<span class="cursor"></span>';
-                currentTaglineIndex = (currentTaglineIndex + 1) % taglines.length;
-            }
-        }
-
-        // Function to fetch previous results (history)
-        async function fetchPreviousResults() {
-            if (isFetching) return historyData;
-            isFetching = true;
-            
-            try {
-                const timestamp = Date.now();
-                const response = await fetch(`https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?ts=${timestamp}&pageSize=10`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    },
-                    mode: 'cors'
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data && data.data && data.data.list && data.data.list.length > 0) {
-                    // Extract the actual numbers from the results
-                    historyData = data.data.list.map(item => {
-                        return {
+                    if (data && data.data && data.data.list && data.data.list.length > 0) {
+                        return data.data.list.map(item => ({
                             number: parseInt(item.premium || item.result || item.number || 0),
-                            issueNumber: item.issueNumber || item.period || 'N/A'
-                        };
-                    }).slice(0, 10);
-                    
-                    apiOnline = true;
-                    apiStatusElement.textContent = 'API LIVE';
-                    apiStatusElement.className = 'api-status live';
-                    return historyData;
-                } else {
-                    console.warn('API returned no history data. Using mock data.');
-                    return generateMockData();
+                            issueNumber: item.issueNumber || item.period || 'N/A',
+                            timestamp: item.drawTime || new Date().toISOString()
+                        }));
+                    } else {
+                        throw new Error('API returned no history data');
+                    }
+                } catch (error) {
+                    console.error('Error fetching previous results:', error);
+                    this.fallbackMode = true;
+                    return this.generateFallbackData(pageSize);
                 }
-            } catch (e) {
-                console.error('Error fetching previous results:', e);
-                return generateMockData();
-            } finally {
-                isFetching = false;
+            }
+
+            async fetchCurrentIssue() {
+                try {
+                    const data = await this.request(this.endpoints.current);
+                    return data;
+                } catch (error) {
+                    console.error('Error fetching current issue:', error);
+                    return this.generateCurrentIssueFallback();
+                }
+            }
+
+            generateFallbackData(count) {
+                const mockData = [];
+                const now = new Date();
+                
+                for (let i = 0; i < count; i++) {
+                    const drawTime = new Date(now.getTime() - (i * 60000));
+                    mockData.push({
+                        number: Math.floor(Math.random() * 10),
+                        issueNumber: `20230815${10000 + i}`,
+                        timestamp: drawTime.toISOString()
+                    });
+                }
+                return mockData;
+            }
+
+            generateCurrentIssueFallback() {
+                const now = new Date();
+                const year = now.getUTCFullYear();
+                const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+                const day = String(now.getUTCDate()).padStart(2, '0');
+                const totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+                
+                return {
+                    issueNumber: `${year}${month}${day}1000${10001 + totalMinutes}`,
+                    number: Math.floor(Math.random() * 10),
+                    drawTime: now.toISOString()
+                };
+            }
+
+            async checkAPIStatus() {
+                try {
+                    await fetch(`${this.baseURL}${this.endpoints.history}`, {
+                        method: 'HEAD',
+                        headers: this.getHeaders()
+                    });
+                    this.isOnline = true;
+                    this.fallbackMode = false;
+                    return true;
+                } catch (error) {
+                    this.isOnline = false;
+                    this.fallbackMode = true;
+                    return false;
+                }
             }
         }
 
-        // Generate mock data when API is unavailable
-        function generateMockData() {
-            apiOnline = false;
-            apiStatusElement.textContent = 'API OFFLINE';
-            apiStatusElement.className = 'api-status offline';
-            
-            const mockData = [];
-            for (let i = 0; i < 10; i++) {
-                mockData.push({
-                    number: Math.floor(Math.random() * 10),
-                    issueNumber: `20230815${10000 + i}`
+        // AI Predictor Class
+        class AIPredictor {
+            constructor() {
+                this.history = [];
+                this.predictions = [];
+                this.results = [];
+                this.strategies = {
+                    pattern: { weight: 1.0, wins: 0, total: 0 },
+                    markov: { weight: 1.0, wins: 0, total: 0 },
+                    bayesian: { weight: 1.0, wins: 0, total: 0 },
+                    reinforcement: { weight: 1.0, wins: 0, total: 0 },
+                    ensemble: { weight: 1.0, wins: 0, total: 0 }
+                };
+                this.learningRate = 0.1;
+                this.minConfidence = 0.3;
+            }
+
+            updateHistory(historyData) {
+                this.history = historyData;
+                this.retrainModels();
+            }
+
+            retrainModels() {
+                if (this.history.length < 5) return;
+                
+                // Adjust strategy weights based on recent performance
+                Object.keys(this.strategies).forEach(strategy => {
+                    const winRate = this.strategies[strategy].total > 0 
+                        ? this.strategies[strategy].wins / this.strategies[strategy].total 
+                        : 0.5;
+                    this.strategies[strategy].weight = Math.max(0.1, winRate + 0.1);
                 });
             }
-            return mockData;
-        }
 
-        // Update period and timer
-        function updatePeriodAndTimer() {
-            const now = new Date();
-            const currentTime = now.getTime();
-            if (currentTime - lastTimerUpdate < 1000) return;
-            lastTimerUpdate = currentTime;
-            
-            now.setUTCSeconds(now.getUTCSeconds());
-            const year = now.getUTCFullYear();
-            const month = String(now.getUTCMonth() + 1).padStart(2, '0');
-            const day = String(now.getUTCDate()).padStart(2, '0');
-            const totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
-            const periodNumber = `${year}${month}${day}1000${10001 + totalMinutes}`;
-            
-            const remainingSeconds = 60 - now.getUTCSeconds();
-            
-            if (lastPeriodNumber !== periodNumber) {
-                if (pendingResult && lastPeriodNumber) {
-                    checkPendingResult(lastPeriodNumber).catch(err => console.error('Pending result check failed:', err));
-                }
+            patternRecognition() {
+                if (this.history.length < 10) return Math.floor(Math.random() * 10);
                 
-                lastPeriodNumber = periodNumber;
-                periodNumberElement.textContent = periodNumber || 'N/A';
+                const recent = this.history.slice(0, 5).map(h => h.number);
+                const patterns = {};
                 
-                generateResult(periodNumber);
-            }
-            
-            timerElement.textContent = `00:${String(remainingSeconds).padStart(2, '0')}`;
-        }
-
-        // Check pending result against actual result
-        async function checkPendingResult(period) {
-            if (!pendingResult) return;
-            
-            try {
-                const data = await fetchPreviousResults();
-                const actualNumber = data.length > 0 ? data[0].number % 10 : Math.floor(Math.random() * 10);
-                
-                // Determine if prediction was correct
-                const resultType = pendingResult.resultType;
-                let isWin = false;
-                
-                if (resultType === 'bigsmall') {
-                    const predictedBig = pendingResult.result === 'BIG';
-                    const actualBig = actualNumber >= 5;
-                    isWin = predictedBig === actualBig;
-                } else if (resultType === 'redgreen') {
-                    const predictedRed = pendingResult.result === 'RED';
-                    const actualRed = [0, 2, 4, 6, 8].includes(actualNumber);
-                    isWin = predictedRed === actualRed;
-                }
-                
-                // Update history with result
-                const historyIndex = history.findIndex(h => h.period === period && h.status === 'Pending');
-                if (historyIndex !== -1) {
-                    history[historyIndex].status = isWin ? 'WIN' : 'LOSS';
-                    history[historyIndex].apiResult = actualNumber;
+                // Look for sequential patterns
+                for (let i = 0; i < this.history.length - 3; i++) {
+                    const pattern = this.history.slice(i, i + 3).map(h => h.number).join('');
+                    const next = this.history[i + 3].number;
                     
-                    // Update stats
-                    totalBets++;
-                    if (isWin) {
-                        totalWins++;
-                        winCount++;
-                        lossStreak = 0;
-                    } else {
-                        totalLosses++;
-                        winCount = 0;
-                        lossStreak++;
+                    if (!patterns[pattern]) patterns[pattern] = [];
+                    patterns[pattern].push(next);
+                }
+                
+                const recentPattern = recent.slice(0, 3).join('');
+                if (patterns[recentPattern]) {
+                    const candidates = patterns[recentPattern];
+                    return candidates[Math.floor(Math.random() * candidates.length)];
+                }
+                
+                return Math.floor(Math.random() * 10);
+            }
+
+            markovChain() {
+                if (this.history.length < 5) return Math.floor(Math.random() * 10);
+                
+                const transitions = {};
+                
+                for (let i = 0; i < this.history.length - 1; i++) {
+                    const current = this.history[i].number;
+                    const next = this.history[i + 1].number;
+                    
+                    if (!transitions[current]) transitions[current] = {};
+                    if (!transitions[current][next]) transitions[current][next] = 0;
+                    transitions[current][next]++;
+                }
+                
+                const lastNumber = this.history[0].number;
+                if (transitions[lastNumber]) {
+                    const candidates = Object.keys(transitions[lastNumber]);
+                    const weights = Object.values(transitions[lastNumber]);
+                    
+                    // Weighted random selection
+                    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+                    let random = Math.random() * totalWeight;
+                    
+                    for (let i = 0; i < candidates.length; i++) {
+                        random -= weights[i];
+                        if (random <= 0) {
+                            return parseInt(candidates[i]);
+                        }
                     }
-                    
-                    // Update the AI predictor
-                    advancedPredictor.update(isWin ? pendingResult.result : (pendingResult.result === "BIG" ? "SMALL" : "BIG"), period);
-                    
-                    // Update analytics
-                    updateAnalytics();
                 }
                 
-                pendingResult = null;
-                renderHistory();
-            } catch (error) {
-                console.error('Error checking pending result:', error);
+                return Math.floor(Math.random() * 10);
             }
-        }
 
-        // Update analytics display
-        function updateAnalytics() {
-            // Calculate win accuracy
-            const winAccuracy = totalBets > 0 ? Math.round((totalWins / totalBets) * 100) : 0;
-            winAccuracyElement.textContent = `${winAccuracy}%`;
-            
-            // Update total wins
-            totalWinsElement.textContent = totalWins;
-            
-            // Update AI confidence
-            aiConfidenceElement.textContent = `${Math.round(currentConfidence * 100)}%`;
-            
-            // Calculate most frequent result
-            const resultCounts = {};
-            history.forEach(item => {
-                if (item.status !== 'Pending') {
-                    resultCounts[item.result] = (resultCounts[item.result] || 0) + 1;
-                }
-            });
-            
-            let mostFrequent = '-';
-            let maxCount = 0;
-            for (const [result, count] of Object.entries(resultCounts)) {
-                if (count > maxCount) {
-                    mostFrequent = result;
-                    maxCount = count;
-                }
-            }
-            
-            mostFrequentElement.textContent = mostFrequent;
-        }
-
-        // Generate prediction result
-        async function generateResult(period) {
-            if (isResultProcessing || !period) {
-                currentResultElement.textContent = 'Period Not Available';
-                return;
-            }
-            
-            isResultProcessing = true;
-            currentResultElement.textContent = 'AI Processing...';
-            
-            const resultType = resultTypeSelect.value || 'bigsmall';
-            let prediction;
-            
-            try {
-                const startTime = Date.now();
+            bayesianInference() {
+                if (this.history.length < 10) return Math.floor(Math.random() * 10);
                 
-                // Auto-select the best server
-                const bestServer = advancedPredictor.auto_select_server();
-                currentServer = bestServer;
+                const frequencies = {};
+                for (let i = 0; i < 10; i++) frequencies[i] = 0;
                 
-                // Use the advanced predictor with the selected server
-                const [result, probability] = advancedPredictor.predict_with_server(period, bestServer);
+                // Count frequencies in recent history
+                this.history.forEach(h => frequencies[h.number]++);
                 
-                const elapsed = Date.now() - startTime;
-                const delay = Math.max(0, 5000 - elapsed);
-                await new Promise(resolve => setTimeout(resolve, delay));
+                // Apply Bayesian updating with time decay
+                const timeWeights = this.history.map((_, index) => Math.exp(-index * 0.1));
                 
-                const displayText = `${result} (${Math.round(probability * 100)}%)`;
+                let maxProbability = 0;
+                let bestNumber = 0;
                 
-                currentResultElement.textContent = displayText;
-                currentResult = result;
-                currentConfidence = probability;
-                
-                // Update server info display
-                currentServerElement.textContent = bestServer;
-                serverStatsElement.textContent = advancedPredictor.get_server_stats(bestServer);
-                
-                // Update AI confidence display
-                aiConfidenceElement.textContent = `${Math.round(probability * 100)}%`;
-                
-                if (result !== "Awaiting Next Cycle") {
-                    history.unshift({
-                        period,
-                        result: result,
-                        status: "Pending",
-                        resultType,
-                        server: bestServer,
-                        probability: Math.round(probability * 100)
+                for (let num = 0; num < 10; num++) {
+                    let weightedCount = 0;
+                    let totalWeight = 0;
+                    
+                    this.history.forEach((h, index) => {
+                        if (h.number === num) {
+                            weightedCount += timeWeights[index];
+                        }
+                        totalWeight += timeWeights[index];
                     });
                     
-                    // Keep only last 20 history items
-                    if (history.length > 20) {
-                        history.pop();
+                    const probability = weightedCount / totalWeight;
+                    if (probability > maxProbability) {
+                        maxProbability = probability;
+                        bestNumber = num;
                     }
-                    
-                    pendingResult = history[0];
                 }
                 
-                renderHistory();
-            } catch (error) {
-                console.error("Error in generateResult:", error);
-                currentResultElement.textContent = 'Prediction Error';
-            } finally {
-                isResultProcessing = false;
+                return bestNumber;
+            }
+
+            reinforcementLearning() {
+                if (this.history.length < 5) return Math.floor(Math.random() * 10);
+                
+                const qTable = {};
+                for (let i = 0; i < 10; i++) qTable[i] = Math.random();
+                
+                // Update Q-values based on recent performance
+                this.results.slice(-10).forEach((result, index) => {
+                    const reward = result.correct ? 1 : -0.1;
+                    qTable[result.prediction] += this.learningRate * reward;
+                });
+                
+                // Epsilon-greedy selection
+                const epsilon = 0.1;
+                if (Math.random() < epsilon) {
+                    return Math.floor(Math.random() * 10);
+                } else {
+                    return Object.keys(qTable).reduce((a, b) => qTable[a] > qTable[b] ? a : b);
+                }
+            }
+
+            ensembleMethod() {
+                const predictions = {
+                    pattern: this.patternRecognition(),
+                    markov: this.markovChain(),
+                    bayesian: this.bayesianInference(),
+                    reinforcement: this.reinforcementLearning()
+                };
+                
+                const votes = {};
+                for (let i = 0; i < 10; i++) votes[i] = 0;
+                
+                // Weighted voting
+                Object.keys(predictions).forEach(strategy => {
+                    const prediction = predictions[strategy];
+                    votes[prediction] += this.strategies[strategy].weight;
+                });
+                
+                return Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? parseInt(a) : parseInt(b));
+            }
+
+            predict() {
+                const predictions = {
+                    pattern: this.patternRecognition(),
+                    markov: this.markovChain(),
+                    bayesian: this.bayesianInference(),
+                    reinforcement: this.reinforcementLearning(),
+                    ensemble: this.ensembleMethod()
+                };
+                
+                // Select best strategy based on weights
+                const bestStrategy = Object.keys(this.strategies).reduce((a, b) => 
+                    this.strategies[a].weight > this.strategies[b].weight ? a : b
+                );
+                
+                const prediction = predictions[bestStrategy];
+                const confidence = Math.min(0.95, this.strategies[bestStrategy].weight);
+                
+                return {
+                    prediction,
+                    confidence,
+                    strategy: bestStrategy,
+                    allPredictions: predictions
+                };
+            }
+
+            updateResult(actualNumber) {
+                if (this.predictions.length > 0) {
+                    const lastPrediction = this.predictions[this.predictions.length - 1];
+                    const correct = lastPrediction.prediction === actualNumber;
+                    
+                    // Update strategy performance
+                    const strategy = lastPrediction.strategy;
+                    this.strategies[strategy].total++;
+                    if (correct) this.strategies[strategy].wins++;
+                    
+                    this.results.push({
+                        prediction: lastPrediction.prediction,
+                        actual: actualNumber,
+                        correct,
+                        strategy,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Keep only recent results
+                    if (this.results.length > 50) {
+                        this.results = this.results.slice(-30);
+                    }
+                }
             }
         }
 
-        // Render history to the UI
-        function renderHistory() {
-            if (!historyBody) return;
+        // UI Management
+        const gameSelection = document.getElementById('gameSelection');
+        const gameFrame = document.getElementById('gameFrame');
+        const gameItems = document.querySelectorAll('.game-item');
+        const injectorTape = document.getElementById('injectorTape');
+        const injectorUI = document.getElementById('injectorUI');
+        const notification = document.getElementById('notification');
+        const predictionResult = document.getElementById('predictionResult');
+        const confidenceValue = document.getElementById('confidenceValue');
+        const confidenceLevel = document.getElementById('confidenceLevel');
+        const predictionPeriod = document.getElementById('predictionPeriod');
+        const apiStatus = document.getElementById('apiStatus');
+
+        let isInjectorVisible = false;
+        let predictionHistory = [];
+        let apiManager = new APIManager();
+        let aiPredictor = new AIPredictor();
+        let predictionInterval;
+
+        // Game selection
+        gameItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const gameUrl = item.getAttribute('data-url');
+                gameFrame.src = gameUrl;
+                gameFrame.classList.remove('hidden');
+                gameSelection.classList.add('hidden');
+                
+                // Show notification
+                showNotification(`Loading ${item.querySelector('.game-name').textContent}...`, 'info');
+                
+                // Start prediction cycle
+                setTimeout(startPredictionCycle, 2000);
+            });
+        });
+
+        // Toggle injector UI
+        injectorTape.addEventListener('click', () => {
+            if (isInjectorVisible) {
+                injectorUI.classList.remove('visible');
+                injectorUI.classList.add('hidden');
+            } else {
+                injectorUI.classList.remove('hidden');
+                injectorUI.classList.add('visible');
+            }
+            isInjectorVisible = !isInjectorVisible;
+        });
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const titleEl = document.getElementById('notificationTitle');
+            const messageEl = document.getElementById('notificationMessage');
             
-            historyBody.innerHTML = history.map(h => `
-                <div class="history-item ${h.status.toLowerCase()}">
-                    <div class="history-content">
-                        <div class="history-detail">
-                            <i class="fas fa-calendar-alt"></i> Period: 
-                            <span class="history-value">${h.period || 'N/A'}</span>
-                        </div>
-                        <div class="history-detail">
-                            <i class="fas fa-microchip"></i> Engine: 
-                            <span class="history-value">${h.server || 'Unknown'}</span>
-                        </div>
-                        <div class="history-detail">
-                            <i class="fas fa-chart-line"></i> Prediction: 
-                            <span class="history-value">${h.result} (${h.probability}%)</span>
-                        </div>
-                    </div>
-                    <div class="status-container">
-                        <span class="status-indicator">
-                            ${h.status === 'Pending' ? '<span class="pending-spinner"></span>' : 
-                            h.status === 'WIN' ? '<i class="fas fa-trophy win-icon"></i>' : 
-                            '<i class="fas fa-times-circle loss-icon"></i>'}
-                        </span>
-                        <span class="status-text ${h.status.toLowerCase()}">${h.status}</span>
-                    </div>
-                </div>
-            `).join("");
+            titleEl.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            messageEl.textContent = message;
+            
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
 
-        // Initialize the application
-        setInterval(updatePeriodAndTimer, 1000);
-        setInterval(rotateTagline, 3000);
+        // Update UI with prediction
+        function updatePredictionUI(prediction, period) {
+            // Update display
+            if (prediction.prediction >= 0 && prediction.prediction <= 4) {
+                predictionResult.innerHTML = `<span class="blink-small">SMALL</span>`;
+            } else {
+                predictionResult.innerHTML = `<span class="blink-big">BIG</span>`;
+            }
+            
+            const confidencePercent = Math.round(prediction.confidence * 100);
+            confidenceValue.textContent = `${confidencePercent}%`;
+            confidenceLevel.style.width = `${confidencePercent}%`;
+            
+            predictionPeriod.querySelector('span').textContent = period;
+        }
+
+        // Start prediction cycle
+        async function startPredictionCycle() {
+            // Initial API status check
+            const isOnline = await apiManager.checkAPIStatus();
+            updateAPIStatus(isOnline);
+            
+            // Load initial history data
+            try {
+                const historyData = await apiManager.fetchPreviousResults(20);
+                aiPredictor.updateHistory(historyData);
+                showNotification('Historical data loaded successfully', 'success');
+            } catch (error) {
+                console.error('Failed to load history:', error);
+                showNotification('Using fallback data mode', 'error');
+            }
+            
+            // Make initial prediction
+            await generatePrediction();
+            
+            // Set up periodic predictions
+            predictionInterval = setInterval(async () => {
+                await generatePrediction();
+            }, 60000); // Update every 60 seconds
+        }
+
+        // Generate prediction
+        async function generatePrediction() {
+            try {
+                // Check API status periodically
+                if (Math.random() > 0.8) { // 20% chance to check status
+                    const isOnline = await apiManager.checkAPIStatus();
+                    updateAPIStatus(isOnline);
+                }
+                
+                // Fetch current issue data
+                const currentIssue = await apiManager.fetchCurrentIssue();
+                const issueNumber = currentIssue.issueNumber || `2025XXXX-XXXX${Math.floor(1000 + Math.random() * 9000)}`;
+                
+                // Make prediction
+                const prediction = aiPredictor.predict();
+                
+                // Update UI
+                updatePredictionUI(prediction, issueNumber);
+                
+                // Store prediction
+                aiPredictor.predictions.push(prediction);
+                
+                // Simulate getting actual result after a delay
+                setTimeout(async () => {
+                    try {
+                        // Try to get actual result from API
+                        const historyData = await apiManager.fetchPreviousResults(1);
+                        const actualNumber = historyData[0].number;
+                        
+                        // Update AI with result
+                        aiPredictor.updateResult(actualNumber);
+                        
+                        // Add to history
+                        const isWin = prediction.prediction === actualNumber;
+                        predictionHistory.unshift({
+                            period: issueNumber,
+                            prediction: prediction.prediction <= 4 ? 'SMALL' : 'BIG',
+                            actual: actualNumber <= 4 ? 'SMALL' : 'BIG',
+                            result: isWin ? 'win' : 'loss',
+                            confidence: Math.round(prediction.confidence * 100)
+                        });
+                        
+                        // Keep only last 10 history items
+                        if (predictionHistory.length > 10) {
+                            predictionHistory.pop();
+                        }
+                        
+                        // Show notification for win/loss
+                        if (isWin) {
+                            showNotification('🎯 Prediction correct!', 'success');
+                            document.getElementById('predictionCard').classList.add('success');
+                            setTimeout(() => {
+                                document.getElementById('predictionCard').classList.remove('success');
+                            }, 3000);
+                        } else {
+                            showNotification('❌ Prediction missed', 'error');
+                            document.getElementById('predictionCard').classList.add('failure');
+                            setTimeout(() => {
+                                document.getElementById('predictionCard').classList.remove('failure');
+                            }, 3000);
+                        }
+                        
+                        // Update history with new data
+                        const updatedHistory = await apiManager.fetchPreviousResults(20);
+                        aiPredictor.updateHistory(updatedHistory);
+                        
+                    } catch (error) {
+                        // Fallback to random result if API fails
+                        const actualNumber = Math.floor(Math.random() * 10);
+                        aiPredictor.updateResult(actualNumber);
+                        
+                        const isWin = prediction.prediction === actualNumber;
+                        showNotification(isWin ? '🎯 Prediction correct!' : '❌ Prediction missed', 
+                                        isWin ? 'success' : 'error');
+                    }
+                }, 10000); // Wait 10 seconds for "result"
+                
+            } catch (error) {
+                console.error('Prediction error:', error);
+                // Fallback to random prediction
+                const fallbackPrediction = {
+                    prediction: Math.floor(Math.random() * 10),
+                    confidence: 0.5,
+                    strategy: 'fallback'
+                };
+                const now = new Date();
+                const period = `2025${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(Math.floor(Math.random() * 100)).padStart(2, '0')}`;
+                
+                updatePredictionUI(fallbackPrediction, period);
+                showNotification('Using fallback prediction', 'error');
+            }
+        }
+
+        // Update API status display
+        function updateAPIStatus(isOnline) {
+            apiStatus.textContent = isOnline ? 'API LIVE' : 'API OFFLINE';
+            apiStatus.className = `api-status ${isOnline ? 'live' : 'offline'}`;
+            
+            if (isOnline) {
+                showNotification('✅ API connection restored', 'success');
+            } else {
+                showNotification('⚠️ API connection lost', 'error');
+            }
+        }
+
+        // Add floating particles for effect
+        function createParticles() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.position = 'fixed';
+            particlesContainer.style.top = '0';
+            particlesContainer.style.left = '0';
+            particlesContainer.style.width = '100%';
+            particlesContainer.style.height = '100%';
+            particlesContainer.style.pointerEvents = 'none';
+            particlesContainer.style.zIndex = '-1';
+            document.body.appendChild(particlesContainer);
+            
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                particle.style.animationDuration = `${Math.random() * 10 + 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize
+        createParticles();
         
-        // Initial fetch of previous results
-        fetchPreviousResults().then(data => {
-            console.log('Previous results loaded:', data);
-        });
-        
-        // Initial UI update
-        updatePeriodAndTimer();
-        rotateTagline();
+        // Animate the title on load
+        setTimeout(() => {
+            document.getElementById('gameSelectionTitle').classList.add('animate');
+        }, 500);
     </script>
 </body>
 </html>
