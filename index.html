@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LICUIS ULTRA V2 - OPPOSITE PREDICTION MODE</title>
-    <meta name="description" content="Advanced AI prediction dashboard with opposite outcome display">
+    <title>LICUIS ULTRA V2 </title>
+    <meta name="description" content="Advanced AI prediction dashboard with cyber design for accurate number prediction">
     <meta name="keywords" content="AI prediction, pattern recognition, trading, prediction engine">
     <meta name="author" content="ZMX Labs">
     
@@ -71,6 +71,26 @@
             /* Animation system */
             --transition-cyber: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-glow: box-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+            
+            /* Original ZMX variables for compatibility */
+            --primary-light: #4d94ff;
+            --primary-dark: #0047b3;
+            --accent: #7b00ff;
+            --win: #00c853;
+            --loss: #ff3d00;
+            --bg-light: #f8fafc;
+            --bg-lighter: #ffffff;
+            --bg-medium: #e3eaf2;
+            --text-dark: #1a237e;
+            --text-medium: #37474f;
+            --text-light: #546e7a;
+            --text-bright: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(0, 102, 255, 0.15);
+            --shadow-light: 0 4px 20px rgba(0, 102, 255, 0.1);
+            --shadow-medium: 0 8px 30px rgba(0, 102, 255, 0.15);
+            --shadow-heavy: 0 12px 40px rgba(0, 102, 255, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
         }
 
         * {
@@ -411,7 +431,6 @@
             height: 1px;
             background: rgba(255, 255, 255, 0.3);
             animation: borderPulse 3s infinite;
-            display: none;
         }
 
         .injector-logo {
@@ -423,7 +442,6 @@
             color: var(--text-bright);
             letter-spacing: 1px;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            color: white;
         }
 
         .injector-logo img {
@@ -440,7 +458,7 @@
             padding: 2px 6px;
             border-radius: 10px;
             margin-left: 6px;
-            color: white;
+            color: var(--text-bright);
         }
 
         /* Content Area */
@@ -548,6 +566,63 @@
             50% { transform: scale(1.03); opacity: 0.9; }
         }
 
+        /* Confidence Meter */
+        .confidence-container {
+            margin-bottom: 16px;
+        }
+
+        .confidence-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .confidence-label {
+            font-size: 11px;
+            color: var(--muted-foreground);
+            letter-spacing: 0.5px;
+        }
+
+        .confidence-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .confidence-meter {
+            height: 6px;
+            background: var(--muted);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .confidence-level {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            box-shadow: 0 0 10px hsla(194, 100%, 50%, 0.5);
+            position: relative;
+            width: 0;
+        }
+
+        .confidence-level::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255,255,255,0.3) 0%,
+                transparent 50%,
+                rgba(0,0,0,0.1) 100%
+            );
+            border-radius: 3px;
+        }
+
         /* Status Indicator */
         .status-indicator {
             display: inline-block;
@@ -597,6 +672,31 @@
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
+        }
+
+        /* API Status Indicator */
+        .api-status {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .api-status.live {
+            background-color: hsla(142, 100%, 55%, 0.2);
+            color: var(--success);
+            border: 1px solid hsla(142, 100%, 55%, 0.3);
+        }
+
+        .api-status.offline {
+            background-color: hsla(345, 100%, 55%, 0.2);
+            color: var(--destructive);
+            border: 1px solid hsla(345, 100%, 55%, 0.3);
         }
 
         /* Success/Failure States */
@@ -690,7 +790,6 @@
             position: relative;
             width: 60px;
             height: 30px;
-            margin: 0 auto;
         }
 
         .loading-enhanced div {
@@ -926,65 +1025,6 @@
                 height: 24px;
             }
         }
-
-        /* Prediction Display Styles */
-        .prediction-display {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .prediction-number {
-            font-size: 32px;
-            font-weight: bold;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .prediction-category {
-            font-size: 20px;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .prediction-category.big {
-            color: var(--success);
-            text-shadow: 0 0 8px var(--success-glow);
-        }
-
-        .prediction-category.small {
-            color: var(--destructive);
-            text-shadow: 0 0 8px var(--destructive);
-        }
-
-        .abstain-indicator {
-            color: var(--warning);
-            font-size: 14px;
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
-        .opposite-mode-indicator {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: var(--secondary);
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            animation: pulse 1.5s infinite;
-        }
-
-        .internal-prediction {
-            font-size: 12px;
-            color: var(--muted-foreground);
-            margin-top: 8px;
-            border-top: 1px solid var(--border);
-            padding-top: 8px;
-        }
     </style>
 </head>
 <body>
@@ -1036,7 +1076,7 @@
                     <div class="game-name">DIUWIN</div>
                     <div class="game-url"></div>
                 </div>
-                <div class="game-item" data-url="https://www.aatclub.com/#/">
+                <div class="game-item" data-url="http://91appl.com">
                     <div class="game-name">91 CLUB</div>
                     <div class="game-url"></div>
                 </div>
@@ -1057,7 +1097,6 @@
         </div>
         <div class="injector-content">
             <div class="prediction-card glow" id="predictionCard">
-                <div class="opposite-mode-indicator"></div>
                 <div class="period-display" id="predictionPeriod">
                     <span>2025XXXX-XXXXXXX</span>
                 </div>
@@ -1069,9 +1108,17 @@
                         <div></div>
                     </div>
                 </div>
-                <div class="internal-prediction" id="internalPrediction">
-                    
+                
+                <div class="confidence-container">
+                    <div class="confidence-header">
+                        <div class="confidence-label"></div>
+                        <div class="confidence-value" id="confidenceValue">0%</div>
+                    </div>
+                    <div class="confidence-meter">
+                        <div class="confidence-level" id="confidenceLevel"></div>
+                    </div>
                 </div>
+                <div class="api-status" id="apiStatus">API OFFLINE</div>
             </div>
         </div>
     </div>
@@ -1081,360 +1128,6 @@
     </div>
 
     <script>
-        // Online Ensemble Class
-        class OnlineEnsemble {
-            constructor(strategies, {
-                eta = 0.3,             // learning rate for weights (tune 0.1–0.5)
-                abstainThreshold = 0.62, // min confidence to bet; auto-tune this
-                maxConsecLosses = 2,
-            } = {}) {
-                this.strategies = strategies; // each must expose predict(ctx)->{prob, choice} and update(ctx, outcome)
-                this.weights = new Array(strategies.length).fill(1);
-                this.eta = eta;
-                this.abstainThreshold = abstainThreshold;
-                this.consecLosses = 0;
-                this.maxConsecLosses = maxConsecLosses;
-                this.observeOnly = false; // guardrail mode
-                this.observeSince = 0;
-                this.history = [];
-                // Simple drift detector state
-                this.cusum = 0; 
-                this.cusumThresh = 3; // tune 2–5
-                this.initialThreshold = abstainThreshold;
-            }
-
-            // Combine strategy outputs to an ensemble probability
-            predict(ctx) {
-                const preds = this.strategies.map(s => s.predict(ctx)); 
-                // Expect {prob: P(choice==1), choice in {0,1}} per strategy
-                const wSum = this.weights.reduce((a,b)=>a+b,0) || 1;
-                const pEnsemble = preds.reduce((acc, p, i) => acc + this.weights[i] * p.prob, 0) / wSum;
-
-                // Convert to decision + confidence
-                const choice = pEnsemble >= 0.5 ? 1 : 0;
-                const confidence = Math.abs(pEnsemble - 0.5) * 2; // 0..1
-                return { p: pEnsemble, choice, confidence, preds };
-            }
-
-            // Called after the ground-truth outcome is known (outcome in {0,1})
-            update(ctx, outcome, decision) {
-                const { preds } = decision;
-
-                // Per-strategy reward: +1 if correct, -1 if wrong (or softer via log loss)
-                preds.forEach((p, i) => {
-                    const correct = (p.prob >= 0.5 ? 1 : 0) === outcome;
-                    const reward = correct ? 1 : -1;
-                    this.weights[i] *= Math.exp(this.eta * reward);
-                    // Let strategies learn too
-                    if (typeof this.strategies[i].update === 'function') {
-                        this.strategies[i].update(ctx, outcome);
-                    }
-                });
-
-                // Drift detection (CUSUM on ensemble correctness)
-                const ensembleCorrect = (decision.choice === outcome) ? 1 : 0;
-                const x = ensembleCorrect ? 1 : -1; // centered signal
-                this.cusum = Math.max(0, this.cusum + x - 0.2); // small bias to detect degradation
-                const drift = this.cusum > this.cusumThresh;
-
-                // Loss-streak guardrail logic
-                if (decision.placedBet) {
-                    if (ensembleCorrect) {
-                        this.consecLosses = 0;
-                    } else {
-                        this.consecLosses += 1;
-                        if (this.consecLosses >= this.maxConsecLosses) {
-                            this.observeOnly = true; // enter observe mode
-                            this.observeSince = 0;
-                        }
-                    }
-                } else {
-                    // We were observing; count "paper" signals to unlock
-                    this.observeSince += 1;
-                    // if paper win happens + confidence high, exit observe-only
-                    if (ensembleCorrect && decision.confidence >= this.abstainThreshold - 0.05) {
-                        this.observeOnly = false;
-                        this.consecLosses = 0;
-                    }
-                    // Optional timeout unlock to avoid endless freeze
-                    if (this.observeSince >= 20 && !drift) {
-                        this.observeOnly = false;
-                        this.consecLosses = 0;
-                    }
-                }
-
-                // Optional: if drift, temporarily raise threshold to reduce exposure
-                if (drift) {
-                    this.abstainThreshold = Math.min(0.8, this.abstainThreshold + 0.05);
-                    this.cusum = 0; // reset detector
-                } else {
-                    // Slowly relax threshold if things are going well
-                    this.abstainThreshold = Math.max(this.initialThreshold, this.abstainThreshold - 0.005);
-                }
-
-                this.history.push({ outcome, decision, weights: [...this.weights] });
-                
-                return {
-                    consecLosses: this.consecLosses,
-                    observeOnly: this.observeOnly,
-                    driftDetected: drift,
-                    weights: [...this.weights]
-                };
-            }
-
-            // Main step: returns {action: "bet"|"skip", choice, confidence}
-            step(ctx) {
-                const { p, choice, confidence, preds } = this.predict(ctx);
-
-                // Confidence gating + guardrail
-                let placedBet = false;
-                if (!this.observeOnly && confidence >= this.abstainThreshold) {
-                    placedBet = true;
-                }
-
-                return { placedBet, choice, confidence, p, preds };
-            }
-        }
-
-        // Strategy implementations
-        class PatternRecognitionStrategy {
-            constructor() {
-                this.name = "Pattern Recognition";
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 5) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                const recent = ctx.history.slice(0, 5).map(h => h.number);
-                const patterns = {};
-                
-                // Look for repeating sequences
-                for (let i = 0; i < ctx.history.length - 2; i++) {
-                    const seq = ctx.history.slice(i, i + 3).map(h => h.number).join('');
-                    if (!patterns[seq]) patterns[seq] = { count: 0, next: [] };
-                    patterns[seq].count++;
-                    if (i + 3 < ctx.history.length) {
-                        patterns[seq].next.push(ctx.history[i + 3].number);
-                    }
-                }
-                
-                const currentSeq = recent.slice(0, 3).join('');
-                if (patterns[currentSeq] && patterns[currentSeq].next.length > 0) {
-                    // Return the most common next number
-                    const counts = {};
-                    patterns[currentSeq].next.forEach(n => {
-                        counts[n] = (counts[n] || 0) + 1;
-                    });
-                    
-                    const prediction = parseInt(Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b));
-                    const prob = counts[prediction] / patterns[currentSeq].next.length;
-                    return { prob, choice: prediction >= 5 ? 1 : 0 };
-                }
-                
-                return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Can be used to update internal state if needed
-            }
-        }
-
-        class MarkovChainStrategy {
-            constructor() {
-                this.name = "Markov Chain";
-                this.transitions = {};
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 10) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                // Build transition matrix if not already built
-                if (Object.keys(this.transitions).length === 0) {
-                    for (let i = 0; i < ctx.history.length - 1; i++) {
-                        const current = ctx.history[i].number;
-                        const next = ctx.history[i + 1].number;
-                        
-                        if (!this.transitions[current]) this.transitions[current] = {};
-                        this.transitions[current][next] = (this.transitions[current][next] || 0) + 1;
-                    }
-                }
-                
-                const lastNumber = ctx.history[0].number;
-                if (this.transitions[lastNumber]) {
-                    // Convert counts to probabilities
-                    const total = Object.values(this.transitions[lastNumber]).reduce((sum, count) => sum + count, 0);
-                    const probabilities = {};
-                    
-                    Object.keys(this.transitions[lastNumber]).forEach(next => {
-                        probabilities[next] = this.transitions[lastNumber][next] / total;
-                    });
-                    
-                    // Find the most probable next number
-                    const prediction = parseInt(Object.keys(probabilities).reduce((a, b) => 
-                        probabilities[a] > probabilities[b] ? a : b
-                    ));
-                    
-                    return { prob: probabilities[prediction], choice: prediction >= 5 ? 1 : 0 };
-                }
-                
-                return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Update transitions with new data
-                if (ctx.history && ctx.history.length > 1) {
-                    const current = ctx.history[1].number; // Previous number
-                    const next = outcome; // Actual outcome
-                    
-                    if (!this.transitions[current]) this.transitions[current] = {};
-                    this.transitions[current][next] = (this.transitions[current][next] || 0) + 1;
-                }
-            }
-        }
-
-        class BayesianStrategy {
-            constructor() {
-                this.name = "Bayesian Inference";
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 5) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                const priorProbabilities = {};
-                for (let i = 0; i < 10; i++) priorProbabilities[i] = 0.1; // Uniform prior
-                
-                // Update probabilities with likelihood from recent data (with time decay)
-                ctx.history.forEach((result, index) => {
-                    const weight = Math.exp(-index * 0.1); // Exponential decay
-                    priorProbabilities[result.number] += weight;
-                });
-                
-                // Normalize
-                const total = Object.values(priorProbabilities).reduce((sum, p) => sum + p, 0);
-                Object.keys(priorProbabilities).forEach(num => {
-                    priorProbabilities[num] /= total;
-                });
-                
-                // Find the number with highest probability
-                const prediction = parseInt(Object.keys(priorProbabilities).reduce((a, b) => 
-                    priorProbabilities[a] > priorProbabilities[b] ? a : b
-                ));
-                
-                return { prob: priorProbabilities[prediction], choice: prediction >= 5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Bayesian strategies typically don't need explicit updates
-            }
-        }
-
-        class ReinforcementLearningStrategy {
-            constructor() {
-                this.name = "Reinforcement Learning";
-                this.qValues = {};
-                for (let i = 0; i < 10; i++) this.qValues[i] = 0.5; // Initial Q-values
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 3) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                // Update Q-values based on recent results
-                ctx.history.slice(0, 10).forEach((result, idx) => {
-                    const reward = idx === 0 ? (result.prediction === result.number ? 1 : -1) : 0;
-                    const learningRate = 0.1 * Math.exp(-idx * 0.2);
-                    
-                    if (result.prediction !== undefined) {
-                        this.qValues[result.prediction] += learningRate * (reward - this.qValues[result.prediction]);
-                    }
-                });
-                
-                // Find the action with highest Q-value
-                const prediction = parseInt(Object.keys(this.qValues).reduce((a, b) => 
-                    this.qValues[a] > this.qValues[b] ? a : b
-                ));
-                
-                return { prob: this.qValues[prediction], choice: prediction >= 5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Q-values are updated in the predict method based on history
-            }
-        }
-
-        class NeuralNetworkStrategy {
-            constructor() {
-                this.name = "Neural Network";
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 10) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                // Simple perceptron simulation
-                const inputs = ctx.history.slice(0, 5).map(h => h.number / 10);
-                const weights = [0.3, 0.25, 0.2, 0.15, 0.1]; // Weight recent numbers more
-                
-                let weightedSum = 0;
-                for (let i = 0; i < inputs.length; i++) {
-                    weightedSum += inputs[i] * weights[i];
-                }
-                
-                // Apply activation function (sigmoid)
-                const output = 1 / (1 + Math.exp(-weightedSum));
-                
-                // Scale to 0-9
-                const prediction = Math.floor(output * 10) % 10;
-                return { prob: output, choice: prediction >= 5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Simple neural network doesn't update in this implementation
-            }
-        }
-
-        class TrendAnalysisStrategy {
-            constructor() {
-                this.name = "Trend Analysis";
-            }
-            
-            predict(ctx) {
-                if (!ctx.history || ctx.history.length < 5) {
-                    return { prob: 0.5, choice: Math.random() > 0.5 ? 1 : 0 };
-                }
-                
-                // Calculate simple moving average
-                const recent = ctx.history.slice(0, 5).map(h => h.number);
-                const average = recent.reduce((sum, num) => sum + num, 0) / recent.length;
-                
-                // Predict based on trend (above/below average)
-                let prediction;
-                if (recent[0] > average) {
-                    // Trending up, predict higher
-                    prediction = Math.min(9, Math.floor(average) + 1);
-                } else {
-                    // Trending down, predict lower
-                    prediction = Math.max(0, Math.floor(average) - 1);
-                }
-                
-                // Calculate confidence based on how far from average
-                const confidence = Math.abs(recent[0] - average) / 5;
-                return { prob: 0.5 + confidence * 0.5, choice: prediction >= 5 ? 1 : 0 };
-            }
-            
-            update(ctx, outcome) {
-                // Trend analysis doesn't need explicit updates
-            }
-        }
-
         // API Management System
         class APIManager {
             constructor() {
@@ -1570,6 +1263,226 @@
             }
         }
 
+        // AI Predictor Class
+        class AIPredictor {
+            constructor() {
+                this.history = [];
+                this.predictions = [];
+                this.results = [];
+                this.strategies = {
+                    pattern: { weight: 1.0, wins: 0, total: 0 },
+                    markov: { weight: 1.0, wins: 0, total: 0 },
+                    bayesian: { weight: 1.0, wins: 0, total: 0 },
+                    reinforcement: { weight: 1.0, wins: 0, total: 0 },
+                    ensemble: { weight: 1.0, wins: 0, total: 0 }
+                };
+                this.learningRate = 0.1;
+                this.minConfidence = 0.3;
+            }
+
+            updateHistory(historyData) {
+                this.history = historyData;
+                this.retrainModels();
+            }
+
+            retrainModels() {
+                if (this.history.length < 5) return;
+                
+                // Adjust strategy weights based on recent performance
+                Object.keys(this.strategies).forEach(strategy => {
+                    const winRate = this.strategies[strategy].total > 0 
+                        ? this.strategies[strategy].wins / this.strategies[strategy].total 
+                        : 0.5;
+                    this.strategies[strategy].weight = Math.max(0.1, winRate + 0.1);
+                });
+            }
+
+            patternRecognition() {
+                if (this.history.length < 10) return Math.floor(Math.random() * 10);
+                
+                const recent = this.history.slice(0, 5).map(h => h.number);
+                const patterns = {};
+                
+                // Look for sequential patterns
+                for (let i = 0; i < this.history.length - 3; i++) {
+                    const pattern = this.history.slice(i, i + 3).map(h => h.number).join('');
+                    const next = this.history[i + 3].number;
+                    
+                    if (!patterns[pattern]) patterns[pattern] = [];
+                    patterns[pattern].push(next);
+                }
+                
+                const recentPattern = recent.slice(0, 3).join('');
+                if (patterns[recentPattern]) {
+                    const candidates = patterns[recentPattern];
+                    return candidates[Math.floor(Math.random() * candidates.length)];
+                }
+                
+                return Math.floor(Math.random() * 10);
+            }
+
+            markovChain() {
+                if (this.history.length < 5) return Math.floor(Math.random() * 10);
+                
+                const transitions = {};
+                
+                for (let i = 0; i < this.history.length - 1; i++) {
+                    const current = this.history[i].number;
+                    const next = this.history[i + 1].number;
+                    
+                    if (!transitions[current]) transitions[current] = {};
+                    if (!transitions[current][next]) transitions[current][next] = 0;
+                    transitions[current][next]++;
+                }
+                
+                const lastNumber = this.history[0].number;
+                if (transitions[lastNumber]) {
+                    const candidates = Object.keys(transitions[lastNumber]);
+                    const weights = Object.values(transitions[lastNumber]);
+                    
+                    // Weighted random selection
+                    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+                    let random = Math.random() * totalWeight;
+                    
+                    for (let i = 0; i < candidates.length; i++) {
+                        random -= weights[i];
+                        if (random <= 0) {
+                            return parseInt(candidates[i]);
+                        }
+                    }
+                }
+                
+                return Math.floor(Math.random() * 10);
+            }
+
+            bayesianInference() {
+                if (this.history.length < 10) return Math.floor(Math.random() * 10);
+                
+                const frequencies = {};
+                for (let i = 0; i < 10; i++) frequencies[i] = 0;
+                
+                // Count frequencies in recent history
+                this.history.forEach(h => frequencies[h.number]++);
+                
+                // Apply Bayesian updating with time decay
+                const timeWeights = this.history.map((_, index) => Math.exp(-index * 0.1));
+                
+                let maxProbability = 0;
+                let bestNumber = 0;
+                
+                for (let num = 0; num < 10; num++) {
+                    let weightedCount = 0;
+                    let totalWeight = 0;
+                    
+                    this.history.forEach((h, index) => {
+                        if (h.number === num) {
+                            weightedCount += timeWeights[index];
+                        }
+                        totalWeight += timeWeights[index];
+                    });
+                    
+                    const probability = weightedCount / totalWeight;
+                    if (probability > maxProbability) {
+                        maxProbability = probability;
+                        bestNumber = num;
+                    }
+                }
+                
+                return bestNumber;
+            }
+
+            reinforcementLearning() {
+                if (this.history.length < 5) return Math.floor(Math.random() * 10);
+                
+                const qTable = {};
+                for (let i = 0; i < 10; i++) qTable[i] = Math.random();
+                
+                // Update Q-values based on recent performance
+                this.results.slice(-10).forEach((result, index) => {
+                    const reward = result.correct ? 1 : -0.1;
+                    qTable[result.prediction] += this.learningRate * reward;
+                });
+                
+                // Epsilon-greedy selection
+                const epsilon = 0.1;
+                if (Math.random() < epsilon) {
+                    return Math.floor(Math.random() * 10);
+                } else {
+                    return Object.keys(qTable).reduce((a, b) => qTable[a] > qTable[b] ? a : b);
+                }
+            }
+
+            ensembleMethod() {
+                const predictions = {
+                    pattern: this.patternRecognition(),
+                    markov: this.markovChain(),
+                    bayesian: this.bayesianInference(),
+                    reinforcement: this.reinforcementLearning()
+                };
+                
+                const votes = {};
+                for (let i = 0; i < 10; i++) votes[i] = 0;
+                
+                // Weighted voting
+                Object.keys(predictions).forEach(strategy => {
+                    const prediction = predictions[strategy];
+                    votes[prediction] += this.strategies[strategy].weight;
+                });
+                
+                return Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? parseInt(a) : parseInt(b));
+            }
+
+            predict() {
+                const predictions = {
+                    pattern: this.patternRecognition(),
+                    markov: this.markovChain(),
+                    bayesian: this.bayesianInference(),
+                    reinforcement: this.reinforcementLearning(),
+                    ensemble: this.ensembleMethod()
+                };
+                
+                // Select best strategy based on weights
+                const bestStrategy = Object.keys(this.strategies).reduce((a, b) => 
+                    this.strategies[a].weight > this.strategies[b].weight ? a : b
+                );
+                
+                const prediction = predictions[bestStrategy];
+                const confidence = Math.min(0.95, this.strategies[bestStrategy].weight);
+                
+                return {
+                    prediction,
+                    confidence,
+                    strategy: bestStrategy,
+                    allPredictions: predictions
+                };
+            }
+
+            updateResult(actualNumber) {
+                if (this.predictions.length > 0) {
+                    const lastPrediction = this.predictions[this.predictions.length - 1];
+                    const correct = lastPrediction.prediction === actualNumber;
+                    
+                    // Update strategy performance
+                    const strategy = lastPrediction.strategy;
+                    this.strategies[strategy].total++;
+                    if (correct) this.strategies[strategy].wins++;
+                    
+                    this.results.push({
+                        prediction: lastPrediction.prediction,
+                        actual: actualNumber,
+                        correct,
+                        strategy,
+                        timestamp: new Date().toISOString()
+                    });
+                    
+                    // Keep only recent results
+                    if (this.results.length > 50) {
+                        this.results = this.results.slice(-30);
+                    }
+                }
+            }
+        }
+
         // UI Management
         const gameSelection = document.getElementById('gameSelection');
         const gameFrame = document.getElementById('gameFrame');
@@ -1578,31 +1491,16 @@
         const injectorUI = document.getElementById('injectorUI');
         const notification = document.getElementById('notification');
         const predictionResult = document.getElementById('predictionResult');
+        const confidenceValue = document.getElementById('confidenceValue');
+        const confidenceLevel = document.getElementById('confidenceLevel');
         const predictionPeriod = document.getElementById('predictionPeriod');
-        const internalPrediction = document.getElementById('internalPrediction');
+        const apiStatus = document.getElementById('apiStatus');
 
         let isInjectorVisible = false;
         let predictionHistory = [];
         let apiManager = new APIManager();
+        let aiPredictor = new AIPredictor();
         let predictionInterval;
-        let currentIssueNumber = null;
-        let lastPrediction = null;
-        
-        // Initialize ensemble with strategies
-        const strategies = [
-            new PatternRecognitionStrategy(),
-            new MarkovChainStrategy(),
-            new BayesianStrategy(),
-            new ReinforcementLearningStrategy(),
-            new NeuralNetworkStrategy(),
-            new TrendAnalysisStrategy()
-        ];
-        
-        let ensemble = new OnlineEnsemble(strategies, {
-            eta: 0.3,
-            abstainThreshold: 0.62,
-            maxConsecLosses: 2
-        });
 
         // Game selection
         gameItems.forEach(item => {
@@ -1647,175 +1545,149 @@
             }, 3000);
         }
 
-        // Update UI with prediction - ALWAYS SHOW OPPOSITE OF WHAT AI PREDICTS
-        function updatePredictionUI(aiPrediction, displayPrediction, period, confidence, placedBet) {
-            // Hide loading animation
-            const loadingEl = predictionResult.querySelector('.loading-enhanced');
-            if (loadingEl) loadingEl.style.display = 'none';
+        // Update UI with prediction
+        function updatePredictionUI(prediction, period) {
+            // Update display
+            if (prediction.prediction >= 0 && prediction.prediction <= 4) {
+                predictionResult.innerHTML = `<span class="blink-small">SMALL</span>`;
+            } else {
+                predictionResult.innerHTML = `<span class="blink-big">BIG</span>`;
+            }
             
-            // Determine category (BIG or SMALL)
-            const numberPrediction = displayPrediction >= 5 ? 'BIG' : 'SMALL';
-            const categoryClass = numberPrediction.toLowerCase();
-            
-            // Update display with both number and category
-            predictionResult.innerHTML = `
-                <div class="prediction-display">
-                    <div class="prediction-number">${displayPrediction}</div>
-                    <div class="prediction-category ${categoryClass}">${numberPrediction}</div>
-                </div>
-            `;
-            
-            // Update internal prediction display
-            const aiCategory = aiPrediction >= 5 ? 'BIG' : 'SMALL';
-
+            const confidencePercent = Math.round(prediction.confidence * 100);
+            confidenceValue.textContent = `${confidencePercent}%`;
+            confidenceLevel.style.width = `${confidencePercent}%`;
             
             predictionPeriod.querySelector('span').textContent = period;
         }
-        
+
         // Start prediction cycle
         async function startPredictionCycle() {
+            // Initial API status check
+            const isOnline = await apiManager.checkAPIStatus();
+            updateAPIStatus(isOnline);
+            
             // Load initial history data
             try {
                 const historyData = await apiManager.fetchPreviousResults(20);
-                predictionHistory = historyData;
+                aiPredictor.updateHistory(historyData);
                 showNotification('Historical data loaded successfully', 'success');
             } catch (error) {
                 console.error('Failed to load history:', error);
                 showNotification('Using fallback data mode', 'error');
             }
             
-            // Set up periodic checks for new issues
+            // Make initial prediction
+            await generatePrediction();
+            
+            // Set up periodic predictions
             predictionInterval = setInterval(async () => {
-                await checkForNewIssue();
-            }, 5000); // Check every 5 seconds
+                await generatePrediction();
+            }, 60000); // Update every 60 seconds
         }
 
-        // Check for new issue and generate prediction if needed
-        async function checkForNewIssue() {
+        // Generate prediction
+        async function generatePrediction() {
             try {
+                // Check API status periodically
+                if (Math.random() > 0.8) { // 20% chance to check status
+                    const isOnline = await apiManager.checkAPIStatus();
+                    updateAPIStatus(isOnline);
+                }
+                
                 // Fetch current issue data
                 const currentIssue = await apiManager.fetchCurrentIssue();
                 const issueNumber = currentIssue.issueNumber || `2025XXXX-XXXX${Math.floor(1000 + Math.random() * 9000)}`;
                 
-                // If this is a new issue, generate a prediction
-                if (currentIssueNumber !== issueNumber) {
-                    currentIssueNumber = issueNumber;
-                    
-                    // Create context for prediction
-                    const ctx = {
-                        history: predictionHistory,
-                        currentIssue: issueNumber
-                    };
-                    
-                    // Make prediction using ensemble
-                    const decision = ensemble.step(ctx);
-                    
-                    // Generate AI prediction number
-                    const aiNumberPrediction = decision.choice === 1 ? 
-                        Math.floor(Math.random() * 5) + 5 : // BIG (5-9)
-                        Math.floor(Math.random() * 5);      // SMALL (0-4)
-                    
-                    // ALWAYS SHOW THE OPPOSITE OF WHAT AI PREDICTS
-                    const displayNumberPrediction = decision.choice === 1 ? 
-                        Math.floor(Math.random() * 5) :     // Show SMALL (0-4) if AI predicts BIG
-                        Math.floor(Math.random() * 5) + 5;  // Show BIG (5-9) if AI predicts SMALL
-                    
-                    lastPrediction = {
-                        decision,
-                        aiNumberPrediction,
-                        displayNumberPrediction,
-                        issueNumber
-                    };
-                    
-                    // Update UI with OPPOSITE prediction
-                    updatePredictionUI(
-                        aiNumberPrediction,
-                        displayNumberPrediction,
-                        issueNumber, 
-                        decision.confidence,
-                        decision.placedBet
-                    );
-                    
-                    // Show notification for new prediction
-                    if (decision.placedBet) {
-                        showNotification(` ${issueNumber}: ${displayNumberPrediction >= 5 ? 'BIG' : 'SMALL'}`, 'info');
-                    } else {
-                        showNotification(`Abstaining for ${issueNumber} (${Math.round(decision.confidence * 100)}%)`, 'warning');
-                    }
-                    
-                    // Simulate getting actual result after a delay
-                    setTimeout(async () => {
-                        try {
-                            // Try to get actual result from API
-                            const historyData = await apiManager.fetchPreviousResults(1);
-                            const actualNumber = historyData[0].number;
-                            const actualOutcome = actualNumber >= 5 ? 1 : 0;
-                            
-                            // Update ensemble with result (using AI's actual prediction, not the displayed opposite)
-                            // This ensures accurate learning while displaying the opposite
-                            ensemble.update(ctx, actualOutcome, decision);
-                            
-                            // Add to history
-                            predictionHistory.unshift({
-                                number: actualNumber,
-                                issueNumber: issueNumber,
-                                timestamp: new Date().toISOString()
-                            });
-                            
-                            // Keep only last 100 history items
-                            if (predictionHistory.length > 100) {
-                                predictionHistory.pop();
-                            }
-                            
-                            // Show result notification
-                            const isCorrect = decision.placedBet && (decision.choice === actualOutcome);
-                            if (decision.placedBet) {
-                                showNotification(
-                                    `Result for ${issueNumber}: ${actualNumber} (${actualNumber >= 5 ? 'BIG' : 'SMALL'}) - AI was ${isCorrect ? 'CORRECT' : 'WRONG'} but displayed opposite`,
-                                    isCorrect ? 'success' : 'error'
-                                );
-                            }
-                            
-                        } catch (error) {
-                            // Fallback to random result if API fails
-                            const actualNumber = Math.floor(Math.random() * 10);
-                            const actualOutcome = actualNumber >= 5 ? 1 : 0;
-                            ensemble.update(ctx, actualOutcome, decision);
-                            
-                            // Add to history
-                            predictionHistory.unshift({
-                                number: actualNumber,
-                                issueNumber: issueNumber,
-                                timestamp: new Date().toISOString()
-                            });
+                // Make prediction
+                const prediction = aiPredictor.predict();
+                
+                // Update UI
+                updatePredictionUI(prediction, issueNumber);
+                
+                // Store prediction
+                aiPredictor.predictions.push(prediction);
+                
+                // Simulate getting actual result after a delay
+                setTimeout(async () => {
+                    try {
+                        // Try to get actual result from API
+                        const historyData = await apiManager.fetchPreviousResults(1);
+                        const actualNumber = historyData[0].number;
+                        
+                        // Update AI with result
+                        aiPredictor.updateResult(actualNumber);
+                        
+                        // Add to history
+                        const isWin = prediction.prediction === actualNumber;
+                        predictionHistory.unshift({
+                            period: issueNumber,
+                            prediction: prediction.prediction <= 4 ? 'SMALL' : 'BIG',
+                            actual: actualNumber <= 4 ? 'SMALL' : 'BIG',
+                            result: isWin ? 'win' : 'loss',
+                            confidence: Math.round(prediction.confidence * 100)
+                        });
+                        
+                        // Keep only last 10 history items
+                        if (predictionHistory.length > 10) {
+                            predictionHistory.pop();
                         }
-                    }, 10000); // Wait 10 seconds for "result"
-                }
+                        
+                        // Show notification for win/loss
+                        if (isWin) {
+                            showNotification('🎯 Prediction correct!', 'success');
+                            document.getElementById('predictionCard').classList.add('success');
+                            setTimeout(() => {
+                                document.getElementById('predictionCard').classList.remove('success');
+                            }, 3000);
+                        } else {
+                            showNotification('❌ Prediction missed', 'error');
+                            document.getElementById('predictionCard').classList.add('failure');
+                            setTimeout(() => {
+                                document.getElementById('predictionCard').classList.remove('failure');
+                            }, 3000);
+                        }
+                        
+                        // Update history with new data
+                        const updatedHistory = await apiManager.fetchPreviousResults(20);
+                        aiPredictor.updateHistory(updatedHistory);
+                        
+                    } catch (error) {
+                        // Fallback to random result if API fails
+                        const actualNumber = Math.floor(Math.random() * 10);
+                        aiPredictor.updateResult(actualNumber);
+                        
+                        const isWin = prediction.prediction === actualNumber;
+                        showNotification(isWin ? '🎯 Prediction correct!' : '❌ Prediction missed', 
+                                        isWin ? 'success' : 'error');
+                    }
+                }, 10000); // Wait 10 seconds for "result"
                 
             } catch (error) {
-                console.error('Error checking for new issue:', error);
-                // Keep showing the last prediction if available
-                if (lastPrediction) {
-                    updatePredictionUI(
-                        lastPrediction.aiNumberPrediction,
-                        lastPrediction.displayNumberPrediction,
-                        lastPrediction.issueNumber, 
-                        lastPrediction.decision.confidence,
-                        lastPrediction.decision.placedBet
-                    );
-                } else {
-                    // Fallback to random prediction if no previous prediction exists
-                    const aiFallbackPrediction = Math.floor(Math.random() * 10);
-                    // Display the opposite
-                    const displayFallbackPrediction = aiFallbackPrediction >= 5 ? 
-                        Math.floor(Math.random() * 5) : 
-                        Math.floor(Math.random() * 5) + 5;
-                    
-                    const now = new Date();
-                    const period = `2025${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(Math.floor(Math.random() * 100)).padStart(2, '0')}`;
-                    
-                    updatePredictionUI(aiFallbackPrediction, displayFallbackPrediction, period, 0.5, false);
-                }
+                console.error('Prediction error:', error);
+                // Fallback to random prediction
+                const fallbackPrediction = {
+                    prediction: Math.floor(Math.random() * 10),
+                    confidence: 0.5,
+                    strategy: 'fallback'
+                };
+                const now = new Date();
+                const period = `2025${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(Math.floor(Math.random() * 100)).padStart(2, '0')}`;
+                
+                updatePredictionUI(fallbackPrediction, period);
+                showNotification('Using fallback prediction', 'error');
+            }
+        }
+
+        // Update API status display
+        function updateAPIStatus(isOnline) {
+            apiStatus.textContent = isOnline ? 'API LIVE' : 'API OFFLINE';
+            apiStatus.className = `api-status ${isOnline ? 'live' : 'offline'}`;
+            
+            if (isOnline) {
+                showNotification('✅ API connection restored', 'success');
+            } else {
+                showNotification('⚠️ API connection lost', 'error');
             }
         }
 
