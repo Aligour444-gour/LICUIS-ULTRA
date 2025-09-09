@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LICUIS ULTRA V2</title>
-    <meta name="description" content="Advanced AI prediction dashboard with cyber design for accurate number prediction">
+    <title>LICUIS ULTRA V2 - OPPOSITE PREDICTION MODE</title>
+    <meta name="description" content="Advanced AI prediction dashboard with opposite outcome display">
     <meta name="keywords" content="AI prediction, pattern recognition, trading, prediction engine">
     <meta name="author" content="ZMX Labs">
     
@@ -690,6 +690,7 @@
             position: relative;
             width: 60px;
             height: 30px;
+            margin: 0 auto;
         }
 
         .loading-enhanced div {
@@ -964,6 +965,26 @@
             margin-top: 8px;
             font-weight: 600;
         }
+
+        .opposite-mode-indicator {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--secondary);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .internal-prediction {
+            font-size: 12px;
+            color: var(--muted-foreground);
+            margin-top: 8px;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -1036,6 +1057,7 @@
         </div>
         <div class="injector-content">
             <div class="prediction-card glow" id="predictionCard">
+                <div class="opposite-mode-indicator"></div>
                 <div class="period-display" id="predictionPeriod">
                     <span>2025XXXX-XXXXXXX</span>
                 </div>
@@ -1046,6 +1068,9 @@
                         <div></div>
                         <div></div>
                     </div>
+                </div>
+                <div class="internal-prediction" id="internalPrediction">
+                    
                 </div>
             </div>
         </div>
@@ -1554,6 +1579,7 @@
         const notification = document.getElementById('notification');
         const predictionResult = document.getElementById('predictionResult');
         const predictionPeriod = document.getElementById('predictionPeriod');
+        const internalPrediction = document.getElementById('internalPrediction');
 
         let isInjectorVisible = false;
         let predictionHistory = [];
@@ -1621,33 +1647,27 @@
             }, 3000);
         }
 
-        // Update UI with prediction
-        function updatePredictionUI(prediction, period, confidence, placedBet) {
+        // Update UI with prediction - ALWAYS SHOW OPPOSITE OF WHAT AI PREDICTS
+        function updatePredictionUI(aiPrediction, displayPrediction, period, confidence, placedBet) {
             // Hide loading animation
             const loadingEl = predictionResult.querySelector('.loading-enhanced');
             if (loadingEl) loadingEl.style.display = 'none';
             
             // Determine category (BIG or SMALL)
-            const numberPrediction = prediction >= 5 ? 'BIG' : 'SMALL';
+            const numberPrediction = displayPrediction >= 5 ? 'BIG' : 'SMALL';
             const categoryClass = numberPrediction.toLowerCase();
             
-            if (placedBet) {
-                // Update display with both number and category
-                predictionResult.innerHTML = `
-                    <div class="prediction-display">
-                        <div class="prediction-number">${prediction}</div>
-                        <div class="prediction-category ${categoryClass}">${numberPrediction}</div>
-                    </div>
-                `;
-            } else {
-                // Show abstain message
-                predictionResult.innerHTML = `
-                    <div class="prediction-display">
-                        <div class="prediction-number" style="opacity: 0.7;">${prediction}</div>
-                        <div class="abstain-indicator"></div>
-                    </div>
-                `;
-            }
+            // Update display with both number and category
+            predictionResult.innerHTML = `
+                <div class="prediction-display">
+                    <div class="prediction-number">${displayPrediction}</div>
+                    <div class="prediction-category ${categoryClass}">${numberPrediction}</div>
+                </div>
+            `;
+            
+            // Update internal prediction display
+            const aiCategory = aiPrediction >= 5 ? 'BIG' : 'SMALL';
+
             
             predictionPeriod.querySelector('span').textContent = period;
         }
@@ -1689,19 +1709,28 @@
                     
                     // Make prediction using ensemble
                     const decision = ensemble.step(ctx);
-                    const numberPrediction = decision.choice === 1 ? 
+                    
+                    // Generate AI prediction number
+                    const aiNumberPrediction = decision.choice === 1 ? 
                         Math.floor(Math.random() * 5) + 5 : // BIG (5-9)
                         Math.floor(Math.random() * 5);      // SMALL (0-4)
                     
+                    // ALWAYS SHOW THE OPPOSITE OF WHAT AI PREDICTS
+                    const displayNumberPrediction = decision.choice === 1 ? 
+                        Math.floor(Math.random() * 5) :     // Show SMALL (0-4) if AI predicts BIG
+                        Math.floor(Math.random() * 5) + 5;  // Show BIG (5-9) if AI predicts SMALL
+                    
                     lastPrediction = {
                         decision,
-                        numberPrediction,
+                        aiNumberPrediction,
+                        displayNumberPrediction,
                         issueNumber
                     };
                     
-                    // Update UI
+                    // Update UI with OPPOSITE prediction
                     updatePredictionUI(
-                        numberPrediction, 
+                        aiNumberPrediction,
+                        displayNumberPrediction,
                         issueNumber, 
                         decision.confidence,
                         decision.placedBet
@@ -1709,9 +1738,9 @@
                     
                     // Show notification for new prediction
                     if (decision.placedBet) {
-                        showNotification(`New prediction for period ${issueNumber}: ${numberPrediction >= 5 ? 'BIG' : 'SMALL'}`, 'info');
+                        showNotification(` ${issueNumber}: ${displayNumberPrediction >= 5 ? 'BIG' : 'SMALL'}`, 'info');
                     } else {
-                        showNotification(` ${issueNumber} ( ${Math.round(decision.confidence * 100)}%)`, '');
+                        showNotification(`Abstaining for ${issueNumber} (${Math.round(decision.confidence * 100)}%)`, 'warning');
                     }
                     
                     // Simulate getting actual result after a delay
@@ -1722,7 +1751,8 @@
                             const actualNumber = historyData[0].number;
                             const actualOutcome = actualNumber >= 5 ? 1 : 0;
                             
-                            // Update ensemble with result
+                            // Update ensemble with result (using AI's actual prediction, not the displayed opposite)
+                            // This ensures accurate learning while displaying the opposite
                             ensemble.update(ctx, actualOutcome, decision);
                             
                             // Add to history
@@ -1741,7 +1771,7 @@
                             const isCorrect = decision.placedBet && (decision.choice === actualOutcome);
                             if (decision.placedBet) {
                                 showNotification(
-                                    `Result for ${issueNumber}: ${actualNumber} (${actualNumber >= 5 ? 'BIG' : 'SMALL'}) - ${isCorrect ? 'WIN' : 'LOSS'}`,
+                                    `Result for ${issueNumber}: ${actualNumber} (${actualNumber >= 5 ? 'BIG' : 'SMALL'}) - AI was ${isCorrect ? 'CORRECT' : 'WRONG'} but displayed opposite`,
                                     isCorrect ? 'success' : 'error'
                                 );
                             }
@@ -1767,18 +1797,24 @@
                 // Keep showing the last prediction if available
                 if (lastPrediction) {
                     updatePredictionUI(
-                        lastPrediction.numberPrediction, 
+                        lastPrediction.aiNumberPrediction,
+                        lastPrediction.displayNumberPrediction,
                         lastPrediction.issueNumber, 
                         lastPrediction.decision.confidence,
                         lastPrediction.decision.placedBet
                     );
                 } else {
                     // Fallback to random prediction if no previous prediction exists
-                    const fallbackPrediction = Math.floor(Math.random() * 10);
+                    const aiFallbackPrediction = Math.floor(Math.random() * 10);
+                    // Display the opposite
+                    const displayFallbackPrediction = aiFallbackPrediction >= 5 ? 
+                        Math.floor(Math.random() * 5) : 
+                        Math.floor(Math.random() * 5) + 5;
+                    
                     const now = new Date();
                     const period = `2025${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(Math.floor(Math.random() * 100)).padStart(2, '0')}`;
                     
-                    updatePredictionUI(fallbackPrediction, period, 0.5, false);
+                    updatePredictionUI(aiFallbackPrediction, displayFallbackPrediction, period, 0.5, false);
                 }
             }
         }
