@@ -1343,6 +1343,7 @@
         </div>
     </div>
 
+
     <script>
         // AI Prediction Engine - Core Logic
         class AIPredictionEngine {
@@ -1382,7 +1383,7 @@
                 // Apply ensemble weighting
                 let finalPrediction = this.applyEnsembleWeighting(predictions);
                 
-                // Apply recovery and safety logic
+                // Apply recovery and safety logic (without automatic inversion)
                 finalPrediction = this.applySafetyLogic(finalPrediction);
                 
                 // Update strategy weights based on performance
@@ -1409,15 +1410,12 @@
                 return bigScore > smallScore ? 'BIG' : 'SMALL';
             }
 
-            // Apply safety logic and recovery mechanisms
+            // Apply safety logic WITHOUT automatic inversion
             applySafetyLogic(prediction) {
-                // Opposite logic mode after 3 wrong predictions
-                if (this.currentStreak <= -3) {
-                    this.oppositeMode = !this.oppositeMode;
-                    this.currentStreak = 0; // Reset streak after switching mode
-                }
+                // REMOVED: Automatic opposite logic after 3 wrong predictions
+                // This was causing the displayed prediction to not match internal logic
                 
-                // Apply opposite mode if active
+                // Apply opposite mode only if explicitly toggled by user
                 if (this.oppositeMode) {
                     return prediction === 'BIG' ? 'SMALL' : 'BIG';
                 }
@@ -1438,10 +1436,13 @@
             }
 
             // Add new result to history
-            addResult(result) {
+            addResult(result, predictedValue) {
                 this.history.push({
                     value: result,
-                    timestamp: Date.now()
+                    predicted: predictedValue, // Store what was predicted
+                    timestamp: Date.now(),
+                    // Calculate win/loss based on the ACTUAL displayed prediction
+                    win: this.didPredictionWin(result, predictedValue)
                 });
                 
                 // Keep history size manageable
@@ -1451,14 +1452,26 @@
                 
                 this.saveHistory();
                 
-                // Update streak counter
-                this.updateStreak(result);
+                // Update streak counter based on actual prediction results
+                this.updateStreak(result, predictedValue);
             }
 
-            // Update win/loss streak
-            updateStreak(result) {
-                // This would compare the result with the last prediction
-                // For simplicity, we're just showing the structure
+            // Check if prediction was correct
+            didPredictionWin(actualResult, predictedValue) {
+                const isBig = actualResult >= 5;
+                return (predictedValue === 'BIG' && isBig) || 
+                       (predictedValue === 'SMALL' && !isBig);
+            }
+
+            // Update win/loss streak based on actual prediction
+            updateStreak(actualResult, predictedValue) {
+                const isWin = this.didPredictionWin(actualResult, predictedValue);
+                
+                if (isWin) {
+                    this.currentStreak = Math.max(0, this.currentStreak) + 1;
+                } else {
+                    this.currentStreak = Math.min(0, this.currentStreak) - 1;
+                }
             }
 
             // Load history from localStorage
@@ -1981,7 +1994,8 @@
                 }
             }
 
-            // Display history data
+
+               // Display history data
             function displayHistory(data) {
                 const historyContent = document.getElementById('historyContent');
                 if (!historyContent) return;
