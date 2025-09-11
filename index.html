@@ -626,7 +626,7 @@
 
         .game-item:hover::before {
             opacity: 1;
-        }
+            }
 
         .game-name {
             font-size: 18px;
@@ -1169,7 +1169,7 @@
             <div class="tab-label">Games</div>
         </div>
         <div class="tab" data-tab="predictor">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTE5IDE0YzEuNDktMS40NiAyLjI0LTIuMjYgMi41LTMuNS4yNi0xLjI0LS4zNC0yLjUtMS41LTIuNS0xLjU0IDAtMi41IDEuNDYtMi41IDMuNXMxIDQgMiA0LjVjLjYuMyAxLjIuNSAxLjUuNS41NSAwIDEtLjQ1IDEtMXYtNi41YzAtMS41LS42Ny0yLjUtMi41LTIuNXMtMi41IDEtMi41IDIuNVYxNCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMSAxMy41di05Yy0wLjgzMy0uMzMtMS41LS41LTIuNS0uNVM2IDQuMTcgNiA0LjV2OS41YzAgMS41LjY3IDIuNSAyLjUgMi41czEuNS0uNSAyLjUtLjV2LTl6Ij48L3BhdGg+PHBhdGggZD0iTTUgOC41YzAgMS41LjY3IDIuNSAyLjUgMi41UzEwIDEwIDEwIDguNVY0LjVDMTAgMy4xNyA5LjMzIDIgNy41IDJTNSAzLjE3IDUgNC41djR6Ij48L3BhdGg+PC9zdmc+')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg="></div>
             <div class="tab-label">Predictor</div>
         </div>
         <div class="tab" data-tab="history">
@@ -1177,7 +1177,7 @@
             <div class="tab-label">History</div>
         </div>
         <div class="tab" data-tab="analysis">
-            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlnb24gcG9pbnRzPSIxMiAyIDIyIDguNSAyMiAxNS41IDEyIDIyIDIgMTUuNSAyIDguNSAxMiAyIj48L3BvbHlnb24+PGxpbmUgeDE9IjEyIiB5MT0iMjIiIHgyPSIxMiIgeTI9IjE1Ij48L2xpbmU+PHBvbHlsaW5lIHBvaW50cz0iMiA5IDIyIDkiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBvaW50cz0iMiAxNSAxMiAxNSAxMiAyMiI+PC9wb2x5bGluZT48L3N2Zz4=')"></div>
+            <div class="tab-icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9neZSIgc3Ryb2tlPSIjMDA2NmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2lu="></div>
             <div class="tab-label">Analysis</div>
         </div>
     </div>
@@ -1343,100 +1343,97 @@
         </div>
     </div>
 
+
     <script>
-        // Enhanced AI Prediction Engine with the requested logic
+        // Enhanced AI Prediction Engine with your requested logic
         class AIPredictionEngine {
             constructor() {
                 this.history = this.loadHistory();
                 this.lastPrediction = null;
-                this.lossControl = false;
-                this.consecutiveLosses = 0;
-                this.consecutiveWins = 0;
-                this.oppositeMode = false;
+                this.lossStreak = 0; // count consecutive losses
+                this.maxLossStreak = 3; // max attempts to recover
             }
 
-            // Core prediction (no RNG fallback)
+            // Always produce a prediction
             predictNext() {
                 if (this.history.length < 5) {
-                    return this.safeDefault(); // not random
+                    // Early stage: use safe default
+                    this.lastPrediction = this.safeDefault();
+                    return this.lastPrediction;
                 }
 
-                // Step 1: Analyze trends
+                // Detect trend with weighted scoring
                 const trend = this.detectTrend();
 
-                // Step 2: Trap detection
+                // Detect traps or repeating patterns
                 const trap = this.detectTrap();
 
-                // Step 3: Loss control mode
-                if (this.lossControl) {
-                    this.lossControl = false; 
-                    return this.opposite(this.lastPrediction);
+                // Adaptive loss control: if losing streak, flip prediction to recover
+                if (this.lossStreak > 0 && this.lossStreak <= this.maxLossStreak) {
+                    // Flip last prediction to break loss streak
+                    this.lastPrediction = this.opposite(this.lastPrediction);
+                    return this.lastPrediction;
                 }
 
-                // Step 4: Combine
-                let final = trap ? this.opposite(trend) : trend;
-
-                // Apply opposite mode only if explicitly toggled by user
-                if (this.oppositeMode) {
-                    final = this.opposite(final);
-                }
-
-                this.lastPrediction = final;
-                return final;
+                // If trap detected, invert trend prediction to avoid trap
+                this.lastPrediction = trap ? this.opposite(trend) : trend;
+                return this.lastPrediction;
             }
 
-            // Trend detection using last 10 results
+            // Weighted trend detection over last 10 results
             detectTrend() {
-                const recent = this.history.slice(-10).map(v => v > 4 ? 'BIG' : 'SMALL');
-                const bigs = recent.filter(r => r === 'BIG').length;
-                const smalls = recent.length - bigs;
-
-                return bigs > smalls ? 'BIG' : 'SMALL';
+                const recent = this.history.slice(-10);
+                let score = 0;
+                for (let i = 0; i < recent.length; i++) {
+                    const weight = i + 1; // more recent = higher weight
+                    score += recent[i] > 4 ? weight : -weight;
+                }
+                return score >= 0 ? 'BIG' : 'SMALL';
             }
 
-            // Trap detection: avoid repeating losses
+            // Trap detection: detect alternating or repeating patterns in last 6 results
             detectTrap() {
                 if (this.history.length < 6) return false;
-                const last = this.history.slice(-6).map(v => v > 4 ? 'BIG' : 'SMALL');
+                const last6 = this.history.slice(-6).map(v => v > 4 ? 'BIG' : 'SMALL');
 
-                // Example trap: alternating BIG/SMALL pattern
-                const isAlternating = last.every((v, i, arr) => i === 0 || v !== arr[i - 1]);
-                return isAlternating;
+                // Detect strict alternating pattern: BIG, SMALL, BIG, SMALL...
+                const isAlternating = last6.every((v, i, arr) => i === 0 || v !== arr[i - 1]);
+
+                // Detect all same pattern
+                const allSame = last6.every(v => v === last6[0]);
+
+                // Detect repeating pairs pattern: e.g. BIG, SMALL, BIG, SMALL, BIG, SMALL
+                const pairsRepeat = last6[0] === last6[2] && last6[1] === last6[3] && last6[2] === last6[4] && last6[3] === last6[5];
+
+                return isAlternating || allSame || pairsRepeat;
             }
 
-            // Safe default (not random)
+            // Safe default prediction (used early on)
             safeDefault() {
-                // Always start safe → prefer BIG (statistically higher in some RNG systems)
                 return 'BIG';
             }
 
-            // Opposite helper
+            // Return opposite prediction
             opposite(pred) {
                 return pred === 'BIG' ? 'SMALL' : 'BIG';
             }
 
-            // Add new result and check for loss
+            // Add new result and update loss streak
             addResult(value) {
                 const result = value > 4 ? 'BIG' : 'SMALL';
                 this.history.push(value);
 
-                // Keep history size manageable
-                if (this.history.length > 1000) {
-                    this.history = this.history.slice(-1000);
+                if (this.lastPrediction && result !== this.lastPrediction) {
+                    // Loss detected, increase loss streak
+                    this.lossStreak++;
+                } else {
+                    // Win or first prediction, reset loss streak
+                    this.lossStreak = 0;
                 }
                 
                 this.saveHistory();
-
-                if (this.lastPrediction && result !== this.lastPrediction) {
-                    this.consecutiveLosses++;
-                    this.consecutiveWins = 0;
-                    this.lossControl = true; // activate recovery
-                } else if (this.lastPrediction && result === this.lastPrediction) {
-                    this.consecutiveWins++;
-                    this.consecutiveLosses = 0;
-                }
             }
-
+            
             // Load history from localStorage
             loadHistory() {
                 try {
@@ -1610,7 +1607,8 @@
                 }
             }
 
-            // Display history data
+
+               // Display history data
             function displayHistory(data) {
                 const historyContent = document.getElementById('historyContent');
                 if (!historyContent) return;
@@ -1621,11 +1619,11 @@
                 }
                 
                 let html = '<div class="history-header">';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item">PERIOD</div>';
+                html += '<div class="history-header-item">RESULT</div>';
                 html += '<div class="history-header-item">BIG/SMALL</div>';
-                html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item"></div>';
+                html += '<div class="history-header-item">COLOR</div>';
+                html += '<div class="history-header-item">TIME</div>';
                 html += '</div>';
                 
                 let winCount = 0;
@@ -1866,34 +1864,64 @@
                 
                 const strategies = [
                     {
-                        title: "",
-                        icon: "fas fa-chart-line",
-                        description: "Analyze recent results to identify dominant patterns (BIG/SMALL) and predict continuation."
+                        title: "Streak Analysis & Reversal",
+                        icon: "fas fa-exchange-alt",
+                        description: "When a streak exceeds a threshold (e.g., 4+), anticipate a reversal and bet on the opposite outcome."
                     },
                     {
-                        title: "",
-                        icon: "fas fa-exclamation-triangle",
-                        description: "Identify potential traps like alternating patterns that might reverse unexpectedly."
-                    },
-                    {
-                        title: "",
-                        icon: "fas fa-shield-alt",
-                        description: "Automatically activate recovery mode after losses to minimize further damage."
-                    },
-                    {
-                        title: "",
+                        title: "Pattern Recognition",
                         icon: "fas fa-sync-alt",
                         description: "Detect repeating sequences and bet on pattern continuation based on historical repetitions."
                     },
                     {
-                        title: "",
+                        title: "Markov Chain Models",
+                        icon: "fas fa-link",
+                        description: "Probabilistic models that predict next patterns based on current state transitions."
+                    },
+                    {
+                        title: "Hot & Cold Numbers",
                         icon: "fas fa-fire",
                         description: "Track numbers that appear frequently (hot) or infrequently (cold) and bet accordingly."
                     },
                     {
-                        title: "",
-                        icon: "fas fa-exchange-alt",
-                        description: "When a streak exceeds a threshold, anticipate a reversal and bet on the opposite outcome."
+                        title: "Fibonacci System",
+                        icon: "fas fa-calculator",
+                        description: "Increase bets following Fibonacci sequence after losses, decrease after wins for risk management."
+                    },
+                    {
+                        title: "Bayesian Updating",
+                        icon: "fas fa-chart-line",
+                        description: "Continuously update probabilities based on observed patterns to refine strategies dynamically."
+                    },
+                    {
+                        title: "Swing Trading & Momentum",
+                        icon: "fas fa-wave-square",
+                        description: "Identify momentum changes and bet on trend reversals when patterns approach exhaustion."
+                    },
+                    {
+                        title: "Entropy & Chaos Theory",
+                        icon: "fas fa-random",
+                        description: "Use entropy measures to assess randomness - bet more confidently when patterns are predictable."
+                    },
+                    {
+                        title: "Cluster Analysis",
+                        icon: "fas fa-object-group",
+                        description: "Group outcomes into clusters based on features and bet on dominant recent clusters."
+                    },
+                    {
+                        title: "Monte Carlo Simulation",
+                        icon: "fas fa-dice",
+                        description: "Generate potential outcome sequences through simulation to inform betting decisions."
+                    },
+                    {
+                        title: "Hybrid Dynamic Strategies",
+                        icon: "fas fa-cogs",
+                        description: "Combine multiple signals (streaks, hot/cold, entropy) using weighted scoring systems."
+                    },
+                    {
+                        title: "Machine Learning Models",
+                        icon: "fas fa-robot",
+                        description: "Advanced pattern recognition using AI algorithms for dynamic prediction adaptation."
                     }
                 ];
                 
@@ -1940,7 +1968,7 @@
                     `<div class="prediction-card">
                         <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
                         <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
-                        <p>Using enhanced engine with trend analysis, trap detection.</p>
+                        <p></p>
                     </div>`, 
                     'LICUIS ULTRA');
                 simulateInitialAnalysis();
@@ -2001,7 +2029,7 @@
                     addMessage('received', 
                         `<div class="prediction-card">
                             <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
-                            <p>Pattern detection complete. Advanced algorithms initialized</p>
+                            <p>Pattern detection complete. Advanced algorithms initialized:</p>
                             <ul>
 
                             </ul>
@@ -2039,10 +2067,6 @@
                         <div class="confidence-display">
                             <span>Confidence</span>
                             <span class="confidence-value">${confidencePercentage}%</span>
-                        </div>
-                        <div style="text-align: center; margin-top: 10px; font-size: 12px; color: var(--text-light);">
-                            <i class="fas fa-${predictionData.source === 'PATTERN' ? 'project-diagram' : ''}"></i> 
-                            ${predictionData.message}
                         </div>
                     </div>
                 `;
@@ -2122,11 +2146,12 @@
             }
 
             function updatePredictions(currentTime, currentPeriod) {
-                if (previousResults.length >= 5 && currentPeriod !== lastPredictionPeriod) {
-                    // Use the enhanced AI engine for prediction
+                if (previousResults.length >= 10 && currentPeriod !== lastPredictionPeriod) {
+                    // Use the enhanced AI prediction engine
                     const prediction = predictionEngine.predictNext();
+                    const confidence = 85; // Base confidence for the new engine
                     
-                    // Generate some numbers based on the prediction
+                    // Generate some numbers based on prediction
                     let predictedNumbers = [];
                     if (prediction === 'SMALL') {
                         predictedNumbers = [0, 1, 2, 3, 4].sort(() => 0.5 - Math.random()).slice(0, 2);
@@ -2136,10 +2161,9 @@
                     
                     const predictionData = {
                         prediction: prediction,
-                        confidence: 85, // Base confidence for the new engine
+                        confidence: confidence,
                         numbers: predictedNumbers,
-                        source: 'AI ENGINE',
-                        message: ''
+                        message: "AI Engine Prediction"
                     };
                     
                     currentPrediction = prediction;
