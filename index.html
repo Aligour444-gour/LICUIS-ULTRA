@@ -1350,62 +1350,99 @@
             constructor() {
                 this.history = this.loadHistory();
                 this.lastPrediction = null;
-                this.lossStreak = 0; // count consecutive losses
-                this.maxLossStreak = 3; // max attempts to recover
+                this.lossStreak = 0;
+                this.winStreak = 0;
+                this.maxLossStreak = 3;
             }
 
-            // Always produce a prediction
+            /**
+             * The main prediction method.
+             * It uses a combination of trend analysis, pattern detection, and adaptive logic.
+             */
             predictNext() {
+                // Not enough data to make a reliable prediction.
                 if (this.history.length < 5) {
-                    // Early stage: use safe default
                     this.lastPrediction = this.safeDefault();
                     return this.lastPrediction;
                 }
 
-                // Detect trend with weighted scoring
                 const trend = this.detectTrend();
+                const pattern = this.detectPattern();
+                
+                let nextPrediction;
 
-                // Detect traps or repeating patterns
-                const trap = this.detectTrap();
-
-                // Adaptive loss control: if losing streak, flip prediction to recover
-                if (this.lossStreak > 0 && this.lossStreak <= this.maxLossStreak) {
-                    // Flip last prediction to break loss streak
-                    this.lastPrediction = this.opposite(this.lastPrediction);
-                    return this.lastPrediction;
+                // Adaptive Logic: A more nuanced approach
+                if (this.lossStreak >= 3) {
+                    // Flip the last prediction after a significant loss streak
+                    nextPrediction = this.opposite(this.lastPrediction);
+                } else if (this.winStreak >= 3) {
+                    // Stick with the current strategy if it's working
+                    nextPrediction = this.lastPrediction;
+                } else {
+                    // Default logic: Combine trend and pattern detection
+                    if (pattern) {
+                        // If a strong pattern is detected, try to exploit it by going opposite the trend
+                        nextPrediction = this.opposite(trend);
+                    } else {
+                        // Otherwise, follow the overall trend
+                        nextPrediction = trend;
+                    }
                 }
 
-                // If trap detected, invert trend prediction to avoid trap
-                this.lastPrediction = trap ? this.opposite(trend) : trend;
-                return this.lastPrediction;
+                this.lastPrediction = nextPrediction;
+                return nextPrediction;
             }
 
-            // Weighted trend detection over last 10 results
+            /**
+             * Detects the underlying trend using a weighted moving average.
+             * Recent values have a higher weight.
+             * @returns {'BIG'|'SMALL'} The detected trend.
+             */
             detectTrend() {
-                const recent = this.history.slice(-10);
-                let score = 0;
+                const recent = this.history.slice(-20); // Longer window for more stability
+                let bigScore = 0;
+                let smallScore = 0;
+
                 for (let i = 0; i < recent.length; i++) {
-                    const weight = i + 1; // more recent = higher weight
-                    score += recent[i] > 4 ? weight : -weight;
+                    const value = recent[i];
+                    const weight = i + 1; // More recent data has higher weight
+
+                    if (value > 4) {
+                        bigScore += weight;
+                    } else {
+                        smallScore += weight;
+                    }
                 }
-                return score >= 0 ? 'BIG' : 'SMALL';
+
+                // Use a dynamic confidence threshold.
+                const confidence = Math.abs(bigScore - smallScore);
+                const threshold = 50; // A static threshold for now. This could be made dynamic.
+
+                if (confidence < threshold) {
+                    // If the trend is not strong, fall back to a safe bet or a recent successful prediction
+                    return this.lastPrediction || this.safeDefault();
+                }
+
+                return bigScore > smallScore ? 'BIG' : 'SMALL';
             }
 
-            // Trap detection: detect alternating or repeating patterns in last 6 results
-            detectTrap() {
-                if (this.history.length < 6) return false;
-                const last6 = this.history.slice(-6).map(v => v > 4 ? 'BIG' : 'SMALL');
+            /**
+             * Detects repeating, predictable patterns that could be "traps".
+             * @returns {boolean} True if a predictable pattern is found.
+             */
+            detectPattern() {
+                if (this.history.length < 12) return false;
+                const last12 = this.history.slice(-12).map(v => v > 4 ? 1 : 0); // 1 for BIG, 0 for SMALL
 
-                // Detect strict alternating pattern: BIG, SMALL, BIG, SMALL...
-                const isAlternating = last6.every((v, i, arr) => i === 0 || v !== arr[i - 1]);
+                // Check for strong repeating patterns, e.g., A-B-A-B... or A-A-B-B...
+                // This is a simplified check for a cycle of 2 or 3.
+                const isCycleOfTwo = (last12[0] === last12[2]) && (last12[1] === last12[3]);
+                const isCycleOfThree = (last12[0] === last12[3]) && (last12[1] === last12[4]) && (last12[2] === last12[5]);
+                
+                // Check for long streaks, which might be followed by a reversal
+                const longStreak = last12.every(v => v === last12[0]) && last12.length >= 8;
 
-                // Detect all same pattern
-                const allSame = last6.every(v => v === last6[0]);
-
-                // Detect repeating pairs pattern: e.g. BIG, SMALL, BIG, SMALL, BIG, SMALL
-                const pairsRepeat = last6[0] === last6[2] && last6[1] === last6[3] && last6[2] === last6[4] && last6[3] === last6[5];
-
-                return isAlternating || allSame || pairsRepeat;
+                return isCycleOfTwo || isCycleOfThree || longStreak;
             }
 
             // Safe default prediction (used early on)
@@ -1418,17 +1455,19 @@
                 return pred === 'BIG' ? 'SMALL' : 'BIG';
             }
 
-            // Add new result and update loss streak
+            // Add new result and update streaks
             addResult(value) {
                 const result = value > 4 ? 'BIG' : 'SMALL';
                 this.history.push(value);
 
-                if (this.lastPrediction && result !== this.lastPrediction) {
-                    // Loss detected, increase loss streak
-                    this.lossStreak++;
-                } else {
-                    // Win or first prediction, reset loss streak
-                    this.lossStreak = 0;
+                if (this.lastPrediction) {
+                    if (result !== this.lastPrediction) {
+                        this.lossStreak++;
+                        this.winStreak = 0;
+                    } else {
+                        this.winStreak++;
+                        this.lossStreak = 0;
+                    }
                 }
                 
                 this.saveHistory();
@@ -1607,8 +1646,7 @@
                 }
             }
 
-
-               // Display history data
+            // Display history data
             function displayHistory(data) {
                 const historyContent = document.getElementById('historyContent');
                 if (!historyContent) return;
