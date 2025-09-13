@@ -1354,6 +1354,35 @@
             return outcomes[Math.floor(Math.random() * outcomes.length)];
         };
 
+        // --- Server Prediction Functions ---
+        async function fetchServerPrediction() {
+            try {
+                const res = await fetch('/api/prediction');
+                if (!res.ok) throw new Error('no server prediction');
+                return await res.json();
+            } catch (e) {
+                console.warn('Server not available, falling back to deterministic client calc', e);
+                return null;
+            }
+        }
+
+        // deterministic fallback: hash a canonical period string into a digit 0-9
+        async function deterministicPredictionFromPeriod(periodString, secret = '') {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(periodString + secret);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const val = (hashArray[0] << 8) + hashArray[1];
+            const digit = val % 10;
+            return { period: periodString, predictionDigit: digit };
+        }
+
+        // Get canonical period string from date
+        function canonicalPeriodForDate(d = new Date()) {
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}-${pad(d.getUTCHours())}-${pad(d.getUTCMinutes())}`;
+        }
+
         // --- Core Engine Class ---
         class AIPredictionEngine {
             constructor() {
@@ -1380,16 +1409,47 @@
                 };
             }
 
-            predictNext() {
-                const predictions = {};
-                for (const [name, strategy] of Object.entries(this.strategies)) {
-                    predictions[name] = strategy.predict(this.history);
+            async predictNext() {
+                // First try to get deterministic prediction from server
+                try {
+                    const serverResult = await fetchServerPrediction();
+                    if (serverResult) {
+                        return { final: serverResult.prediction, all: {}, deterministic: true };
+                    }
+                } catch (e) {
+                    console.warn('Failed to fetch server prediction:', e);
                 }
 
-                let finalPrediction = this.applyEnsembleWeighting(predictions);
-                finalPrediction = this.applySafetyLogic(finalPrediction);
+                // Fallback to deterministic client-side calculation
+                let periodString = null;
+                try {
+                    // Try to get server time first
+                    const tRes = await fetch('/api/now');
+                    const tJson = await tRes.json();
+                    if (tJson.period) {
+                        periodString = tJson.period;
+                    } else if (tJson.nowIso) {
+                        const d = new Date(tJson.nowIso);
+                        periodString = canonicalPeriodForDate(d);
+                    }
+                } catch (e) {
+                    console.warn('Could not fetch server time; computing period from local time.', e);
+                    const d = new Date(); // last resort
+                    periodString = canonicalPeriodForDate(d);
+                }
+
+                // Get deterministic prediction
+                const fallback = await deterministicPredictionFromPeriod(periodString, 'LICUIS_ULTRA_SECRET');
                 
-                return { final: finalPrediction, all: predictions };
+                // Convert digit to prediction type
+                let prediction;
+                if (Math.random() > 0.5) {
+                    prediction = getBigSmallOutcome(fallback.predictionDigit);
+                } else {
+                    prediction = getRedGreenOutcome(fallback.predictionDigit);
+                }
+
+                return { final: prediction, all: {}, deterministic: true };
             }
 
             addResult(result, predictions, finalPrediction) {
@@ -2546,9 +2606,9 @@
                 }
             }
 
-            function updatePredictions(currentTime, currentPeriod) {
+            async function updatePredictions(currentTime, currentPeriod) {
                 if (previousResults.length >= 10 && currentPeriod !== lastPredictionPeriod) {
-                    const predictionData = predictionEngine.predictNext();
+                    const predictionData = await predictionEngine.predictNext();
                     currentPrediction = predictionData.final;
                     lastPredictionPeriod = currentPeriod;
                     
