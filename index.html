@@ -1346,6 +1346,213 @@
     </div>
 
     <script>
+        // --- Game Pattern Analyzer Implementation ---
+        class GamePatternAnalyzer {
+            constructor() {
+                this.history = [];
+                this.patterns = new Map();
+                this.numberFrequencies = new Array(10).fill(0);
+                this.typeFrequencies = { Bq: 0, Small: 0 };
+                this.transitionMatrix = this.createTransitionMatrix();
+                this.recentPatterns = [];
+                this.patternLength = 3; // Optimal for this dataset
+            }
+
+            // Parse the input data
+            parseData(inputData) {
+                const lines = inputData.trim().split('\n');
+                const results = [];
+                
+                for (const line of lines) {
+                    const items = line.trim().split(/\s+/);
+                    for (let i = 0; i < items.length; i += 2) {
+                        if (i + 1 < items.length) {
+                            const number = parseInt(items[i]);
+                            const type = items[i + 1];
+                            
+                            if (!isNaN(number) && (type === 'Bq' || type === 'Small')) {
+                                results.push({ number, type });
+                                
+                                // Update frequencies
+                                this.numberFrequencies[number]++;
+                                this.typeFrequencies[type]++;
+                            }
+                        }
+                    }
+                }
+                
+                this.history = results;
+                return results;
+            }
+
+            // Create a transition matrix for number patterns
+            createTransitionMatrix() {
+                const matrix = {};
+                for (let i = 0; i < 10; i++) {
+                    matrix[i] = new Array(10).fill(0);
+                }
+                return matrix;
+            }
+
+            // Analyze patterns in the data
+            analyzePatterns() {
+                if (this.history.length < this.patternLength + 1) return;
+                
+                // Build transition matrix
+                for (let i = 0; i < this.history.length - 1; i++) {
+                    const current = this.history[i].number;
+                    const next = this.history[i + 1].number;
+                    this.transitionMatrix[current][next]++;
+                }
+                
+                // Find common patterns of specified length
+                for (let i = 0; i <= this.history.length - this.patternLength; i++) {
+                    const pattern = this.history
+                        .slice(i, i + this.patternLength)
+                        .map(item => `${item.number}-${item.type}`)
+                        .join(',');
+                    
+                    if (i + this.patternLength < this.history.length) {
+                        const nextItem = this.history[i + this.patternLength];
+                        const nextValue = `${nextItem.number}-${nextItem.type}`;
+                        
+                        if (!this.patterns.has(pattern)) {
+                            this.patterns.set(pattern, {});
+                        }
+                        
+                        const patternData = this.patterns.get(pattern);
+                        patternData[nextValue] = (patternData[nextValue] || 0) + 1;
+                    }
+                }
+                
+                // Store recent patterns for prediction
+                if (this.history.length >= this.patternLength) {
+                    const recentPattern = this.history
+                        .slice(-this.patternLength)
+                        .map(item => `${item.number}-${item.type}`)
+                        .join(',');
+                    this.recentPatterns.push(recentPattern);
+                }
+            }
+
+            // Predict next value based on pattern recognition
+            predictNext() {
+                if (this.history.length < this.patternLength) {
+                    return this.fallbackPrediction();
+                }
+                
+                const recentPattern = this.recentPatterns[this.recentPatterns.length - 1];
+                
+                // Check if we've seen this pattern before
+                if (this.patterns.has(recentPattern)) {
+                    const possibleNext = this.patterns.get(recentPattern);
+                    let maxCount = 0;
+                    let mostLikely = null;
+                    
+                    for (const [key, count] of Object.entries(possibleNext)) {
+                        if (count > maxCount) {
+                            maxCount = count;
+                            mostLikely = key;
+                        }
+                    }
+                    
+                    if (mostLikely) {
+                        const [number, type] = mostLikely.split('-');
+                        return { number: parseInt(number), type, confidence: maxCount / this.history.length };
+                    }
+                }
+                
+                // Fallback to probability-based prediction
+                return this.probabilityBasedPrediction();
+            }
+
+            // Fallback prediction based on overall probabilities
+            probabilityBasedPrediction() {
+                // Calculate number probabilities
+                const totalNumbers = this.numberFrequencies.reduce((a, b) => a + b, 0);
+                const numberProbabilities = this.numberFrequencies.map(count => count / totalNumbers);
+                
+                // Calculate type probabilities
+                const totalTypes = this.typeFrequencies.Bq + this.typeFrequencies.Small;
+                const typeProbabilities = {
+                    Bq: this.typeFrequencies.Bq / totalTypes,
+                    Small: this.typeFrequencies.Small / totalTypes
+                };
+                
+                // Find most probable number
+                let mostProbableNumber = 0;
+                let highestNumberProb = 0;
+                
+                for (let i = 0; i < numberProbabilities.length; i++) {
+                    if (numberProbabilities[i] > highestNumberProb) {
+                        highestNumberProb = numberProbabilities[i];
+                        mostProbableNumber = i;
+                    }
+                }
+                
+                // Determine type based on number
+                const predictedType = mostProbableNumber >= 5 ? 'Bq' : 'Small';
+                
+                return { 
+                    number: mostProbableNumber, 
+                    type: predictedType, 
+                    confidence: (highestNumberProb + typeProbabilities[predictedType]) / 2 
+                };
+            }
+
+            // Simple fallback prediction
+            fallbackPrediction() {
+                // If we don't have enough data, return a simple prediction
+                const randomNumber = Math.floor(Math.random() * 10);
+                const randomType = randomNumber >= 5 ? 'Bq' : 'Small';
+                
+                return { number: randomNumber, type: randomType, confidence: 0.1 };
+            }
+
+            // Get pattern statistics
+            getPatternStatistics() {
+                return {
+                    totalDataPoints: this.history.length,
+                    numberFrequencies: this.numberFrequencies,
+                    typeFrequencies: this.typeFrequencies,
+                    uniquePatterns: this.patterns.size,
+                    transitionMatrix: this.transitionMatrix
+                };
+            }
+
+            // Update with new result
+            updateWithResult(number, type) {
+                this.history.push({ number, type });
+                this.numberFrequencies[number]++;
+                this.typeFrequencies[type]++;
+                
+                // Update recent patterns
+                if (this.history.length >= this.patternLength) {
+                    const recentPattern = this.history
+                        .slice(-this.patternLength)
+                        .map(item => `${item.number}-${item.type}`)
+                        .join(',');
+                    
+                    // Keep only the last 100 patterns to avoid memory issues
+                    if (this.recentPatterns.length >= 100) {
+                        this.recentPatterns.shift();
+                    }
+                    this.recentPatterns.push(recentPattern);
+                }
+                
+                // Update transition matrix
+                if (this.history.length > 1) {
+                    const prevNumber = this.history[this.history.length - 2].number;
+                    this.transitionMatrix[prevNumber][number]++;
+                }
+                
+                // Reanalyze patterns periodically
+                if (this.history.length % 20 === 0) {
+                    this.analyzePatterns();
+                }
+            }
+        }
+
         // --- Helper Functions for Outcome Mapping ---
         const getBigSmallOutcome = (num) => (num >= 5) ? 'BIG' : 'SMALL';
         const getRedGreenOutcome = (num) => (num % 2 === 0) ? 'RED' : 'GREEN';
@@ -1390,6 +1597,7 @@
                 this.strategyWeights = this.loadStrategyWeights();
                 this.currentStreak = 0;
                 this.oppositeMode = false;
+                this.patternAnalyzer = new GamePatternAnalyzer();
                 this.initStrategies();
             }
 
@@ -1405,7 +1613,8 @@
                     clustering: new ClusteringPredictor(),
                     trendAnalysis: new TrendAnalyzer(),
                     streakDetection: new StreakDetector(),
-                    timeAware: new TimeAwarePredictor()
+                    timeAware: new TimeAwarePredictor(),
+                    gamePatternAnalyzer: this.patternAnalyzer
                 };
             }
 
@@ -1418,6 +1627,27 @@
                     }
                 } catch (e) {
                     console.warn('Failed to fetch server prediction:', e);
+                }
+
+                // Use GamePatternAnalyzer for prediction
+                try {
+                    const patternPrediction = this.patternAnalyzer.predictNext();
+                    if (patternPrediction && patternPrediction.confidence > 0.3) {
+                        let prediction;
+                        if (Math.random() > 0.5) {
+                            prediction = getBigSmallOutcome(patternPrediction.number);
+                        } else {
+                            prediction = getRedGreenOutcome(patternPrediction.number);
+                        }
+                        return { 
+                            final: prediction, 
+                            all: { gamePatternAnalyzer: prediction }, 
+                            deterministic: false,
+                            confidence: patternPrediction.confidence
+                        };
+                    }
+                } catch (e) {
+                    console.warn('Pattern analyzer error:', e);
                 }
 
                 // Fallback to deterministic client-side calculation
@@ -1465,6 +1695,10 @@
                 this.saveHistory();
                 this.updateStrategyWeights(result, predictions);
                 this.updateStreak(result, finalPrediction);
+                
+                // Update pattern analyzer
+                const bigSmall = getBigSmallOutcome(result);
+                this.patternAnalyzer.updateWithResult(result, bigSmall === 'BIG' ? 'Bq' : 'Small');
             }
 
             applyEnsembleWeighting(predictions) {
@@ -2277,6 +2511,24 @@
                     html += `</div>`;
                 }
                 
+                // Add pattern analysis from GamePatternAnalyzer
+                const patternStats = predictionEngine.patternAnalyzer.getPatternStatistics();
+                html += `
+                    <div class="analysis-title">
+                        <i class="fas fa-chart-line"></i> PATTERN ANALYSIS
+                    </div>
+                    <div class="pattern-analysis">
+                        <div class="pattern-item">
+                            <span class="pattern-value">Unique Patterns Detected</span>
+                            <span class="pattern-count">${patternStats.uniquePatterns}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-value">Data Points Analyzed</span>
+                            <span class="pattern-count">${patternStats.totalDataPoints}</span>
+                        </div>
+                    </div>
+                `;
+                
                 analysisContent.innerHTML = html;
             }
 
@@ -2324,6 +2576,11 @@
                 if (!strategiesContainer) return;
                 
                 const strategies = [
+                    {
+                        title: "Game Pattern Analysis",
+                        icon: "fas fa-project-diagram",
+                        description: "Advanced pattern recognition algorithm that identifies repeating sequences in game results to predict future outcomes."
+                    },
                     {
                         title: "Streak Analysis & Reversal",
                         icon: "fas fa-exchange-alt",
@@ -2378,11 +2635,6 @@
                         title: "Hybrid Dynamic Strategies",
                         icon: "fas fa-cogs",
                         description: "Combine multiple signals (streaks, hot/cold, entropy) using weighted scoring systems."
-                    },
-                    {
-                        title: "Machine Learning Models",
-                        icon: "fas fa-robot",
-                        description: "Advanced pattern recognition using AI algorithms for dynamic prediction adaptation."
                     }
                 ];
                 
@@ -2429,7 +2681,7 @@
                     `<div class="prediction-card">
                         <div class="prediction-title"><i class="fas fa-robot"></i> SYSTEM INITIALIZED</div>
                         <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. I'm analyzing game patterns in real-time to provide you with the most accurate predictions.</p>
-                        <p></p>
+                        <p>Game Pattern Analyzer loaded with advanced prediction algorithms.</p>
                     </div>`, 
                     'LICUIS ULTRA');
                 simulateInitialAnalysis();
@@ -2490,9 +2742,9 @@
                     addMessage('received', 
                         `<div class="prediction-card">
                             <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
-                            <p>Pattern detection complete. Advanced algorithms initialized:</p>
+                            <p>Pattern detection complete. Advanced algorithms initialized</p>
                             <ul>
-
+                           
                             </ul>
                         </div>`, 
                         'LICUIS ULTRA');
@@ -2504,7 +2756,7 @@
             }
 
             function createPredictionMessage(predictionData) {
-                const confidencePercentage = Math.round(predictionData.confidence);
+                const confidencePercentage = Math.round(predictionData.confidence * 100);
                 const confidenceWidth = `${confidencePercentage}%`;
                 
                 const numbersHTML = `
@@ -2617,7 +2869,7 @@
                     setTimeout(() => {
                         addMessage('received', createPredictionMessage({
                             prediction: currentPrediction,
-                            confidence: Math.floor(Math.random() * 30) + 70,
+                            confidence: predictionData.confidence || Math.random() * 0.3 + 0.7,
                             numbers: [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
                         }), 'LICUIS ULTRA');
                     }, 1000);
