@@ -2284,10 +2284,10 @@
                             const isBig = item.querySelector('.history-value-highlight').textContent >= 5;
                             const isRed = item.querySelector('.color-dot').classList.contains('color-red');
                             
-                            if ((filter === 'big' && isBig) || 
-                                (filter === 'small' && !isBig) ||
-                                (filter === 'big' && isBig) ||
-                                (filter === 'small' && !isBig)) {
+                            if ((filter === '' && is) || 
+                                (filter === '' && !is) ||
+                                (filter === '' && is) ||
+                                (filter === '' && !is)) {
                                 item.style.display = 'grid';
                             } else {
                                 item.style.display = 'none';
@@ -2341,7 +2341,6 @@
                 let html = '<div class="history-header">';
                 html += '<div class="history-header-item"></div>';
                 html += '<div class="history-header-item"></div>';
-                html += '<div class="history-header-item">BIG/SMALL</div>';
                 html += '<div class="history-header-item"></div>';
                 html += '<div class="history-header-item"></div>';
                 html += '</div>';
@@ -2377,14 +2376,6 @@
                             </div>
                             <div>
                                 <div class="history-value-highlight">${sum}</div>
-                            </div>
-                            <div>
-                                <div class="history-value">${bigSmall}</div>
-                            </div>
-                            <div>
-                                <div class="history-value">
-                                    <span class="color-dot ${colorClass}"></span>${redGreen}
-                                </div>
                             </div>
                             <div>
                                 <div class="history-value">${timeStr}</div>
