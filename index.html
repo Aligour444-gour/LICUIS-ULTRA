@@ -1347,38 +1347,103 @@
     </div>
 
     <script>
-        // --- Enhanced Prediction Engine ---
-        class EnhancedPredictionEngine {
+        // --- Enhanced AI Prediction System ---
+        class AIPredictionSystem {
             constructor() {
-                this.history = this.loadHistory();
+                this.history = []; // Stores last 100 results (newest first)
+                this.patterns = {}; // Stores identified patterns with high confidence
                 this.consecutiveWins = 0;
                 this.consecutiveLosses = 0;
                 this.lastPrediction = null;
                 this.lastActual = null;
-                this.patterns = {};
+                this.lastPredictionAccuracy = null;
+                
+                // Load history from localStorage if available
+                this.loadFromStorage();
             }
 
-            // Load history from localStorage
-            loadHistory() {
+            // Load from localStorage
+            loadFromStorage() {
                 try {
-                    const saved = localStorage.getItem('predictionHistory');
-                    return saved ? JSON.parse(saved) : [];
+                    const saved = localStorage.getItem('aiPredictionSystem');
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        this.history = data.history || [];
+                        this.patterns = data.patterns || {};
+                        this.consecutiveWins = data.consecutiveWins || 0;
+                        this.consecutiveLosses = data.consecutiveLosses || 0;
+                        this.lastPrediction = data.lastPrediction || null;
+                        this.lastActual = data.lastActual || null;
+                        this.lastPredictionAccuracy = data.lastPredictionAccuracy || null;
+                    }
                 } catch (e) {
-                    console.error('Error loading history:', e);
-                    return [];
+                    console.error('Error loading from storage:', e);
                 }
             }
 
-            // Save history to localStorage
-            saveHistory() {
+            // Save to localStorage
+            saveToStorage() {
                 try {
-                    localStorage.setItem('predictionHistory', JSON.stringify(this.history));
+                    const data = {
+                        history: this.history,
+                        patterns: this.patterns,
+                        consecutiveWins: this.consecutiveWins,
+                        consecutiveLosses: this.consecutiveLosses,
+                        lastPrediction: this.lastPrediction,
+                        lastActual: this.lastActual,
+                        lastPredictionAccuracy: this.lastPredictionAccuracy
+                    };
+                    localStorage.setItem('aiPredictionSystem', JSON.stringify(data));
                 } catch (e) {
-                    console.error('Error saving history:', e);
+                    console.error('Error saving to storage:', e);
                 }
             }
 
-            // Update pattern analysis
+            // 1. Data Collection & Management
+            async fetchGameResults(limit = 100) {
+                // In a real implementation, this would fetch from an API
+                // For demonstration, we'll simulate with random data
+                try {
+                    // Simulated API response
+                    const simulatedResults = Array.from({length: limit}, 
+                        () => Math.floor(Math.random() * 10));
+                    
+                    // Update history (newest first)
+                    this.history = [...simulatedResults.reverse(), ...this.history]
+                        .slice(0, 100);
+                    
+                    this.saveToStorage();
+                    return this.history;
+                } catch (error) {
+                    console.error("Error fetching game results:", error);
+                    return this.history;
+                }
+            }
+
+            updatePredictionAccuracy(prediction, actual) {
+                this.lastPrediction = prediction;
+                this.lastActual = actual;
+                
+                const wasCorrect = (
+                    (prediction === 'BIG' && actual >= 5) || 
+                    (prediction === 'SMALL' && actual < 5)
+                );
+                
+                this.lastPredictionAccuracy = wasCorrect;
+                
+                if (wasCorrect) {
+                    this.consecutiveWins++;
+                    this.consecutiveLosses = 0;
+                } else {
+                    this.consecutiveLosses++;
+                    this.consecutiveWins = 0;
+                }
+                
+                this.saveToStorage();
+                return wasCorrect;
+            }
+
+            // 2. Pattern Analysis Function
             updatePatternAnalysis() {
                 if (this.history.length < 6) return;
                 
@@ -1416,9 +1481,11 @@
                         }
                     }
                 }
+                
+                this.saveToStorage();
             }
 
-            // Enhanced prediction algorithm
+            // 3. Enhanced Prediction Algorithm
             enhancedPredictionAlgorithm(lastResults, currentSecond) {
                 // Convert results to numerical values
                 const results = lastResults.map(n => parseInt(n, 10));
@@ -1471,9 +1538,6 @@
                         (this.lastPrediction === 'SMALL' && this.lastActual < 5);
                     
                     if (!lastPredCorrect) {
-                        this.consecutiveLosses++;
-                        this.consecutiveWins = 0;
-                        
                         // If we've lost 1+ in a row, reverse prediction
                         if (this.consecutiveLosses >= 1) {
                             if (finalPrediction) {
@@ -1486,8 +1550,6 @@
                             }
                         }
                     } else {
-                        this.consecutiveWins++;
-                        this.consecutiveLosses = 0;
                         confidence = Math.min(95, confidence + 5);
                     }
                 }
@@ -1521,9 +1583,9 @@
                 };
             }
 
-            // Get random numbers for the predicted category
+            // Helper function to generate random numbers for the predicted category
             getRandomNumbers(prediction, count) {
-                let numbers = [];
+                const numbers = [];
                 
                 if (prediction === 'BIG') {
                     for (let i = 0; i < count; i++) {
@@ -1538,43 +1600,33 @@
                 return numbers;
             }
 
-            // Add new result to history
-            addResult(result, prediction) {
-                // Convert to number if needed
-                const numResult = typeof result === 'string' ? parseInt(result, 10) : result;
-                
-                // Add to history (limit to 100 items)
-                this.history.unshift(numResult);
-                if (this.history.length > 100) {
-                    this.history = this.history.slice(0, 100);
+            // Main prediction function
+            async predict() {
+                // Ensure we have enough data
+                if (this.history.length < 10) {
+                    await this.fetchGameResults(100);
                 }
-                
-                // Update tracking variables
-                this.lastActual = numResult;
-                this.lastPrediction = prediction;
                 
                 // Update pattern analysis
                 this.updatePatternAnalysis();
                 
-                // Save updated history
-                this.saveHistory();
-            }
-
-            // Make a prediction based on current data
-            predict(lastResults) {
-                const now = new Date();
-                const currentSecond = now.getSeconds();
+                // Get current time for time-based prediction
+                const currentSecond = new Date().getSeconds();
                 
-                return this.enhancedPredictionAlgorithm(lastResults, currentSecond);
+                // Use last 10 results for prediction
+                const lastTenResults = this.history.slice(0, 10);
+                
+                // Generate prediction
+                return this.enhancedPredictionAlgorithm(lastTenResults, currentSecond);
             }
         }
+
+        // Initialize the AI prediction system
+        const aiPredictionSystem = new AIPredictionSystem();
 
         // Helper functions for outcome mapping
         const getBigSmallOutcome = (num) => (num >= 5) ? 'BIG' : 'SMALL';
         const getRedGreenOutcome = (num) => (num % 2 === 0) ? 'RED' : 'GREEN';
-
-        // Initialize the enhanced prediction engine
-        const predictionEngine = new EnhancedPredictionEngine();
 
         // Tab System Logic
         document.addEventListener('DOMContentLoaded', function() {
@@ -1933,23 +1985,27 @@
                     html += `</div>`;
                 }
                 
-                // Add pattern analysis from EnhancedPredictionEngine
+                // Add pattern analysis from AIPredictionSystem
                 html += `
                     <div class="analysis-title">
-                        <i class="fas fa-chart-line"></i> PATTERN ANALYSIS
+                        <i class="fas fa-chart-line"></i> AI PATTERN ANALYSIS
                     </div>
                     <div class="pattern-analysis">
                         <div class="pattern-item">
                             <span class="pattern-value">History Size</span>
-                            <span class="pattern-count">${predictionEngine.history.length}</span>
+                            <span class="pattern-count">${aiPredictionSystem.history.length}</span>
                         </div>
                         <div class="pattern-item">
                             <span class="pattern-value">Consecutive Wins</span>
-                            <span class="pattern-count">${predictionEngine.consecutiveWins}</span>
+                            <span class="pattern-count">${aiPredictionSystem.consecutiveWins}</span>
                         </div>
                         <div class="pattern-item">
                             <span class="pattern-value">Consecutive Losses</span>
-                            <span class="pattern-count">${predictionEngine.consecutiveLosses}</span>
+                            <span class="pattern-count">${aiPredictionSystem.consecutiveLosses}</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-value">Patterns Detected</span>
+                            <span class="pattern-count">${Object.keys(aiPredictionSystem.patterns).length}</span>
                         </div>
                     </div>
                 `;
@@ -2075,7 +2131,7 @@
                 addMessage('received', 
                     `<div class="prediction-card">
                         <div class="prediction-title"><i class="fas fa-robot"></i> ENHANCED SYSTEM INITIALIZED</div>
-                        <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. Enhanced prediction algorithm loaded with pattern recognition and trend analysis.</p>
+                        <p>Welcome to <strong>LICUIS ULTRA</strong>, your advanced prediction assistant. Enhanced AI prediction system loaded with pattern recognition and trend analysis.</p>
                     </div>`, 
                     'LICUIS ULTRA');
                 simulateInitialAnalysis();
@@ -2136,7 +2192,7 @@
                     addMessage('received', 
                         `<div class="prediction-card">
                             <div class="prediction-title"><i class="fas fa-check-circle"></i> ANALYSIS COMPLETE</div>
-                            <p>Enhanced pattern detection complete. Advanced algorithms initialized and ready for predictions.</p>
+                            <p>Enhanced AI pattern detection complete. Advanced algorithms initialized and ready for predictions.</p>
                         </div>`, 
                         'LICUIS ULTRA');
                     
@@ -2199,7 +2255,7 @@
                                     lastActualNumber = parseInt(lastResult, 10);
                                     
                                     // Update prediction system with actual result
-                                    predictionEngine.addResult(lastActualNumber, currentPrediction);
+                                    aiPredictionSystem.updatePredictionAccuracy(currentPrediction, lastActualNumber);
                                 }
                                 
                                 latestPeriod = newPeriod;
@@ -2232,12 +2288,16 @@
                         if (data.code === 0 && data.data.list.length > 0) {
                             previousResults = data.data.list;
                             
-                            // Update prediction system history
+                            // Update AI prediction system history
                             const numbers = data.data.list.map(item => parseInt(item.number, 10));
                             numbers.reverse().forEach(num => {
-                                predictionEngine.addResult(num, '');
+                                aiPredictionSystem.history.unshift(num);
+                                if (aiPredictionSystem.history.length > 100) {
+                                    aiPredictionSystem.history = aiPredictionSystem.history.slice(0, 100);
+                                }
                             });
                             
+                            aiPredictionSystem.saveToStorage();
                             updateServerStatus(true);
                         }
                     } else {
@@ -2252,7 +2312,7 @@
             async function updatePredictions(currentTime, currentPeriod) {
                 if (previousResults.length >= 10 && currentPeriod !== lastPredictionPeriod) {
                     const numbers = previousResults.slice(0, 10).map(item => item.number);
-                    const predictionData = predictionEngine.predict(numbers);
+                    const predictionData = await aiPredictionSystem.predict();
                     currentPrediction = predictionData.prediction;
                     lastPredictionPeriod = currentPeriod;
                     
